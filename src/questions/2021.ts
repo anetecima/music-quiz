@@ -53,6 +53,16 @@ export const options2021: TypeCategory = {
             start: 10,
             answer: 'The Magnetic Fields',
             active: true
+        },
+        {
+            points: 50,
+            extraPoints: 0,
+            songTitle: 'The Book Of Love (no albuma 69 Love Songs)',
+            question: 'artist',
+            track: 'jkjXr9SrzQE',
+            start: 10,
+            answer: 'The Magnetic Fields',
+            active: true
         }
     ]
 }
