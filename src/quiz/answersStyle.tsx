@@ -38,9 +38,6 @@ export const Answers = () => {
 
   const totalSteps = state?.roundQuestions?.length
 
-  console.log(state)
-  console.log(step)
-
   const start = gameItem?.start || 0
 
   const onNext = useCallback(() => {
@@ -101,7 +98,7 @@ export const Answers = () => {
       </div>
 
       <Modal className="fl fl-j-c" isOpened={isOpened} onClose={closeHandler}>
-        <div key={step}>
+        <div className="stretch fl fl-j-sb fl-col" key={step}>
           <h2 className="m-t-0" style={{ fontSize: 40 }}>
             {/*@ts-ignore*/}
             {gameQuestions?.[gameItem?.question]}
@@ -116,26 +113,15 @@ export const Answers = () => {
             <div className="f-s-18">{gameItem?.songTitle}</div>
           </AnswerStyle>
 
-          <div
-            className="fl fl-a-c fl-j-c stretch pos-rlt t-center"
-            style={{ width: 1000, height: 500 }}
-          >
-            <div
-              style={{
-                opacity: play ? 1 : 0,
-                transition: 'opacity linear 1s',
-                transitionDelay: play ? '5s' : '0'
-              }}
-            >
-              {play && (
-                <YouTube
-                  videoId={gameItem?.track}
-                  // @ts-ignore
-                  opts={opts}
-                  className="pos-abt top-0 bottom-0 left-0 right-0"
-                />
-              )}
-            </div>
+          <div className="fl fl-a-c fl-j-c stretch pos-rlt t-center" style={{ flexGrow: 3 }}>
+            {play && (
+              <YouTube
+                videoId={gameItem?.track}
+                // @ts-ignore
+                opts={opts}
+                className="pos-abt top-0 bottom-0 left-0 right-0"
+              />
+            )}
 
             {!play && (
               <div onClick={() => setPlay(true)} className="pointer">
@@ -153,7 +139,7 @@ export const Answers = () => {
             <ButtonStyle
               disabled={step === 0}
               className="m-t-40 p-20-20 m-r-12"
-              onClick={() => step !== 0 && setStep(prev => prev + 1)}
+              onClick={() => step !== 0 && setStep(prev => prev - 1)}
             >
               Iepriekšējā
             </ButtonStyle>
