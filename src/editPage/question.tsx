@@ -83,7 +83,6 @@ export const QuestionEditor = ({ categoryIndex }: { categoryIndex: number }) => 
                   {...field}
                 />
               )}
-              rules={{ required: true }}
               defaultValue={option.track}
               name={`gameObject[${categoryIndex}].options[${index}].track`}
               control={control}
