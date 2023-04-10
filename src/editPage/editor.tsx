@@ -11,7 +11,7 @@ const BackgroundStyle = styled.div`
 export type TypeFormValues = { gameObject: TypeCategory[] }
 export const GameEditor = () => {
   const [state, setState] = useState(() => {
-    const gameObj = localStorage.getItem('gameObject') || ''
+    const gameObj = localStorage.getItem('editObject') || ''
 
     if (gameObj) {
       return JSON.parse(gameObj)
@@ -33,7 +33,7 @@ export const GameEditor = () => {
   const handleBlur = () => {
     const formValues = methods.getValues()
 
-    localStorage.setItem('gameObject', JSON.stringify(formValues))
+    localStorage.setItem('editObject', JSON.stringify(formValues))
   }
 
   const methods = useForm<TypeFormValues>({ defaultValues: state })
