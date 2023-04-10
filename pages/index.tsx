@@ -1,6 +1,6 @@
 import React from 'react'
-import { MainPage } from 'quiz'
+import { MainMenu } from 'mainMenu/mainMenu'
 
 export default function Home() {
-    return <MainPage />
+  return <MainMenu />
 }

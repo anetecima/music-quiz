@@ -62,8 +62,8 @@ export const Option = ({
         onClose={onClose}
         question={question}
         track={track}
-        start={start}
-        length={length}
+        start={typeof start === 'string' ? parseInt(start) : start}
+        length={typeof length === 'string' ? parseInt(length) : length}
       />
     </>
   )

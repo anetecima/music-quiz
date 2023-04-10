@@ -43,4 +43,7 @@ export const colorHelpers = `
     .transition {
         transition: all 0.3s;
     }
+    .transparent {
+        opacity: 0;
+    }
 `
