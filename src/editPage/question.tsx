@@ -66,14 +66,14 @@ export const QuestionEditor = ({ categoryIndex }: { categoryIndex: number }) => 
               />
             </div>
 
-            <Controller
-              render={({ field }) => (
-                <TextField variant="filled" label="jautājums" className="m-b-4" {...field} />
-              )}
-              defaultValue={option.question}
-              name={`gameObject[${categoryIndex}].options[${index}].question`}
-              control={control}
-            />
+            {/*<Controller*/}
+            {/*  render={({ field }) => (*/}
+            {/*    <TextField variant="filled" label="jautājums" className="m-b-4" {...field} />*/}
+            {/*  )}*/}
+            {/*  defaultValue={option.question}*/}
+            {/*  name={`gameObject[${categoryIndex}].options[${index}].question`}*/}
+            {/*  control={control}*/}
+            {/*/>*/}
             <Controller
               render={({ field }) => (
                 <TextField
