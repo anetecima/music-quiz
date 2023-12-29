@@ -1,13 +1,18 @@
+import { Button } from '@material-ui/core'
 import React from 'react'
 import { UseFieldArrayAppend } from 'react-hook-form'
-import { Button } from '@material-ui/core'
 import styled from 'styled-components'
+import { TypeFormValues } from './editor'
 
 const ButtonStyled = styled(Button)`
   background-color: #d5ffff;
   margin-top: 20px;
 `
-export const AddButton = ({ append }: { append: UseFieldArrayAppend<any> }) => {
+export const AddButton = ({
+  append
+}: {
+  append: UseFieldArrayAppend<TypeFormValues, 'gameObject'>
+}) => {
   const handleAppend = () => {
     append({
       categoryName: 'Untitled',
