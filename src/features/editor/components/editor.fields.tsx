@@ -20,7 +20,7 @@ const PointsWrap = React.forwardRef<
       {[10, 20, 30, 40, 50, 70].map(num => (
         <SimpleButton
           key={num}
-          className="h-10 w-10 rounded bg-purple-400 text-xs font-semibold text-white shadow"
+          className="h-8 w-8 rounded bg-purple-400 text-xs font-semibold text-white shadow lg:h-10 lg:w-10"
           onClick={() => {
             if (field.onChange) {
               field.onChange(num)
@@ -39,25 +39,26 @@ const YouTubeWrap = ({ option, name }: { name: string; option: IQuestion }) => {
 
   if (!trackCode || trackCode.includes('http')) {
     return (
-      <div className="flex min-w-[220px] items-center justify-center rounded-2xl border-2 border-dashed border-gray-400 shadow">
-        <IcoYouTube width={60} />
+      <div
+        className="flex min-h-40 min-w-[300px] items-center justify-center rounded
+      border-2 border-dashed border-gray-700 lg:min-w-80 lg:px-8"
+      >
+        <IcoYouTube width={40} height={40} />
       </div>
     )
   }
 
   return (
-    <div className="flex h-[170px] w-fit items-center justify-center rounded-2xl border-2 border-dashed border-purple-600 p-4">
-      <YouTube
-        className="h-full w-full"
-        videoId={trackCode}
-        opts={{
-          playerVars: {
-            start: option.start || 0,
-            autoplay: 0
-          }
-        }}
-      />
-    </div>
+    <YouTube
+      className="h-full w-full"
+      videoId={trackCode}
+      opts={{
+        playerVars: {
+          start: option.start || 0,
+          autoplay: 0
+        }
+      }}
+    />
   )
 }
 
@@ -78,7 +79,7 @@ export const EditorFields = ({
 
   return (
     <>
-      <div className="mb-3 flex w-full">
+      <div className="mb-4 flex w-full">
         <Controller
           control={control}
           name={`gameObject.${categoryIndex}.categoryName`}
@@ -99,7 +100,7 @@ export const EditorFields = ({
       </div>
 
       {fields.map((option, index) => (
-        <div key={option.id} className="relative mb-3 rounded-xl bg-[aqua] p-4 pr-12 shadow-xl">
+        <div key={option.id} className="relative mb-3 rounded-xl bg-[aqua] p-4 shadow-xl">
           <div
             className="absolute right-4 flex h-10 w-10 cursor-pointer items-center justify-center
             rounded border-2 border-white bg-pink-400 shadow transition hover:opacity-90"
@@ -211,14 +212,11 @@ export const EditorFields = ({
           </div>
         </div>
       ))}
+
       <SimpleButton
         className="h-14 w-full rounded-2xl border-2 border-dashed border-white bg-purple-500 text-base text-white shadow"
-        variant="outlined"
-        type="button"
         onClick={() => {
-          append({
-            ...Question
-          })
+          append({ ...Question })
         }}
       >
         <div className="inline">+ Pievienot jautājumu</div>

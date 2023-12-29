@@ -87,8 +87,8 @@ const UploadGameButton = () => {
 }
 
 export const HomePage = () => (
-  <main className="font-fuzzy bg-fur flex min-h-screen flex-col justify-center px-12 text-center">
-    <div className="flex w-full items-center justify-center">
+  <main className="bg-fur flex min-h-screen justify-center">
+    <div className="flex flex-wrap items-center justify-center text-center lg:flex-nowrap">
       <LinkItem href="/edit">Rediģēt vai izveidot spēles failu</LinkItem>
       <UploadGameButton />
       <BackToGame />

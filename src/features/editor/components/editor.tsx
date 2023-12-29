@@ -32,14 +32,12 @@ export const Editor = () => {
     name: 'gameObject'
   })
 
-  console.log('fields', fields)
-
   return (
-    <main className="px-4 py-2 md:container md:mx-auto">
+    <main className="px-4 py-2 lg:container md:mx-auto">
       <FormProvider {...methods}>
         <form onBlur={() => updateStorage(getValues())} onSubmit={handleSubmit(onSubmit)}>
           <div className="py-4 lg:flex lg:items-start lg:gap-8">
-            <aside className="w-[190px]">
+            <aside className="lg:w-[190px]">
               <EditorNav
                 fields={getValues().gameObject}
                 append={append}
@@ -50,7 +48,7 @@ export const Editor = () => {
               />
             </aside>
 
-            {fields.length > 0 ? (
+            {fields?.length > 0 ? (
               <section
                 key={`${activeTab} ${fields.length}`}
                 className="max-w-4xl rounded-2xl border-2 border-purple-500 p-4"
@@ -65,7 +63,7 @@ export const Editor = () => {
               </section>
             ) : (
               <div
-                className="max-w-4xl rounded-2xl border-2 border-dashed border-purple-500 p-4"
+                className="mx-auto max-w-4xl rounded-2xl border-2 border-dashed border-purple-500 p-4"
                 onClick={() => {
                   append(newCategory())
                   setActiveTab(fields.length)
@@ -74,7 +72,7 @@ export const Editor = () => {
                 <img
                   alt="add category"
                   src="/addAnything.jpeg"
-                  className="cursor-pointer border-2 border-blue-400 p-4 transition duration-500 hover:shadow-2xl"
+                  className="cursor-pointer p-4 transition duration-500 hover:shadow-2xl"
                   width={500}
                 />
               </div>

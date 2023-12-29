@@ -24,39 +24,39 @@ export const EditorNav = ({
   setActiveTab: (T: number) => void
   fields: IGameCategory[]
   append: any
-}) => {
-  return (
-    <nav>
-      <Link href="/">
-        <div className="mb-2 flex justify-center rounded bg-purple-400 py-2 text-center text-white hover:opacity-90">
-          <IcoBack />
-        </div>
-      </Link>
+}) => (
+  <nav>
+    <Link href="/">
+      <div className="mb-2 flex justify-center rounded bg-purple-400 py-2 text-center text-white hover:opacity-90">
+        <IcoBack />
+      </div>
+    </Link>
 
+    {fields?.length > 0 && (
       <Tabs value={activeTab} orientation="vertical" onChange={(_e, val) => setActiveTab(val)}>
-        {fields.map((category, categoryIndex) => (
+        {fields?.map((category, categoryIndex) => (
           <Tab key={categoryIndex} label={<MuiTabLabel categoryIndex={categoryIndex} />} />
         ))}
       </Tabs>
+    )}
 
-      <div className="my-2 rounded text-white">
-        <SimpleButton
-          className="w-full whitespace-nowrap bg-teal-400 p-4 text-xs font-bold"
-          onClick={() => {
-            append(newCategory())
-            setActiveTab(fields.length)
-          }}
-        >
-          + Pievienot kategoriju
-        </SimpleButton>
-      </div>
+    <div className="my-2 rounded text-white">
+      <SimpleButton
+        className="w-full whitespace-nowrap bg-teal-400 p-4 text-xs font-bold"
+        onClick={() => {
+          append(newCategory())
+          setActiveTab(fields.length)
+        }}
+      >
+        + Pievienot kategoriju
+      </SimpleButton>
+    </div>
 
-      {fields.length > 0 && (
-        <button className="mt-10 flex w-full flex-col items-center justify-center rounded-2xl p-5 transition hover:bg-[#d5fff2]">
-          <IcoDownload width={60} height={60} />
-          <div>lejupielādēt spēles failu</div>
-        </button>
-      )}
-    </nav>
-  )
-}
+    {fields?.length > 0 && (
+      <button className="mt-10 flex w-full flex-col items-center justify-center rounded-2xl p-5 transition hover:bg-[#d5fff2]">
+        <IcoDownload width={60} height={60} />
+        <div>lejupielādēt spēles failu</div>
+      </button>
+    )}
+  </nav>
+)
