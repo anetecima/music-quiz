@@ -1,27 +1,26 @@
+import type { IInputProps } from '@/components/ux/Input'
 import type { IGame, IQuestion } from '@/types/types.game'
-import type { InputProps } from '@material-ui/core/Input'
 import IcoDelete from '@/assets/icons/delete.svg'
 import IcoYouTube from '@/assets/icons/tv.svg'
-import { Button } from '@material-ui/core'
 import React from 'react'
 import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form'
 import YouTube from 'react-youtube'
 import { updateStorage } from '@/helpers/helpers.storage'
-import { AddQuestionButton } from '@/components/addCategory'
-import { QuizInput, QuizSelect } from '@/components/Input'
+import { SimpleButton } from '@/components/ux/Button'
+import { QuizInput, QuizSelect } from '@/components/ux/Input'
+import { Question } from '../../../Entities'
 
 const PointsWrap = React.forwardRef<
   HTMLInputElement,
-  { label: string; onChange: (T: number) => void } & InputProps
+  { label: string; onChange: (T: number) => void } & IInputProps
 >(({ label, ...field }, ref) => (
   <div className="flex flex-wrap items-center gap-2">
     <QuizInput {...field} type="number" label={label} ref={ref} />
     <div className="flex gap-1">
       {[10, 20, 30, 40, 50, 70].map(num => (
-        <button
+        <SimpleButton
           key={num}
-          type="button"
-          className="h-10 w-10 rounded bg-purple-400 font-semibold text-white shadow"
+          className="h-10 w-10 rounded bg-purple-400 text-xs font-semibold text-white shadow"
           onClick={() => {
             if (field.onChange) {
               field.onChange(num)
@@ -29,7 +28,7 @@ const PointsWrap = React.forwardRef<
           }}
         >
           {num}
-        </button>
+        </SimpleButton>
       ))}
     </div>
   </div>
@@ -87,8 +86,8 @@ export const EditorFields = ({
             <QuizInput className="grow" label="kategorijas noasukums" {...field} />
           )}
         />
-        <Button
-          className="text-red-500"
+        <SimpleButton
+          className="rounded-none border border-red-400 px-4 font-normal uppercase text-red-500"
           variant="outlined"
           onClick={() => {
             setActiveCategory(categoryIndex - 1)
@@ -96,7 +95,7 @@ export const EditorFields = ({
           }}
         >
           dzēst kategoriju
-        </Button>
+        </SimpleButton>
       </div>
 
       {fields.map((option, index) => (
@@ -151,15 +150,12 @@ export const EditorFields = ({
                 render={({ field }) => (
                   <div className="flex items-center gap-1">
                     <QuizInput className="w-full grow" label="youtube track kods" {...field} />
-                    <button
-                      type="button"
-                      className="rounded bg-purple-400 p-3 font-semibold text-white shadow"
+                    <SimpleButton
+                      className="bg-purple-400 p-3 text-xs font-semibold text-white shadow"
                       onClick={() => {
-                        // console.log('bla', field.value)
                         try {
                           const url = new URL(field.value)
                           const slug = url.pathname.replace('/', '')
-                          // console.log('a', slug)
                           field.onChange(slug)
                         } catch {
                           //
@@ -167,7 +163,7 @@ export const EditorFields = ({
                       }}
                     >
                       Format
-                    </button>
+                    </SimpleButton>
                   </div>
                 )}
                 defaultValue={option.track}
@@ -215,7 +211,18 @@ export const EditorFields = ({
           </div>
         </div>
       ))}
-      {fields.length < 8 ? <AddQuestionButton append={append} /> : null}
+      <SimpleButton
+        className="h-14 w-full rounded-2xl border-2 border-dashed border-white bg-purple-500 text-base text-white shadow"
+        variant="outlined"
+        type="button"
+        onClick={() => {
+          append({
+            ...Question
+          })
+        }}
+      >
+        <div className="inline">+ Pievienot jautājumu</div>
+      </SimpleButton>
     </>
   )
 }

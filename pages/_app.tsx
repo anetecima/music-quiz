@@ -1,17 +1,22 @@
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import { StylesProvider, ThemeProvider } from '@material-ui/core/styles'
 import React from 'react'
-import { materialTheme } from '../src/theme/materialUi'
 import 'theme/tw.css'
+import { CacheProvider, EmotionCache } from '@emotion/react'
+import CssBaseline from '@mui/material/CssBaseline'
+import { ThemeProvider } from '@mui/material/styles'
+import createEmotionCache from '../src/createEmotionCache'
+import themeMui from '../src/theme/theme.mui'
 
-interface App extends AppProps {
-  err: unknown
+// Client-side cache, shared for the whole session of the user in the browser.
+const clientSideEmotionCache = createEmotionCache()
+
+export interface MyAppProps extends AppProps {
+  emotionCache?: EmotionCache
 }
 
-const CustomApp = ({ Component, pageProps, err }: App) => (
-  <>
+const CustomApp = ({ Component, pageProps, emotionCache = clientSideEmotionCache }: MyAppProps) => (
+  <CacheProvider value={emotionCache}>
     <Head>
       <meta
         name="viewport"
@@ -19,18 +24,18 @@ const CustomApp = ({ Component, pageProps, err }: App) => (
       />
       <meta charSet="utf-8" />
       <title>WELCOME TO THE GAME!!!</title>
-      <meta name="robots" content="index, follow" />
+      <meta name="robots" content="noIndex, noFollow" />
       {/* PWA primary color */}
       <link key="favicon" rel="shortcut icon" href="/favicon_w.ico" />
     </Head>
 
-    <ThemeProvider theme={materialTheme}>
-      <StylesProvider injectFirst>
+    <main>
+      <ThemeProvider theme={themeMui}>
         <CssBaseline />
-        <Component {...pageProps} err={err} />
-      </StylesProvider>
-    </ThemeProvider>
-  </>
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </main>
+  </CacheProvider>
 )
 
 export default CustomApp
