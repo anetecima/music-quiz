@@ -21,8 +21,7 @@ const YouTubeWrapper = ({
   </div>
 )
 
-export const IntermissionModal = () => {
-  const [isOpened, setIsOpened] = useState(false)
+const IntermissionBody = ({ setIsOpened }: { setIsOpened: (T: boolean) => void }) => {
   const [timer, setTimer] = useState(180)
 
   useEffect(() => {
@@ -31,9 +30,25 @@ export const IntermissionModal = () => {
     }, 1000)
 
     return () => {
+      setTimer(180)
       clearTimeout(timeout)
     }
   }, [])
+
+  return (
+    <Modal className="flex justify-center" isOpened onClose={() => setIsOpened(false)}>
+      <div className="flex flex-col items-center justify-center gap-2">
+        <h2 className="animate-ping text-6xl text-pink-800 lg:text-9xl">{timer}</h2>
+        <div className="invisible">
+          <YouTubeWrapper track="uhzy7JaU2Zc" start={0} />
+        </div>
+      </div>
+    </Modal>
+  )
+}
+
+export const IntermissionModal = () => {
+  const [isOpened, setIsOpened] = useState(false)
 
   return (
     <>
@@ -44,16 +59,7 @@ export const IntermissionModal = () => {
         ||
       </button>
 
-      {isOpened && (
-        <Modal className="flex justify-center" isOpened onClose={() => setIsOpened(false)}>
-          <div className="flex flex-col items-center justify-center gap-2">
-            <h2 className="animate-ping text-6xl text-pink-800 lg:text-9xl">{timer}</h2>
-            <div className="invisible">
-              <YouTubeWrapper track="uhzy7JaU2Zc" start={0} />
-            </div>
-          </div>
-        </Modal>
-      )}
+      {isOpened && <IntermissionBody setIsOpened={setIsOpened} />}
     </>
   )
 }
