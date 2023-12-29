@@ -44,7 +44,7 @@ const AnswerModal = ({ step, setStep }: { step: number; setStep: (T: number | nu
 
         <YouTubeWrapper track={track} start={start} />
 
-        <div className=" mx-auto flex items-start gap-2 ">
+        <div className="mx-auto flex items-start gap-2">
           <button
             disabled={step === 0}
             className="rounded-lg bg-black p-5 text-2xl text-white disabled:opacity-30"

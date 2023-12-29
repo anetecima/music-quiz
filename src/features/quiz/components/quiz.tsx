@@ -1,5 +1,6 @@
 import type { IGame } from '@/types/types.game'
 import React from 'react'
+import { IntermissionModal } from '@/features/quiz/components/quiz.intermission'
 import { GameContext, useInitGameStore, useSelectGameObj } from '../quiz.store'
 import { QuizAnswers } from './quiz.answers'
 import { QuizQuestion } from './quiz.question'
@@ -36,6 +37,7 @@ export const QuizGame = () => {
 
   return (
     <GameContext.Provider value={store}>
+      <IntermissionModal />
       <div className="font-fuzzy bg-fur flex h-screen flex-col justify-center px-12 text-center">
         <div className="my-[20px] flex items-center justify-center gap-[20px]">
           <h1 className="text-4xl uppercase lg:text-6xl">Kategorijas</h1>
