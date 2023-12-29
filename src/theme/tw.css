@@ -8,6 +8,6 @@
     }
 
     .bg-fur {
-        @apply bg-[url('/fur.jpeg')] bg-cover
+        @apply bg-[url('/furOptimized.jpg')] bg-cover
     }
   }

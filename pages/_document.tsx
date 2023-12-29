@@ -11,7 +11,7 @@ import createEmotionServer from '@emotion/server/create-instance'
 import * as React from 'react'
 import { MyAppProps } from './_app'
 import createEmotionCache from '../src/createEmotionCache'
-import themeMui, { roboto } from '../src/theme/theme.mui'
+import themeMui from '../src/theme/theme.mui'
 
 interface MyDocumentProps extends DocumentProps {
   emotionStyleTags: JSX.Element[]
@@ -19,7 +19,7 @@ interface MyDocumentProps extends DocumentProps {
 
 export default function MyDocument({ emotionStyleTags }: MyDocumentProps) {
   return (
-    <Html lang="en" className={roboto.className}>
+    <Html lang="en">
       <Head>
         {/* PWA primary color */}
         <meta name="theme-color" content={themeMui.palette.primary.main} />

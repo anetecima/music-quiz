@@ -20,7 +20,7 @@ const PointsWrap = React.forwardRef<
       {[10, 20, 30, 40, 50, 70].map(num => (
         <SimpleButton
           key={num}
-          className="h-8 w-8 rounded bg-purple-400 text-xs font-semibold text-white shadow lg:h-10 lg:w-10"
+          className="h-8 w-8 rounded bg-purple-400 text-xs font-bold text-white shadow lg:h-10 lg:w-10"
           onClick={() => {
             if (field.onChange) {
               field.onChange(num)

@@ -3,7 +3,7 @@ import { red } from '@mui/material/colors'
 import { createTheme } from '@mui/material/styles'
 
 export const roboto = Roboto({
-  weight: ['300', '400', '500', '700'],
+  weight: ['400', '700'],
   subsets: ['latin'],
   display: 'swap'
 })

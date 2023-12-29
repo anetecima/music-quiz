@@ -11,14 +11,6 @@ const rubikBeastly = Rubik_Beastly({
 export default function Home() {
   return (
     <div className={rubikBeastly.className}>
-      <style jsx global>{`
-        html {
-          //font-family: var(--font-rubik-beastly);
-        }
-        html {
-          //font-family: ${rubikBeastly.style.fontFamily};
-        }
-      `}</style>
       <HomePage />
     </div>
   )
