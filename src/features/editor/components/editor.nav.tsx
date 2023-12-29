@@ -53,7 +53,7 @@ export const EditorNav = ({
     </div>
 
     {fields?.length > 0 && (
-      <button className="mt-10 flex w-full flex-col items-center justify-center rounded-2xl p-5 transition hover:bg-[#d5fff2]">
+      <button className="flex w-full flex-col items-center justify-center rounded-2xl p-5 transition hover:bg-[#d5fff2]">
         <IcoDownload width={60} height={60} />
         <div>lejupielādēt spēles failu</div>
       </button>

@@ -37,7 +37,7 @@ const AnswerModal = ({ step, setStep }: { step: number; setStep: (T: number | nu
           <br /> {points}
         </h2>
 
-        <div className=" text-purple-800 transition duration-700">
+        <div className="opacity-1 animate-[show_12s_0.5] text-purple-800 transition">
           <div className="text-4xl">{answer}</div>
           <div className="text-lg">{songTitle}</div>
         </div>

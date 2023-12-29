@@ -40,10 +40,9 @@ const QuizQuestionModal = ({
   return (
     <Modal isOpened className="flex items-center justify-center" onClose={onClose}>
       <div>
-        <h2 className="text-7xl">{gameQuestions[question] || question}</h2>
+        <h2 className="text-2xl lg:text-7xl">{gameQuestions[question] || question}</h2>
         <div className="relative flex h-[500px] w-[1000px] items-center justify-center text-center">
           {showTimer && <Timer length={length} />}
-
           {isPlaying ? (
             <div style={{ transform: 'translateY(-10000px)' }}>
               <YouTube
@@ -66,7 +65,6 @@ const QuizQuestionModal = ({
             </div>
           )}
         </div>
-
         {bonusQuestion && (
           <>
             <div className="mb-2 text-5xl">Bonus jautājums:</div>

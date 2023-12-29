@@ -11,11 +11,7 @@ export const MuiButton = ({ children, ...props }: ButtonProps) => {
 }
 
 export const SimpleButton = ({ className, children, ...props }: ButtonProps) => (
-  <button
-    className={`rounded text-sm shadow hover:opacity-80 ${className}`}
-    type="button"
-    {...props}
-  >
+  <button className={`rounded shadow hover:opacity-80 ${className}`} type="button" {...props}>
     {children}
   </button>
 )

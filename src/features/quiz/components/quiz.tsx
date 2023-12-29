@@ -38,7 +38,7 @@ export const QuizGame = () => {
     <GameContext.Provider value={store}>
       <div className="font-fuzzy bg-fur flex h-screen flex-col justify-center px-12 text-center">
         <div className="my-[20px] flex items-center justify-center gap-[20px]">
-          <h1 className="text-6xl uppercase">Kategorijas</h1>
+          <h1 className="text-4xl uppercase lg:text-6xl">Kategorijas</h1>
         </div>
         <Categories />
         <QuizAnswers />

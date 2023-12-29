@@ -73,13 +73,13 @@ export const EditorFields = ({
 }) => {
   const { control, getValues } = useFormContext()
 
-  const { fields, append, remove } = useFieldArray<IGame, `gameObject.${number}.options`>({
+  const { fields, append, remove, replace } = useFieldArray<IGame, `gameObject.${number}.options`>({
     name: `gameObject.${categoryIndex}.options` // unique name for your Field Array
   })
 
   return (
     <>
-      <div className="mb-4 flex w-full">
+      <div className="flex flex-col gap-2 ">
         <Controller
           control={control}
           name={`gameObject.${categoryIndex}.categoryName`}
@@ -87,16 +87,28 @@ export const EditorFields = ({
             <QuizInput className="grow" label="kategorijas noasukums" {...field} />
           )}
         />
-        <SimpleButton
-          className="rounded-none border border-red-400 px-4 font-normal uppercase text-red-500"
-          variant="outlined"
-          onClick={() => {
-            setActiveCategory(categoryIndex - 1)
-            removeCategory()
-          }}
-        >
-          dzēst kategoriju
-        </SimpleButton>
+        <div className="mb-2 flex grow gap-2">
+          <SimpleButton
+            className="h-12 w-full rounded-none border border-red-400 px-4 text-xs uppercase text-red-500"
+            variant="outlined"
+            onClick={() => {
+              setActiveCategory(categoryIndex - 1)
+              removeCategory()
+            }}
+          >
+            dzēst kategoriju
+          </SimpleButton>
+          <SimpleButton
+            className="w-full rounded-none border border-blue-400 px-4 text-xs uppercase text-blue-500"
+            variant="outlined"
+            onClick={() => {
+              const sorted = [...fields].sort((a, b) => a.points - b.points)
+              replace(sorted)
+            }}
+          >
+            sortet pec punktiem
+          </SimpleButton>
+        </div>
       </div>
 
       {fields.map((option, index) => (
@@ -214,7 +226,7 @@ export const EditorFields = ({
       ))}
 
       <SimpleButton
-        className="h-14 w-full rounded-2xl border-2 border-dashed border-white bg-purple-500 text-base text-white shadow"
+        className="h-14 w-full rounded-2xl border-2 border-dashed border-white bg-purple-500 text-lg font-bold text-white shadow"
         onClick={() => {
           append({ ...Question })
         }}
