@@ -1,6 +1,6 @@
 import React from 'react'
-import { MainMenu } from 'mainMenu/mainMenu'
+import { HomePage } from '@/features/home/home'
 
 export default function Home() {
-  return <MainMenu />
+  return <HomePage />
 }

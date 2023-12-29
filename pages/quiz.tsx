@@ -1,6 +1,7 @@
+// import { QuizPage } from 'quiz'
 import React from 'react'
-import { QuizPage } from 'quiz'
+import { QuizGame } from '@/features/quiz/components/quiz'
 
 export default function Quiz() {
-  return <QuizPage />
+  return <QuizGame />
 }

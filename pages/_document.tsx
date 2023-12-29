@@ -1,13 +1,17 @@
-import Document, { DocumentContext, Html, Head, Main, NextScript } from 'next/document'
-import { ServerStyleSheet } from 'styled-components'
-import { GlobalStyles } from 'theme/global'
-import { ServerStyleSheets } from '@material-ui/core'
+import Document, {
+  DocumentContext,
+  DocumentInitialProps,
+  Head,
+  Html,
+  Main,
+  NextScript
+} from 'next/document'
+import { ServerStyleSheets } from '@material-ui/core/styles'
 import React from 'react'
 
-export default class MyDocument extends Document {
-  static async getInitialProps(ctx: DocumentContext) {
+class AppDocument extends Document {
+  static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
     const sheets = new ServerStyleSheets()
-    const scSheets = new ServerStyleSheet()
     const originalRenderPage = ctx.renderPage
 
     try {
@@ -15,8 +19,7 @@ export default class MyDocument extends Document {
         originalRenderPage({
           // eslint-disable-next-line react/display-name
           enhanceApp: App => props => {
-            // noPixels = props.Component.noPixels
-            return scSheets.collectStyles(sheets.collect(<App {...props} />))
+            return sheets.collect(<App {...props} />)
           }
         })
 
@@ -24,15 +27,10 @@ export default class MyDocument extends Document {
 
       return {
         ...initialProps,
-        // Styles fragment is rendered after the app and page rendering finish.
-        styles: [
-          ...React.Children.toArray(initialProps.styles),
-          sheets.getStyleElement(),
-          scSheets.getStyleElement()
-        ]
+        styles: [...React.Children.toArray(initialProps.styles), sheets.getStyleElement()]
       }
     } finally {
-      scSheets.seal()
+      // scSheets.seal()
     }
   }
 
@@ -40,17 +38,20 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <meta name="facebook-domain-verification" content="3ok8vnlmxdvm9t1dt698qzhmsiv47x" />
-          {/*@ts-ignore*/}
-          <style dangerouslySetInnerHTML={{ __html: GlobalStyles }} />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Rubik+Beastly&display=swap"
+            rel="stylesheet"
+          />
         </Head>
-
         <body>
           <Main />
-
           <NextScript />
         </body>
       </Html>
     )
   }
 }
+
+export default AppDocument
