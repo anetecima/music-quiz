@@ -10,6 +10,41 @@ import { SimpleButton } from '@/components/ux/Button'
 import { QuizInput, QuizSelect } from '@/components/ux/Input'
 import { Question } from '../../../Entities'
 
+const CategoryButtons = ({
+  removeCategory,
+  categoryIndex,
+  replace
+}: {
+  replace: (T: any) => void
+  categoryIndex: number
+  removeCategory: () => void
+}) => {
+  const name = `gameObject[${categoryIndex}].options`
+  const fields = useWatch({ name })
+
+  return (
+    <>
+      <SimpleButton
+        className="h-12 w-full rounded-none border border-red-400 px-4 text-xs uppercase text-red-500"
+        variant="outlined"
+        onClick={removeCategory}
+      >
+        dzēst kategoriju
+      </SimpleButton>
+      <SimpleButton
+        className="w-full rounded-none border border-blue-400 px-4 text-xs uppercase text-blue-500"
+        variant="outlined"
+        onClick={() => {
+          const sorted = [...fields].sort((a, b) => a.points - b.points)
+          replace(sorted)
+        }}
+      >
+        sortet pec punktiem
+      </SimpleButton>
+    </>
+  )
+}
+
 const PointsWrap = React.forwardRef<
   HTMLInputElement,
   { label: string; onChange: (T: number) => void } & IInputProps
@@ -88,26 +123,16 @@ export const EditorFields = ({
           )}
         />
         <div className="mb-2 flex grow gap-2">
-          <SimpleButton
-            className="h-12 w-full rounded-none border border-red-400 px-4 text-xs uppercase text-red-500"
-            variant="outlined"
-            onClick={() => {
-              setActiveCategory(categoryIndex - 1)
-              removeCategory()
+          <CategoryButtons
+            replace={replace}
+            categoryIndex={categoryIndex}
+            removeCategory={() => {
+              if (confirm('R u Sure u Want to Erase?') === true) {
+                setActiveCategory(categoryIndex - 1)
+                removeCategory()
+              }
             }}
-          >
-            dzēst kategoriju
-          </SimpleButton>
-          <SimpleButton
-            className="w-full rounded-none border border-blue-400 px-4 text-xs uppercase text-blue-500"
-            variant="outlined"
-            onClick={() => {
-              const sorted = [...fields].sort((a, b) => a.points - b.points)
-              replace(sorted)
-            }}
-          >
-            sortet pec punktiem
-          </SimpleButton>
+          />
         </div>
       </div>
 
