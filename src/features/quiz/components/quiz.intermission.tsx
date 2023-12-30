@@ -73,7 +73,7 @@ export const IntermissionModal = () => {
   return (
     <>
       <button
-        className="absolute right-4 top-4 h-12 w-12 text-4xl"
+        className="absolute right-4 top-4 z-[2] h-12 w-12 text-4xl"
         onClick={() => setIsOpened(true)}
       >
         ||

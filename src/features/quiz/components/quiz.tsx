@@ -41,7 +41,7 @@ export const QuizGame = () => {
       <IntermissionModal />
       <div
         style={{
-          zIndex: '-1',
+          zIndex: '1',
           height: '100vh',
           width: '100%',
           background: 'transparent',
@@ -50,7 +50,7 @@ export const QuizGame = () => {
       >
         <Snowfall />
       </div>
-      <div className="font-fuzzy bg-fur flex h-screen flex-col justify-center px-12 text-center">
+      <div className="font-fuzzy bg-fur z-[2] flex h-screen flex-col justify-center px-12 text-center">
         <div className="my-[20px] flex items-center justify-center gap-[20px]">
           <h1 className="text-4xl uppercase lg:text-6xl">Kategorijas</h1>
         </div>

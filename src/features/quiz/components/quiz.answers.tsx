@@ -77,7 +77,7 @@ export const QuizAnswers = () => {
 
   return (
     <>
-      <div className="mt-10 flex items-center justify-center">
+      <div className="z-[2] mt-10 flex items-center justify-center">
         <ul className=" flex cursor-pointer items-center justify-center gap-2">
           {roundQuestions?.map((_, index) => (
             <li

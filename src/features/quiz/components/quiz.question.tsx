@@ -94,7 +94,7 @@ export const QuizQuestion = ({
     <>
       <div
         data-status={active ? 'active' : ''}
-        className="flex h-12 w-12 items-center justify-center rounded-full bg-zinc-300 text-xl
+        className="z-[2] flex h-12 w-12 items-center justify-center rounded-full bg-zinc-300 text-xl
         transition data-[status=active]:cursor-pointer data-[status=active]:bg-[#f9c7ff]
         data-[status=active]:hover:animate-spin "
         onClick={() => setIsOpened(true)}
