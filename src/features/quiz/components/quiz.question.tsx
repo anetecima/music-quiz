@@ -42,7 +42,7 @@ const QuizQuestionModal = ({
       <div>
         <h2 className="text-2xl lg:text-7xl">{gameQuestions[question] || question}</h2>
         <div className="relative flex h-[500px] w-[1000px] items-center justify-center text-center">
-          {showTimer && <Timer length={length} />}
+          {showTimer && <Timer length={+length} />}
           {isPlaying ? (
             <div style={{ transform: 'translateY(-10000px)' }}>
               <YouTube
@@ -52,8 +52,8 @@ const QuizQuestionModal = ({
                 onPlay={() => setShowTimer(true)}
                 opts={{
                   playerVars: {
-                    start: start,
-                    end: start + length,
+                    start: Number(start),
+                    end: Number(start) + Number(length),
                     autoplay: 1
                   }
                 }}
@@ -105,7 +105,9 @@ export const QuizQuestion = ({
       {isOpened && (
         <QuizQuestionModal
           onClose={() => {
-            handleMarkSong?.(categoryIndex, songIndex)
+            if (active) {
+              handleMarkSong?.(categoryIndex, songIndex)
+            }
             setIsOpened(false)
           }}
           songQuestion={songQuestion}
