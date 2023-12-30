@@ -40,7 +40,13 @@ export const QuizGame = () => {
     <GameContext.Provider value={store}>
       <IntermissionModal />
       <div
-        style={{ height: '100vh', width: '100%', background: 'transparent', position: 'absolute' }}
+        style={{
+          zIndex: '-1',
+          height: '100vh',
+          width: '100%',
+          background: 'transparent',
+          position: 'absolute'
+        }}
       >
         <Snowfall />
       </div>
