@@ -1,5 +1,5 @@
 import type { IInputProps } from '@/components/ux/Input'
-import type { IGame, IQuestion } from '@/types/types.game'
+import type { IGame } from '@/types/types.game'
 import IcoDelete from '@/assets/icons/delete.svg'
 import IcoYouTube from '@/assets/icons/tv.svg'
 import React from 'react'
@@ -69,8 +69,11 @@ const PointsWrap = React.forwardRef<
   </div>
 ))
 
-const YouTubeWrap = ({ option, name }: { name: string; option: IQuestion }) => {
-  const trackCode = useWatch({ name })
+const YouTubeWrap = ({ name }: { name: string }) => {
+  const trackCode = useWatch({ name: name + '.track' })
+  const start = useWatch({ name: name + '.start' })
+  const length = useWatch({ name: name + '.length' })
+  const [title, setTitle] = React.useState()
 
   if (!trackCode || trackCode.includes('http')) {
     return (
@@ -84,16 +87,32 @@ const YouTubeWrap = ({ option, name }: { name: string; option: IQuestion }) => {
   }
 
   return (
-    <YouTube
-      className="h-full w-full"
-      videoId={trackCode}
-      opts={{
-        playerVars: {
-          start: option.start || 0,
-          autoplay: 0
-        }
-      }}
-    />
+    <>
+      <div>
+        <YouTube
+          className="h-full w-full"
+          videoId={trackCode}
+          onReady={p => {
+            try {
+              if (p?.target?.getVideoData) {
+                setTitle(p.target.getVideoData().title)
+              }
+            } catch {
+              //
+            }
+          }}
+          opts={{
+            playerVars: {
+              start: start || 0,
+              end: Number(start || 0) + Number(length || 0),
+              autoplay: 0
+            }
+          }}
+        />
+      </div>
+
+      {title && <div className="py-2">{title}</div>}
+    </>
   )
 }
 
@@ -240,11 +259,8 @@ export const EditorFields = ({
               />
             </aside>
 
-            <aside className="mt-4 flex justify-center md:mt-0 md:p-2">
-              <YouTubeWrap
-                option={option}
-                name={`gameObject[${categoryIndex}].options[${index}].track`}
-              />
+            <aside className="mt-4">
+              <YouTubeWrap name={`gameObject[${categoryIndex}].options[${index}]`} />
             </aside>
           </div>
         </div>
