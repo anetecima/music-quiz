@@ -3,6 +3,16 @@ import React, { useEffect, useState } from 'react'
 import YouTube from 'react-youtube'
 import { Modal } from '@/components/modal'
 
+const random = [
+  { code: '3tmd-ClpJxA', start: 36 },
+  { code: 'uhzy7JaU2Zc', start: 0 },
+  { code: 'CS9OO0S5w2k', start: 0 },
+  { code: 'ru1LC9lW20Q', start: 20 }
+] as const
+
+function getRandomInt(max: number) {
+  return Math.floor(Math.random() * max)
+}
 const YouTubeWrapper = ({
   track,
   start
@@ -21,7 +31,13 @@ const YouTubeWrapper = ({
   </div>
 )
 
-const IntermissionBody = ({ setIsOpened }: { setIsOpened: (T: boolean) => void }) => {
+const IntermissionBody = ({
+  setIsOpened,
+  track
+}: {
+  track: (typeof random)[number]
+  setIsOpened: (T: boolean) => void
+}) => {
   const [timer, setTimer] = useState(180)
 
   useEffect(() => {
@@ -40,7 +56,7 @@ const IntermissionBody = ({ setIsOpened }: { setIsOpened: (T: boolean) => void }
       <div className="flex flex-col items-center justify-center gap-2">
         <h2 className="animate-ping text-6xl text-pink-800 lg:text-9xl">{timer}</h2>
         <div className="invisible">
-          <YouTubeWrapper track="uhzy7JaU2Zc" start={0} />
+          <YouTubeWrapper track={track.code} start={track.start} />
         </div>
       </div>
     </Modal>
@@ -49,6 +65,7 @@ const IntermissionBody = ({ setIsOpened }: { setIsOpened: (T: boolean) => void }
 
 export const IntermissionModal = () => {
   const [isOpened, setIsOpened] = useState(false)
+  const track = getRandomInt(random.length)
 
   return (
     <>
@@ -59,7 +76,7 @@ export const IntermissionModal = () => {
         ||
       </button>
 
-      {isOpened && <IntermissionBody setIsOpened={setIsOpened} />}
+      {isOpened && <IntermissionBody track={random[track]} setIsOpened={setIsOpened} />}
     </>
   )
 }
