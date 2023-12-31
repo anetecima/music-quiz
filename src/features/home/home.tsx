@@ -2,7 +2,12 @@ import type { IGame } from '@/types/types.game'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { ChangeEvent, PropsWithChildren, useEffect, useState } from 'react'
-import { getGameFromStorage, updateStorage } from '@/helpers/helpers.storage'
+import { deleteCollection } from '@/helpers/db/db.read'
+import {
+  getGameFromStorage,
+  saveScoresToLocalStorage,
+  updateStorage
+} from '@/helpers/helpers.storage'
 
 const LinkItem = ({
   children,
@@ -50,6 +55,9 @@ const BackToGame = () => {
                 }))
               }))
             })
+
+            saveScoresToLocalStorage(null)
+            deleteCollection()
           }
         }}
       >

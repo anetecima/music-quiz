@@ -33,3 +33,21 @@ export const saveGameProgress = (
     })
   )
 }
+
+export const saveScoresToLocalStorage = (data: any) => {
+  localStorage.setItem('quizScores', JSON.stringify(data))
+}
+
+export const readScoresToLocalStorage = () => {
+  try {
+    const val = localStorage.getItem('quizScores')
+
+    if (val) {
+      return JSON.parse(val)
+    }
+
+    return null
+  } catch (e) {
+    console.warn('Error: Local storage get', KEY)
+  }
+}

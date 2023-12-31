@@ -2,6 +2,7 @@ import type { IQuestion } from '@/types/types.game'
 import IcoPlay from '@/assets/icons/play.svg'
 import React, { useEffect, useState } from 'react'
 import YouTube from 'react-youtube'
+import { writeToDb } from '@/helpers/db/db.write'
 import { useHandleMarkSong } from '@/features/quiz/quiz.store'
 import { Modal } from '@/components/modal'
 import { gameQuestions } from '../quiz.const'
@@ -104,10 +105,17 @@ export const QuizQuestion = ({
 
       {isOpened && (
         <QuizQuestionModal
-          onClose={() => {
+          onClose={async () => {
             if (active) {
               handleMarkSong?.(categoryIndex, songIndex)
+
+              try {
+                await writeToDb(songQuestion)
+              } catch (e) {
+                //
+              }
             }
+
             setIsOpened(false)
           }}
           songQuestion={songQuestion}

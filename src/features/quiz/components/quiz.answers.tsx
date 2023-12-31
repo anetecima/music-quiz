@@ -73,7 +73,7 @@ const AnswerModal = ({ step, setStep }: { step: number; setStep: (T: number | nu
 
 export const QuizAnswers = () => {
   const [step, setStep] = useState<number | null>(null)
-  const roundQuestions = useSelectQuestions()
+  const roundQuestions = useSelectQuestions() || []
 
   return (
     <>

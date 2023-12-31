@@ -1,21 +1,43 @@
-import type { IGame, IQuestion } from '@/types/types.game'
+import type { IQuestion } from '@/types/types.game'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
-import { getGameFromStorage } from '@/helpers/helpers.storage'
+import React, { ReactNode, useEffect, useState } from 'react'
+import { fetchDataFromDb } from '@/helpers/db/db.read'
+import { readScoresToLocalStorage, saveScoresToLocalStorage } from '@/helpers/helpers.storage'
 import { SimpleButton } from '@/components/ux/Button'
 
 type Players = { name: string; points: number }[]
-
 type IScores = { name: string; total: number; points: (number | null)[] }[]
 
-function Page({ players }: { players: Players }) {
-  const storageGame = getGameFromStorage() as IGame
+const AnswerBtn = ({ children, ...props }: { children: ReactNode } & any) => {
+  return (
+    <SimpleButton
+      className="bg-blue-500 px-4 text-white shadow disabled:opacity-20 lg:h-12"
+      {...props}
+    >
+      {children}
+    </SimpleButton>
+  )
+}
+
+function Page({ questions, players }: { questions: IQuestion[]; players: Players }) {
   const [playerIndex, setPlayerIndex] = useState(0)
   const [playerTable, setPlayerTable] = useState<IScores>(() => {
+    const prevDataFromStorage = readScoresToLocalStorage() as IScores
+
+    if (prevDataFromStorage) {
+      return prevDataFromStorage.map(player => ({
+        name: player.name,
+        total: player.total,
+        points: questions.map((_, index) => {
+          return player.points[index] || null
+        })
+      }))
+    }
+
     return players.map(player => ({
       name: player.name,
       total: 0,
-      points: storageGame?.roundQuestions.map(() => null)
+      points: questions.map(() => null)
     }))
   })
 
@@ -23,7 +45,7 @@ function Page({ players }: { players: Players }) {
   const prevPlayerClick = () => setPlayerIndex(prev => prev - 1)
 
   return (
-    <main className="mx-auto mt-12 flex items-start justify-between gap-4 lg:container">
+    <main className="mx-auto mt-12 flex flex-col gap-4 px-2 py-2 lg:container lg:flex-row lg:items-start lg:justify-between">
       <article className="grow rounded-xl border-2 border-pink-500 p-12 shadow-xl">
         <h2 className="text-xl text-pink-500">Scores</h2>
         <ul className="list-disc text-lg">
@@ -35,21 +57,19 @@ function Page({ players }: { players: Players }) {
         </ul>
       </article>
 
-      <aside className="grow rounded-xl border-2 border-blue-500 p-8 shadow-xl">
+      <aside className="grow rounded-xl border-2 border-pink-500 p-8 shadow-xl">
         <h1
-          className="mx-auto flex h-20 w-40 items-center justify-center rounded-xl
-        bg-pink-500 text-center text-2xl capitalize text-white shadow-2xl"
+          className="mx-auto flex h-20 items-center justify-center rounded-xl
+         text-center text-3xl capitalize text-pink-700"
         >
-          {players?.[playerIndex]?.name}
-          <br />
-          Total: {playerTable[playerIndex].total}
+          {players?.[playerIndex]?.name}. Total: <strong>{playerTable[playerIndex].total}</strong>
         </h1>
 
-        {storageGame?.roundQuestions.map((question: IQuestion, index) => {
+        {questions.map((question: IQuestion, index) => {
           const addPoints = (newPoints: number) => {
             if (playerTable && playerTable[playerIndex]) {
               setPlayerTable(prev => {
-                return prev.map((player, pIndex) => {
+                const resTable = prev.map((player, pIndex) => {
                   const result =
                     pIndex !== playerIndex
                       ? player
@@ -63,6 +83,10 @@ function Page({ players }: { players: Players }) {
                   result.total = result.points.reduce((acc, p) => Number(acc) + Number(p), 0) || 0
                   return result
                 })
+
+                // console.log('resTable', resTable)
+                saveScoresToLocalStorage(resTable)
+                return resTable
               })
             }
           }
@@ -72,40 +96,36 @@ function Page({ players }: { players: Players }) {
           return (
             <div
               key={index}
-              className="border-blue my-2 flex h-24 items-center justify-between border-2 px-4 py-4"
+              className="border-blue my-2 flex items-center justify-between border-2 px-4 py-4 lg:h-16"
             >
               <div>
                 {index + 1} {question.answer} <strong>{question.points}</strong>
               </div>
-              <div className="flex gap-4">
-                <SimpleButton
+              <div className="flex flex-col gap-4 lg:flex-row">
+                <AnswerBtn
                   disabled={question.points === points}
-                  className="h-12 bg-green-500 px-4 text-white shadow disabled:opacity-20"
                   onClick={() => addPoints(question.points)}
                 >
                   Correct {question.points}
-                </SimpleButton>
-                <SimpleButton
+                </AnswerBtn>
+
+                <AnswerBtn
                   disabled={points === question.points + question.points * 0.5}
-                  className="h-12 bg-green-500 px-4 text-white shadow disabled:opacity-20"
                   onClick={() => addPoints(question.points + question.points * 0.5)}
                 >
                   Correct {question.points + question.points * 0.5}
-                </SimpleButton>
-                <SimpleButton
-                  disabled={points === 0}
-                  className="h-12 bg-pink-500 px-4 text-white shadow disabled:opacity-20"
-                  onClick={() => addPoints(0)}
-                >
+                </AnswerBtn>
+
+                <AnswerBtn disabled={points === 0} onClick={() => addPoints(0)}>
                   Wrong
-                </SimpleButton>
-                <SimpleButton
+                </AnswerBtn>
+
+                <AnswerBtn
                   disabled={points === question.points * 0.5 * -1}
-                  className="h-12 bg-pink-500 px-4 text-white shadow disabled:opacity-20"
                   onClick={() => addPoints(question.points * 0.5 * -1)}
                 >
                   Wrong {question.points * 0.5 * -1}
-                </SimpleButton>
+                </AnswerBtn>
               </div>
             </div>
           )
@@ -134,14 +154,25 @@ function Page({ players }: { players: Players }) {
 
 export default function Edit() {
   const [isClient, setIsClient] = useState(false)
+  const [isReady, setIsReady] = useState(false)
   const router = useRouter()
+  const [questions, setQuestions] = useState<IQuestion[]>([])
 
   useEffect(() => {
+    fetchDataFromDb().then(response => {
+      setQuestions(response as IQuestion[])
+      setIsReady(true)
+    })
+
     setIsClient(true)
   }, [])
 
-  if (!isClient) {
-    return null
+  if (!isClient || !isReady) {
+    return (
+      <div className="flex h-screen items-center justify-center text-2xl font-bold">
+        Please wait, loading...
+      </div>
+    )
   }
 
   const players: Players = router?.query?.players
@@ -152,5 +183,5 @@ export default function Edit() {
     return null
   }
 
-  return <Page players={players} />
+  return <Page players={players} questions={questions} />
 }

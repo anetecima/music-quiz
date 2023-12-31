@@ -1,5 +1,5 @@
 import type { IGame } from '@/types/types.game'
-import Tree from '@/assets/icons/tree.svg'
+// import Tree from '@/assets/icons/tree.svg'
 import React, { useEffect, useState } from 'react'
 import Snowfall from 'react-snowfall'
 import { IntermissionModal } from '@/features/quiz/components/quiz.intermission'
@@ -36,6 +36,10 @@ const SnowFall = () => {
 const Categories = () => {
   const gameObj = useSelectGameObj()
 
+  if (!gameObj) {
+    return <div>Loading</div>
+  }
+
   return (
     <div className="container mx-auto my-0 flex flex-wrap items-center justify-center gap-12">
       {gameObj?.map((item: IGame['gameObject'][number], categoryIndex: number) => (
@@ -65,7 +69,7 @@ export const QuizGame = () => {
 
   return (
     <GameContext.Provider value={store}>
-      <Tree width={200} height={300} color="red" className="absolute  top-0 z-[4] text-pink-500" />
+      {/*<Tree width={200} height={300} color="red" className="absolute  top-0 z-[4] text-pink-500" />*/}
       <IntermissionModal />
       <SnowFall />
       <div className="font-fuzzy bg-fur z-[2] flex h-screen flex-col justify-center px-12 text-center">
