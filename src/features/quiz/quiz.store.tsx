@@ -7,7 +7,7 @@ export const useInitGameStore = () => {
   const [roundQuestions, setRoundQuestions] = useState<IGame['roundQuestions']>([])
 
   useEffect(() => {
-    const gameObj: IGame = getGameFromStorage() || {}
+    const gameObj = (getGameFromStorage() as IGame) || {}
 
     if (gameObj) {
       setGameObject(gameObj?.gameObject || [])
