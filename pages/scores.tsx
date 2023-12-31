@@ -160,7 +160,9 @@ export default function Edit() {
 
   useEffect(() => {
     fetchDataFromDb().then(response => {
-      setQuestions(response as IQuestion[])
+      // @ts-ignore
+      let _r = response.sort((a, b) => a.timestamp - b.timestamp)
+      setQuestions(_r as IQuestion[])
       setIsReady(true)
     })
 

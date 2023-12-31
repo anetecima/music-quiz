@@ -7,6 +7,7 @@ export interface IGameCategory {
 }
 
 export interface IQuestion {
+  timestamp?: string
   points: number
   extraPoints: number
   bonusQuestion?: string
