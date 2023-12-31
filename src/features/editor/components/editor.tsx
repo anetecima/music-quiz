@@ -8,7 +8,7 @@ import { newCategory } from '../../../Entities'
 
 export const Editor = () => {
   const [state, _] = useState<IGame>(() => {
-    return getGameFromStorage()
+    return getGameFromStorage() as IGame
   })
 
   const onSubmit: SubmitHandler<IGame> = data => {
@@ -37,7 +37,7 @@ export const Editor = () => {
       <FormProvider {...methods}>
         <form onBlur={() => updateStorage(getValues())} onSubmit={handleSubmit(onSubmit)}>
           <div className="py-4 lg:flex lg:items-start lg:gap-8">
-            <aside className="lg:w-[190px]">
+            <aside className="">
               <EditorNav
                 fields={getValues().gameObject}
                 append={append}

@@ -32,13 +32,23 @@ export const EditorNav = ({
       </div>
     </Link>
 
-    {fields?.length > 0 && (
-      <Tabs value={activeTab} orientation="vertical" onChange={(_e, val) => setActiveTab(val)}>
-        {fields?.map((category, categoryIndex) => (
-          <Tab key={categoryIndex} label={<MuiTabLabel categoryIndex={categoryIndex} />} />
-        ))}
-      </Tabs>
-    )}
+    <div>
+      {fields?.length > 0 && (
+        <Tabs
+          classes={{
+            scrollableY: 'max-h-[55vh]'
+          }}
+          variant="scrollable"
+          value={activeTab}
+          orientation="vertical"
+          onChange={(_e, val) => setActiveTab(val)}
+        >
+          {fields?.map((category, categoryIndex) => (
+            <Tab key={categoryIndex} label={<MuiTabLabel categoryIndex={categoryIndex} />} />
+          ))}
+        </Tabs>
+      )}
+    </div>
 
     <div className="my-2 rounded text-white">
       <SimpleButton

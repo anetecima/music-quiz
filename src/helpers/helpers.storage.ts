@@ -6,12 +6,12 @@ export const updateStorage = (formValues: any) => {
   localStorage.setItem(KEY, JSON.stringify(formValues))
 }
 
-export const getGameFromStorage = () => {
+export const getGameFromStorage = (): IGame | undefined | null => {
   try {
     const val = localStorage.getItem(KEY)
 
     if (val) {
-      console.log('JSON.parse(val)', JSON.parse(val))
+      // console.log('JSON.parse(val)', JSON.parse(val))
       return JSON.parse(val)
     }
 
