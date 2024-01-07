@@ -1,5 +1,6 @@
+// import { GameEditor } from 'editPage/editor'
 import React, { useEffect, useState } from 'react'
-import { GameEditor } from 'editPage/editor'
+import { Editor } from '@/features/editor/components/editor'
 
 export default function Edit() {
   const [isClient, setIsClient] = useState(false)
@@ -8,6 +9,10 @@ export default function Edit() {
     setIsClient(true)
   }, [])
 
+  if (!isClient) {
+    return null
+  }
+
   // do not render on server
-  return isClient ? <GameEditor /> : null
+  return <Editor />
 }

@@ -1,4 +1,4 @@
-import { TypeCategory } from '../quiz/gameObject'
+import { TypeCategory } from './gameObject'
 
 export const aneteOptions: TypeCategory = {
   categoryName: 'Anetes Mīļākās dziesmas',

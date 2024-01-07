@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+    .font-fuzzy {
+        /*font-family: 'Rubik Beastly', serif;*/
+    }
+
+    .bg-fur {
+        @apply bg-[url('/furOptimized.jpg')] bg-cover
+    }
+  }
