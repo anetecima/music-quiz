@@ -69,7 +69,13 @@ const PointsWrap = React.forwardRef<
   </div>
 ))
 
-const YouTubeWrap = ({ name }: { name: string }) => {
+const YouTubeWrap = ({
+  name,
+  setValue
+}: {
+  setValue: (name: string, value: string) => void
+  name: string
+}) => {
   const trackCode = useWatch({ name: name + '.track' })
   const start = useWatch({ name: name + '.start' })
   const length = useWatch({ name: name + '.length' })
@@ -96,6 +102,8 @@ const YouTubeWrap = ({ name }: { name: string }) => {
             try {
               if (p?.target?.getVideoData) {
                 setTitle(p.target.getVideoData().title)
+                setValue(name + '.songTitle', p.target.getVideoData().title)
+                setValue(name + '.answer', p.target.getVideoData().title)
               }
             } catch {
               //
@@ -125,7 +133,7 @@ export const EditorFields = ({
   setActiveCategory: (T: number) => void
   categoryIndex: number
 }) => {
-  const { control, getValues } = useFormContext()
+  const { control, getValues, setValue } = useFormContext()
 
   const { fields, append, remove, replace } = useFieldArray<IGame, `gameObject.${number}.options`>({
     name: `gameObject.${categoryIndex}.options` // unique name for your Field Array
@@ -260,7 +268,10 @@ export const EditorFields = ({
             </aside>
 
             <aside className="mt-4">
-              <YouTubeWrap name={`gameObject[${categoryIndex}].options[${index}]`} />
+              <YouTubeWrap
+                setValue={setValue}
+                name={`gameObject[${categoryIndex}].options[${index}]`}
+              />
             </aside>
           </div>
         </div>
