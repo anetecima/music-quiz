@@ -7,6 +7,7 @@ export interface IGameCategory {
 }
 
 export interface IQuestion {
+  categoryName?: string
   timestamp?: string
   points: number
   extraPoints: number
@@ -18,7 +19,6 @@ export interface IQuestion {
   active: boolean
   start?: number
   length?: number
-  // category: string
 }
 
 export interface IGame {

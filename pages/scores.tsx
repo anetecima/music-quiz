@@ -44,9 +44,33 @@ function Page({ questions, players }: { questions: IQuestion[]; players: Players
   const nextPlayerClick = () => setPlayerIndex(prev => prev + 1)
   const prevPlayerClick = () => setPlayerIndex(prev => prev - 1)
 
+  const addPoints = (newPoints: number, index: number) => {
+    if (playerTable && playerTable[playerIndex]) {
+      setPlayerTable(prev => {
+        const resTable = prev.map((player, pIndex) => {
+          const result =
+            pIndex !== playerIndex
+              ? player
+              : {
+                  ...player,
+                  points: player.points.map((point, pIndex) =>
+                    pIndex === index ? newPoints : point
+                  )
+                }
+
+          result.total = result.points.reduce((acc, p) => Number(acc) + Number(p), 0) || 0
+          return result
+        })
+
+        saveScoresToLocalStorage(resTable)
+        return resTable
+      })
+    }
+  }
+
   return (
-    <section className="mx-auto flex h-screen flex-col gap-4 px-2 py-2 lg:container">
-      <header className="rounded border-2 border-pink-500 p-4 shadow-xl">
+    <section className="mx-auto flex h-[100dvh] flex-col gap-4 px-2 py-2 lg:container">
+      <header className="rounded border-2 border-pink-500 p-4">
         <h2 className="mb-2 text-xl text-pink-500">Scores</h2>
         <ul className="mx-8 list-disc text-lg">
           {playerTable?.map((player, pIndex) => (
@@ -57,33 +81,8 @@ function Page({ questions, players }: { questions: IQuestion[]; players: Players
         </ul>
       </header>
 
-      <aside className=" grow overflow-y-scroll">
+      <aside className="grow overflow-y-scroll">
         {questions.map((question: IQuestion, index) => {
-          const addPoints = (newPoints: number) => {
-            if (playerTable && playerTable[playerIndex]) {
-              setPlayerTable(prev => {
-                const resTable = prev.map((player, pIndex) => {
-                  const result =
-                    pIndex !== playerIndex
-                      ? player
-                      : {
-                          ...player,
-                          points: player.points.map((point, pIndex) =>
-                            pIndex === index ? newPoints : point
-                          )
-                        }
-
-                  result.total = result.points.reduce((acc, p) => Number(acc) + Number(p), 0) || 0
-                  return result
-                })
-
-                // console.log('resTable', resTable)
-                saveScoresToLocalStorage(resTable)
-                return resTable
-              })
-            }
-          }
-
           const points = playerTable[playerIndex]?.points?.[index]
 
           return (
@@ -98,27 +97,27 @@ function Page({ questions, players }: { questions: IQuestion[]; players: Players
                 <div className="mb-2 flex w-full justify-between gap-4">
                   <AnswerBtn
                     disabled={question.points === points}
-                    onClick={() => addPoints(question.points)}
+                    onClick={() => addPoints(question.points, index)}
                   >
                     Correct {question.points}
                   </AnswerBtn>
 
                   <AnswerBtn
                     disabled={points === question.points + question.points * 0.5}
-                    onClick={() => addPoints(question.points + question.points * 0.5)}
+                    onClick={() => addPoints(question.points + question.points * 0.5, index)}
                   >
                     Correct {question.points + question.points * 0.5}
                   </AnswerBtn>
                 </div>
 
                 <div className="flex w-full justify-between gap-4">
-                  <AnswerBtn disabled={points === 0} onClick={() => addPoints(0)}>
+                  <AnswerBtn disabled={points === 0} onClick={() => addPoints(0, index)}>
                     Wrong
                   </AnswerBtn>
 
                   <AnswerBtn
                     disabled={points === question.points * 0.5 * -1}
-                    onClick={() => addPoints(question.points * 0.5 * -1)}
+                    onClick={() => addPoints(question.points * 0.5 * -1, index)}
                   >
                     Wrong {question.points * 0.5 * -1}
                   </AnswerBtn>

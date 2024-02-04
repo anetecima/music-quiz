@@ -15,30 +15,19 @@ export const useInitGameStore = () => {
     }
   }, [])
 
+  if (!gameObject.length) {
+    return null
+  }
+
   return {
     state: {
       gameObject,
       roundQuestions
     },
+    // mark song as seen and push to state question
     markSong: (categoryIndex: number, songIndex: number) => {
       // Mark song as seen
       const newGameObject = gameObject.map((category, cIndex) => {
-        // if (cIndex === categoryIndex) {
-        //   return {
-        //     ...category,
-        //     options: category.options.map((song, sIndex) => {
-        //       return sIndex === songIndex
-        //         ? {
-        //             ...song,
-        //             active: false
-        //           }
-        //         : song
-        //     })
-        //   }
-        // } else {
-        //   return category
-        // }
-
         return cIndex !== categoryIndex
           ? category
           : {
@@ -54,8 +43,8 @@ export const useInitGameStore = () => {
             }
       })
 
-      // push song to the current round list
       const song = gameObject[categoryIndex].options[songIndex]
+      song.categoryName = gameObject[categoryIndex].categoryName
       const newRoundQuestions = [...roundQuestions, song]
 
       setGameObject(newGameObject)
