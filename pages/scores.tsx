@@ -11,7 +11,7 @@ type IScores = { name: string; total: number; points: (number | null)[] }[]
 const AnswerBtn = ({ children, ...props }: { children: ReactNode } & any) => {
   return (
     <SimpleButton
-      className="bg-blue-500 px-4 text-white shadow disabled:opacity-20 lg:h-12"
+      className="w-full bg-blue-500 px-4 text-white shadow disabled:opacity-20 lg:h-10"
       {...props}
     >
       {children}
@@ -45,26 +45,19 @@ function Page({ questions, players }: { questions: IQuestion[]; players: Players
   const prevPlayerClick = () => setPlayerIndex(prev => prev - 1)
 
   return (
-    <main className="mx-auto mt-12 flex flex-col gap-4 px-2 py-2 lg:container lg:flex-row lg:items-start lg:justify-between">
-      <article className="grow rounded-xl border-2 border-pink-500 p-12 shadow-xl">
-        <h2 className="text-xl text-pink-500">Scores</h2>
-        <ul className="list-disc text-lg">
+    <section className="mx-auto flex h-screen flex-col gap-4 px-2 py-2 lg:container">
+      <header className="rounded border-2 border-pink-500 p-4 shadow-xl">
+        <h2 className="mb-2 text-xl text-pink-500">Scores</h2>
+        <ul className="mx-8 list-disc text-lg">
           {playerTable?.map((player, pIndex) => (
             <li key={pIndex} className="capitalize text-pink-500">
               {player?.name} <strong>{player?.total}</strong>
             </li>
           ))}
         </ul>
-      </article>
+      </header>
 
-      <aside className="grow rounded-xl border-2 border-pink-500 p-8 shadow-xl">
-        <h1
-          className="mx-auto flex h-20 items-center justify-center rounded-xl
-         text-center text-3xl capitalize text-pink-700"
-        >
-          {players?.[playerIndex]?.name}. Total: <strong>{playerTable[playerIndex].total}</strong>
-        </h1>
-
+      <aside className=" grow overflow-y-scroll">
         {questions.map((question: IQuestion, index) => {
           const addPoints = (newPoints: number) => {
             if (playerTable && playerTable[playerIndex]) {
@@ -96,42 +89,52 @@ function Page({ questions, players }: { questions: IQuestion[]; players: Players
           return (
             <div
               key={index}
-              className="border-blue my-2 flex items-center justify-between border-2 px-4 py-4 lg:h-16"
+              className="border-blue my-2 items-center justify-between border-2 px-4 py-4"
             >
               <div>
                 {index + 1} {question.answer} <strong>{question.points}</strong>
               </div>
-              <div className="flex flex-col gap-4 lg:flex-row">
-                <AnswerBtn
-                  disabled={question.points === points}
-                  onClick={() => addPoints(question.points)}
-                >
-                  Correct {question.points}
-                </AnswerBtn>
+              <div className="mt-2">
+                <div className="mb-2 flex w-full justify-between gap-4">
+                  <AnswerBtn
+                    disabled={question.points === points}
+                    onClick={() => addPoints(question.points)}
+                  >
+                    Correct {question.points}
+                  </AnswerBtn>
 
-                <AnswerBtn
-                  disabled={points === question.points + question.points * 0.5}
-                  onClick={() => addPoints(question.points + question.points * 0.5)}
-                >
-                  Correct {question.points + question.points * 0.5}
-                </AnswerBtn>
+                  <AnswerBtn
+                    disabled={points === question.points + question.points * 0.5}
+                    onClick={() => addPoints(question.points + question.points * 0.5)}
+                  >
+                    Correct {question.points + question.points * 0.5}
+                  </AnswerBtn>
+                </div>
 
-                <AnswerBtn disabled={points === 0} onClick={() => addPoints(0)}>
-                  Wrong
-                </AnswerBtn>
+                <div className="flex w-full justify-between gap-4">
+                  <AnswerBtn disabled={points === 0} onClick={() => addPoints(0)}>
+                    Wrong
+                  </AnswerBtn>
 
-                <AnswerBtn
-                  disabled={points === question.points * 0.5 * -1}
-                  onClick={() => addPoints(question.points * 0.5 * -1)}
-                >
-                  Wrong {question.points * 0.5 * -1}
-                </AnswerBtn>
+                  <AnswerBtn
+                    disabled={points === question.points * 0.5 * -1}
+                    onClick={() => addPoints(question.points * 0.5 * -1)}
+                  >
+                    Wrong {question.points * 0.5 * -1}
+                  </AnswerBtn>
+                </div>
               </div>
             </div>
           )
         })}
+      </aside>
 
-        <div className="mx-auto my-4 flex justify-center gap-4">
+      <footer className="flex flex-wrap items-center justify-around border-t-2 px-4 py-2 md:flex-col">
+        <h1 className=" text-xl capitalize text-pink-700">
+          {players?.[playerIndex]?.name}. Total: <strong>{playerTable[playerIndex].total}</strong>
+        </h1>
+
+        <div className="flex gap-4">
           <SimpleButton
             disabled={playerIndex === 0}
             onClick={prevPlayerClick}
@@ -147,8 +150,8 @@ function Page({ questions, players }: { questions: IQuestion[]; players: Players
             Next
           </SimpleButton>
         </div>
-      </aside>
-    </main>
+      </footer>
+    </section>
   )
 }
 
@@ -161,7 +164,7 @@ export default function Edit() {
   useEffect(() => {
     fetchDataFromDb().then(response => {
       // @ts-ignore
-      let _r = response.sort((a, b) => a.timestamp - b.timestamp)
+      let _r = response.sort((a, b) => b.timestamp - a.timestamp)
       setQuestions(_r as IQuestion[])
       setIsReady(true)
     })
