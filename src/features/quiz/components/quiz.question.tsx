@@ -28,66 +28,102 @@ const Timer = ({ length }: { length: number }) => {
   )
 }
 
-const QuizQuestionModal = ({
-  onClose,
-  songQuestion
-}: {
-  songQuestion: IQuestion
-  onClose: () => void
-}) => {
+const QuestionAsSong = ({ onClose, question }: { question: IQuestion; onClose: () => void }) => {
   const [isPlaying, setIsPlaying] = useState(false)
   const [showTimer, setShowTimer] = useState(false)
-  const { start = 0, track, typeOfQuestion, extraPoints, bonusQuestion, length = 15 } = songQuestion
+  const { start = 0, track, length = 15 } = question
+  return (
+    <div className="relative flex h-[500px] w-[1000px] items-center justify-center text-center">
+      {showTimer && <Timer length={+length} />}
+      {isPlaying ? (
+        <div style={{ transform: 'translateY(-10000px)' }}>
+          <YouTube
+            className="absolute inset-0 h-full w-full"
+            videoId={track}
+            onEnd={onClose}
+            onPlay={() => setShowTimer(true)}
+            opts={{
+              playerVars: {
+                start: Number(start),
+                end: Number(start) + Number(length),
+                autoplay: 1
+              }
+            }}
+          />
+        </div>
+      ) : (
+        <div className="cursor-pointer" onClick={() => setIsPlaying(true)}>
+          <IcoPlay width={400} height={400} />
+        </div>
+      )}
+    </div>
+  )
+}
+
+const QuestionWithVariants = ({
+  onClose,
+  question
+}: {
+  onClose: () => void
+  question: IQuestion
+}) => {
+  const { start = 0, track, length = 15 } = question
+
+  useEffect(() => {
+    setTimeout(() => {
+      onClose()
+    }, 10000)
+  }, [])
+
+  return (
+    <div className="my-4 text-4xl">
+      {question.typeOfQuestion === QuestionType.quiz && (
+        <div className="mb-4 inline-block border-b-4 border-b-black ">
+          {question.quiz?.question}
+        </div>
+      )}
+
+      {question.typeOfQuestion === QuestionType.quiz && (
+        <div
+          className="flex flex-col gap-4 text-left [&>*:nth-child(1)]:bg-green-500
+         [&>*:nth-child(2)]:bg-red-500 [&>*:nth-child(3)]:bg-yellow-500 [&>*:nth-child(4)]:bg-blue-500"
+        >
+          {question.quiz?.variants?.map((option, index) => (
+            <div key={option} className="rounded-lg p-4">
+              {index + 1}. {option}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {!!track && (
+        <YouTube
+          videoId={track}
+          opts={{
+            playerVars: {
+              start: Number(start),
+              end: Number(start) + Number(length),
+              autoplay: 1
+            }
+          }}
+        />
+      )}
+    </div>
+  )
+}
+
+const QuizQuestionModal = ({ onClose, question }: { question: IQuestion; onClose: () => void }) => {
+  const { typeOfQuestion, extraPoints, bonusQuestion } = question
 
   return (
     <Modal isOpened className="flex items-center justify-center" onClose={onClose}>
       <div>
         <h2 className="text-2xl lg:text-7xl">{gameQuestions[typeOfQuestion] || typeOfQuestion}</h2>
 
-        <div className="my-4 text-4xl">
-          {songQuestion.typeOfQuestion === QuestionType.quiz && (
-            <div>{songQuestion.quiz?.question}</div>
-          )}
+        <QuestionWithVariants question={question} onClose={onClose} />
 
-          <br />
-          <br />
-
-          {songQuestion.typeOfQuestion === QuestionType.quiz && (
-            <div className="text-left">
-              {songQuestion.quiz?.variants?.map((option, index) => (
-                <div key={option}>
-                  {index + 1}. {option}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {songQuestion.typeOfQuestion !== QuestionType.quiz && (
-          <div className="relative flex h-[500px] w-[1000px] items-center justify-center text-center">
-            {showTimer && <Timer length={+length} />}
-            {isPlaying ? (
-              <div style={{ transform: 'translateY(-10000px)' }}>
-                <YouTube
-                  className="absolute inset-0 h-full w-full"
-                  videoId={track}
-                  onEnd={onClose}
-                  onPlay={() => setShowTimer(true)}
-                  opts={{
-                    playerVars: {
-                      start: Number(start),
-                      end: Number(start) + Number(length),
-                      autoplay: 1
-                    }
-                  }}
-                />
-              </div>
-            ) : (
-              <div className="cursor-pointer" onClick={() => setIsPlaying(true)}>
-                <IcoPlay width={400} height={400} />
-              </div>
-            )}
-          </div>
+        {question.typeOfQuestion !== QuestionType.quiz && (
+          <QuestionAsSong question={question} onClose={onClose} />
         )}
 
         {bonusQuestion && (
@@ -103,16 +139,16 @@ const QuizQuestionModal = ({
 }
 
 export const QuizQuestion = ({
-  songQuestion,
-  songIndex,
+  question,
+  questionIndex,
   categoryIndex
 }: {
-  songQuestion: IQuestion
-  songIndex: number
+  question: IQuestion
+  questionIndex: number
   categoryIndex: number
 }) => {
   const [isOpened, setIsOpened] = useState(false)
-  const { active, points } = songQuestion
+  const { active, points } = question
   const handleMarkSong = useHandleMarkSong()
 
   return (
@@ -131,10 +167,10 @@ export const QuizQuestion = ({
         <QuizQuestionModal
           onClose={async () => {
             if (active) {
-              handleMarkSong?.(categoryIndex, songIndex)
+              handleMarkSong?.(categoryIndex, questionIndex)
 
               try {
-                await writeToDb(songQuestion)
+                await writeToDb(question)
               } catch (e) {
                 //
               }
@@ -142,7 +178,7 @@ export const QuizQuestion = ({
 
             setIsOpened(false)
           }}
-          songQuestion={songQuestion}
+          question={question}
         />
       )}
     </>

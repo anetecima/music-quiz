@@ -67,6 +67,15 @@ const Questions = ({
           control={control}
         />
       ))}
+
+      <Controller
+        render={({ field }) => (
+          <QuizInput className="mt-4 w-full" label="Pareiza atbilde" {...field} />
+        )}
+        defaultValue={option.answer}
+        name={`gameObject[${categoryIndex}].options[${index}].answer`}
+        control={control}
+      />
     </div>
   )
 }

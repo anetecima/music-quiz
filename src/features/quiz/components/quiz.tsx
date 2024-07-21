@@ -52,8 +52,8 @@ const Categories = () => {
             {item.options.map((item, index) => (
               <QuizQuestion
                 key={index}
-                songQuestion={item}
-                songIndex={index}
+                question={item}
+                questionIndex={index}
                 categoryIndex={categoryIndex}
               />
             ))}
