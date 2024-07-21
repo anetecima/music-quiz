@@ -1,4 +1,5 @@
 import type { IQuestion } from '@/types/types.game'
+import { QuestionType } from '@/types/types.game'
 import IcoPlay from '@/assets/icons/play.svg'
 import React, { useEffect, useState } from 'react'
 import YouTube from 'react-youtube'
@@ -36,36 +37,59 @@ const QuizQuestionModal = ({
 }) => {
   const [isPlaying, setIsPlaying] = useState(false)
   const [showTimer, setShowTimer] = useState(false)
-  const { start = 0, track, question, extraPoints, bonusQuestion, length = 15 } = songQuestion
+  const { start = 0, track, typeOfQuestion, extraPoints, bonusQuestion, length = 15 } = songQuestion
 
   return (
     <Modal isOpened className="flex items-center justify-center" onClose={onClose}>
       <div>
-        <h2 className="text-2xl lg:text-7xl">{gameQuestions[question] || question}</h2>
-        <div className="relative flex h-[500px] w-[1000px] items-center justify-center text-center">
-          {showTimer && <Timer length={+length} />}
-          {isPlaying ? (
-            <div style={{ transform: 'translateY(-10000px)' }}>
-              <YouTube
-                className="absolute inset-0 h-full w-full"
-                videoId={track}
-                onEnd={onClose}
-                onPlay={() => setShowTimer(true)}
-                opts={{
-                  playerVars: {
-                    start: Number(start),
-                    end: Number(start) + Number(length),
-                    autoplay: 1
-                  }
-                }}
-              />
-            </div>
-          ) : (
-            <div className="cursor-pointer" onClick={() => setIsPlaying(true)}>
-              <IcoPlay width={400} height={400} />
+        <h2 className="text-2xl lg:text-7xl">{gameQuestions[typeOfQuestion] || typeOfQuestion}</h2>
+
+        <div className="my-4 text-4xl">
+          {songQuestion.typeOfQuestion === QuestionType.quiz && (
+            <div>{songQuestion.quiz?.question}</div>
+          )}
+
+          <br />
+          <br />
+
+          {songQuestion.typeOfQuestion === QuestionType.quiz && (
+            <div className="text-left">
+              {songQuestion.quiz?.variants?.map((option, index) => (
+                <div key={option}>
+                  {index + 1}. {option}
+                </div>
+              ))}
             </div>
           )}
         </div>
+
+        {songQuestion.typeOfQuestion !== QuestionType.quiz && (
+          <div className="relative flex h-[500px] w-[1000px] items-center justify-center text-center">
+            {showTimer && <Timer length={+length} />}
+            {isPlaying ? (
+              <div style={{ transform: 'translateY(-10000px)' }}>
+                <YouTube
+                  className="absolute inset-0 h-full w-full"
+                  videoId={track}
+                  onEnd={onClose}
+                  onPlay={() => setShowTimer(true)}
+                  opts={{
+                    playerVars: {
+                      start: Number(start),
+                      end: Number(start) + Number(length),
+                      autoplay: 1
+                    }
+                  }}
+                />
+              </div>
+            ) : (
+              <div className="cursor-pointer" onClick={() => setIsPlaying(true)}>
+                <IcoPlay width={400} height={400} />
+              </div>
+            )}
+          </div>
+        )}
+
         {bonusQuestion && (
           <>
             <div className="mb-2 text-5xl">Bonus jautājums:</div>

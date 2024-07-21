@@ -1,5 +1,5 @@
 export const gameQuestions = {
   artist: 'Nosauciet izpildītāju',
   song: 'Nosauciet dziesmu',
-  video: 'Nosauciet izpildītāju'
+  quiz: 'Quiz Time'
 } as const

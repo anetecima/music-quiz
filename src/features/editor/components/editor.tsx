@@ -1,15 +1,20 @@
 import type { IGame } from '@/types/types.game'
-import React, { useState } from 'react'
-import { FormProvider, SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
+import type { SubmitHandler } from 'react-hook-form'
+import { useState } from 'react'
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { getGameFromStorage, updateStorage } from '@/helpers/helpers.storage'
 import { EditorFields } from '@/features/editor/components/editor.fields'
 import { EditorNav } from '@/features/editor/components/editor.nav'
 import { newCategory } from '../../../Entities'
 
+const GAME_KEY = 'gameObject'
+
 export const Editor = () => {
-  const [state, _] = useState<IGame>(() => {
+  // Take from local storage or empty array
+  const [state, _] = useState<IGame | undefined>(() => {
     return getGameFromStorage() as IGame
   })
+  const [activeTab, setActiveTab] = useState(0)
 
   const onSubmit: SubmitHandler<IGame> = data => {
     let dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(data))
@@ -21,15 +26,19 @@ export const Editor = () => {
     downloadAnchorNode.remove()
   }
 
-  const methods = useForm<IGame>({
+  const methods = useForm({
     defaultValues: state
   })
 
   const { handleSubmit, getValues, control } = methods
-  const [activeTab, setActiveTab] = useState(0)
-  const { fields, append, remove } = useFieldArray({
+
+  const {
+    fields: categories,
+    append,
+    remove
+  } = useFieldArray({
     control,
-    name: 'gameObject'
+    name: GAME_KEY
   })
 
   return (
@@ -37,9 +46,9 @@ export const Editor = () => {
       <FormProvider {...methods}>
         <form onBlur={() => updateStorage(getValues())} onSubmit={handleSubmit(onSubmit)}>
           <div className="py-4 lg:flex lg:items-start lg:gap-8">
-            <aside className="">
+            <aside>
               <EditorNav
-                fields={getValues().gameObject}
+                fields={getValues()[GAME_KEY]}
                 append={append}
                 activeTab={activeTab}
                 setActiveTab={props => {
@@ -48,9 +57,9 @@ export const Editor = () => {
               />
             </aside>
 
-            {fields?.length > 0 ? (
+            {categories?.length > 0 ? (
               <section
-                key={`${activeTab} ${fields.length}`}
+                key={`${activeTab} ${categories.length}`}
                 className="max-w-4xl rounded-2xl border-2 border-purple-500 p-4"
               >
                 <EditorFields
@@ -66,7 +75,7 @@ export const Editor = () => {
                 className="mx-auto max-w-4xl rounded-2xl border-2 border-dashed border-purple-500 p-4"
                 onClick={() => {
                   append(newCategory())
-                  setActiveTab(fields.length)
+                  setActiveTab(categories.length)
                 }}
               >
                 <img

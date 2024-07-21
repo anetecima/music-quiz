@@ -15,7 +15,7 @@ export const getGameFromStorage = (): IGame | undefined | null => {
       return JSON.parse(val)
     }
 
-    return null
+    return undefined
   } catch (e) {
     console.warn('Error: Local storage get', KEY)
   }

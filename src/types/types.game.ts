@@ -12,8 +12,12 @@ export interface IQuestion {
   points: number
   extraPoints: number
   bonusQuestion?: string
+  quiz?: {
+    question: string
+    variants: string[]
+  }
   songTitle: string
-  question: 'artist' | 'song' | 'video'
+  typeOfQuestion: 'artist' | 'song' | 'quiz'
   track: string
   answer: string
   active: boolean
@@ -28,4 +32,10 @@ export interface IGame {
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string
+}
+
+export enum QuestionType {
+  'artist' = 'artist',
+  'song' = 'song',
+  'quiz' = 'quiz'
 }

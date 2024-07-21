@@ -26,14 +26,15 @@ const YouTubeWrapper = ({
 const AnswerModal = ({ step, setStep }: { step: number; setStep: (T: number | null) => void }) => {
   const roundQuestions = useSelectQuestions() || []
   const totalSteps = roundQuestions.length
-  const { answer, track, start, question, points, songTitle, categoryName } = roundQuestions[step]
+  const { answer, track, start, typeOfQuestion, points, songTitle, categoryName } =
+    roundQuestions[step]
   const resetHandler = useHandleResetRound()
 
   return (
     <Modal className="flex justify-center" isOpened onClose={() => setStep(null)}>
       <div key={step} className="flex w-full flex-col justify-between gap-2">
         <h2 className="text-[40px]">
-          {step + 1}. {categoryName || gameQuestions[question]}
+          {step + 1}. {categoryName || gameQuestions[typeOfQuestion]}
           <br /> {points}
         </h2>
 
