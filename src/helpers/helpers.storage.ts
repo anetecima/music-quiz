@@ -1,4 +1,4 @@
-import { IGame } from '@/types/types.game'
+import { IGame } from '@/types/Types'
 
 const KEY = 'gameObject'
 

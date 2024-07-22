@@ -1,4 +1,4 @@
-import { IQuestion } from '@/types/types.game'
+import { IQuestion } from '@/types/Types'
 import { doc, setDoc } from '@firebase/firestore'
 import { DOC_NAME } from '@/helpers/db/db.cons'
 import { db } from '@/helpers/firebaseConfig'

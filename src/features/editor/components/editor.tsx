@@ -1,11 +1,11 @@
-import type { IGame } from '@/types/types.game'
+import type { IGame } from '@/types/Types'
 import type { SubmitHandler } from 'react-hook-form'
 import { useState } from 'react'
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { getGameFromStorage, updateStorage } from '@/helpers/helpers.storage'
 import { EditorFields } from '@/features/editor/components/editor.fields'
 import { EditorNav } from '@/features/editor/components/editor.nav'
-import { newCategory } from '../../../Entities'
+import { newCategory } from '../editor.utils'
 
 const GAME_KEY = 'gameObject'
 

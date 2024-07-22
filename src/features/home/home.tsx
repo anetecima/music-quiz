@@ -1,4 +1,4 @@
-import type { IGame } from '@/types/types.game'
+import { IGame } from '@/types/Types'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { ChangeEvent, PropsWithChildren, useEffect, useState } from 'react'

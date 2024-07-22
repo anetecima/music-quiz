@@ -1,4 +1,4 @@
-import type { IGame } from '@/types/types.game'
+import type { IGame } from '@/types/Types'
 import IcoDelete from '@/assets/icons/delete.svg'
 import React from 'react'
 import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form'
@@ -9,7 +9,7 @@ import { SimpleButton } from '@/components/ux/Button'
 import { QuizInput } from '@/components/ux/Input'
 import { PointsWrap } from '@/components/ux/Points'
 import { SectionContainer } from '@/components/ux/SectionContainer'
-import { Question } from '../../../Entities'
+import { Question } from '../../../const'
 
 const CategoryButtons = ({
   removeCategory,

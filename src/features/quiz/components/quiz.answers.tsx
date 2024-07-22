@@ -1,8 +1,8 @@
-import type { IGame } from '@/types/types.game'
+import type { IGame } from '@/types/Types'
 import React, { useState } from 'react'
 import YouTube from 'react-youtube'
 import { Modal } from '@/components/modal'
-import { gameQuestions } from '../quiz.const'
+import { gameQuestions } from '../../../const'
 import { useHandleResetRound, useSelectQuestions } from '../quiz.store'
 
 const YouTubeWrapper = ({

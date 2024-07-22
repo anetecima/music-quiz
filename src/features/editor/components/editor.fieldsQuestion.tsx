@@ -1,8 +1,8 @@
-import { QuestionType } from '@/types/types.game'
 import React from 'react'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
 import { QuizInput, QuizTypeSelect } from '@/components/ux/Input'
 import { SectionContainer } from '@/components/ux/SectionContainer'
+import { QuestionType } from '../../../const'
 
 const Questions = ({
   option,

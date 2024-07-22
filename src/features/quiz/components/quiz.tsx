@@ -1,5 +1,4 @@
-import type { IGame } from '@/types/types.game'
-// import Tree from '@/assets/icons/tree.svg'
+import type { IGame } from '@/types/Types'
 import React, { useEffect, useState } from 'react'
 import Snowfall from 'react-snowfall'
 import { IntermissionModal } from '@/features/quiz/components/quiz.intermission'
@@ -72,9 +71,11 @@ export const QuizGame = () => {
       {/*<Tree width={200} height={300} color="red" className="absolute  top-0 z-[4] text-pink-500" />*/}
       <IntermissionModal />
       {/*<SnowFall />*/}
-      <div className="font-fuzzy bg-fur z-[2] flex h-screen flex-col justify-center px-12 text-center">
+      <div className="font-fuzzy bg-taylor z-[2] flex h-screen flex-col justify-center bg-white px-12 text-center">
         <div className="relative my-[20px] flex items-center justify-center gap-[20px]">
-          <h1 className="relative text-4xl uppercase lg:text-6xl">Kategorijas</h1>
+          <h1 className="relative rounded-lg bg-pink-400 p-8 text-4xl uppercase lg:text-6xl">
+            Kategorijas
+          </h1>
         </div>
         <Categories />
         <QuizAnswers />

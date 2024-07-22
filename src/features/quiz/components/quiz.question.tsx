@@ -1,12 +1,11 @@
-import type { IQuestion } from '@/types/types.game'
-import { QuestionType } from '@/types/types.game'
+import type { IQuestion } from '@/types/Types'
 import IcoPlay from '@/assets/icons/play.svg'
 import React, { useEffect, useState } from 'react'
 import YouTube from 'react-youtube'
 import { writeToDb } from '@/helpers/db/db.write'
 import { useHandleMarkSong } from '@/features/quiz/quiz.store'
 import { Modal } from '@/components/modal'
-import { gameQuestions } from '../quiz.const'
+import { gameQuestions, QuestionType } from '../../../const'
 
 const Timer = ({ length }: { length: number }) => {
   const [timer, setTimer] = useState(length)
@@ -69,11 +68,11 @@ const QuestionWithVariants = ({
 }) => {
   const { start = 0, track, length = 15 } = question
 
-  useEffect(() => {
-    setTimeout(() => {
-      onClose()
-    }, 10000)
-  }, [])
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     onClose()
+  //   }, 10000)
+  // }, [])
 
   return (
     <div className="my-4 text-4xl">
@@ -97,16 +96,19 @@ const QuestionWithVariants = ({
       )}
 
       {!!track && (
-        <YouTube
-          videoId={track}
-          opts={{
-            playerVars: {
-              start: Number(start),
-              end: Number(start) + Number(length),
-              autoplay: 1
-            }
-          }}
-        />
+        <div className="mx-auto w-full text-center">
+          <YouTube
+            className="mx-auto  h-[800px] w-[1300px]"
+            videoId={track}
+            opts={{
+              playerVars: {
+                start: Number(start),
+                end: Number(start) + Number(length),
+                autoplay: 1
+              }
+            }}
+          />
+        </div>
       )}
     </div>
   )

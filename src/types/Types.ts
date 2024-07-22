@@ -33,9 +33,3 @@ export interface IGame {
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string
 }
-
-export enum QuestionType {
-  'artist' = 'artist',
-  'song' = 'song',
-  'quiz' = 'quiz'
-}

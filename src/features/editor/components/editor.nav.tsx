@@ -1,4 +1,4 @@
-import type { IGameCategory } from '@/types/types.game'
+import type { IGameCategory } from '@/types/Types'
 import IcoBack from '@/assets/icons/back.svg'
 import IcoDownload from '@/assets/icons/download.svg'
 import Link from 'next/link'
@@ -7,7 +7,7 @@ import Tabs from '@mui/material/Tabs'
 import React from 'react'
 import { useWatch } from 'react-hook-form'
 import { SimpleButton } from '@/components/ux/Button'
-import { newCategory } from '../../../Entities'
+import { newCategory } from '../editor.utils'
 
 const MuiTabLabel = ({ categoryIndex }: { categoryIndex: number }) => {
   const categoryName = useWatch({ name: `gameObject.${categoryIndex}.categoryName` })

@@ -1,9 +1,9 @@
-import { QuestionType } from '@/types/types.game'
 import FormControl from '@mui/material/FormControl'
 import MuiInput, { InputProps } from '@mui/material/Input'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
+import { QuestionType } from 'const'
 import { forwardRef } from 'react'
 
 export type IInputProps = InputProps

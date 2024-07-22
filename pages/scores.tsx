@@ -1,4 +1,4 @@
-import type { IQuestion } from '@/types/types.game'
+import type { IQuestion } from '@/types/Types'
 import { useRouter } from 'next/router'
 import React, { ReactNode, useEffect, useState } from 'react'
 import { fetchDataFromDb } from '@/helpers/db/db.read'

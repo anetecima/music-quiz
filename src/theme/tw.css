@@ -10,4 +10,8 @@
     .bg-fur {
         @apply bg-[url('/furOptimized.jpg')] bg-cover
     }
+
+    .bg-taylor {
+        @apply bg-[url('/bgTaylor.webp')]
+    }
   }

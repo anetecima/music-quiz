@@ -1,4 +1,4 @@
-import type { IGame } from '@/types/types.game'
+import type { IGame } from '@/types/Types'
 import React, { useContext, useEffect, useState } from 'react'
 import { getGameFromStorage, saveGameProgress } from '@/helpers/helpers.storage'
 
