@@ -1,110 +1,91 @@
-import React from 'react'
-import { Controller, useFormContext, useWatch } from 'react-hook-form'
-import { QuizInput, QuizTypeSelect } from '@/components/ux/Input'
+import type { IQuestion } from '@/types/Types'
+import { useWatch } from 'react-hook-form'
+import {
+  EditorInputControl,
+  EditorPointsControl,
+  EditorSelectControl
+} from '@/features/editor/components/editor.controls'
 import { SectionContainer } from '@/components/ux/SectionContainer'
 import { QuestionType } from '../../../const'
 
 const Questions = ({
-  option,
+  question,
   categoryIndex,
   index
 }: {
   index: number
   categoryIndex: number
-  option: any
+  question: IQuestion
 }) => {
   const fields = useWatch({ name: `gameObject[${categoryIndex}].options[${index}].typeOfQuestion` })
-  const { control } = useFormContext()
 
   if (fields !== QuestionType.quiz) {
     return (
-      <div className="flex w-full flex-col  flex-wrap gap-4">
-        <Controller
-          render={({ field }) => <QuizInput label="izpildītājs" {...field} />}
-          defaultValue={option.answer}
-          name={`gameObject[${categoryIndex}].options[${index}].answer`}
-          control={control}
-        />
+      <div className="flex flex-col gap-4">
+        {/*<EditorInputControl value={question.answer} label="izpildītājs" name="answer" />*/}
+        {/*<EditorInputControl*/}
+        {/*  value={question.songTitle}*/}
+        {/*  label="dziesmas nosaukums"*/}
+        {/*  name="songTitle"*/}
+        {/*/>*/}
 
-        <Controller
-          render={({ field }) => <QuizInput label="dziesmas nosaukums" {...field} />}
-          defaultValue={option.songTitle}
-          name={`gameObject[${categoryIndex}].options[${index}].songTitle`}
-          control={control}
-        />
+        <EditorInputControl value={question.answer} label="Pareiza atbilde" name="answer" />
       </div>
     )
   }
 
   return (
-    <div className="w-full flex-1">
-      <Controller
-        render={({ field }) => (
-          <QuizInput className="w-full" multiline label="Jautajums" {...field} />
-        )}
-        defaultValue={option.questions}
-        name={`gameObject[${categoryIndex}].options[${index}].quiz.question`}
-        control={control}
-      />
-
-      {/*<Controller
-            render={({ field }) => (
-                <QuizInput className="w-full" multiline label="Varianti" {...field} />
-            )}
-            defaultValue={option.questions}
-            name={`gameObject[${categoryIndex}].options[${index}].quiz.variants`}
-            control={control}
-        />*/}
-
+    <div className="flex flex-1 flex-col gap-2">
+      <EditorInputControl value={question.quiz?.question} label="Jautajums" name="quiz.question" />
       {[0, 1, 2, 3].map(val => (
-        <Controller
-          key={val}
-          render={({ field }) => (
-            <QuizInput className="w-full" label={`Variant ${val + 1}`} {...field} />
-          )}
-          defaultValue=""
-          name={`gameObject[${categoryIndex}].options[${index}].quiz.variants[${val}]`}
-          control={control}
-        />
+        <div key={val}>
+          <EditorInputControl
+            value={question?.quiz?.variants[val]}
+            label={`Variant ${val + 1}`}
+            name={`quiz.variants[${val}]`}
+          />
+        </div>
       ))}
-
-      <Controller
-        render={({ field }) => (
-          <QuizInput className="mt-4 w-full" label="Pareiza atbilde" {...field} />
-        )}
-        defaultValue={option.answer}
-        name={`gameObject[${categoryIndex}].options[${index}].answer`}
-        control={control}
-      />
     </div>
   )
 }
 
 export const QuestionFields = ({
-  option,
+  question,
   categoryIndex,
   index
 }: {
   index: number
   categoryIndex: number
-  option: any
+  question: IQuestion
 }) => {
-  const { control } = useFormContext()
-
   return (
-    <SectionContainer className="bg-pink-300">
-      <aside className="w-full flex-1">
-        <Controller
-          render={({ field }) => <QuizTypeSelect label="Kas jauzmin" {...field} />}
-          defaultValue={option.typeOfQuestion}
-          name={`gameObject[${categoryIndex}].options[${index}].typeOfQuestion`}
-          control={control}
-        />
-      </aside>
-
-      <aside className="w-full flex-1">
-        <Questions option={option} categoryIndex={categoryIndex} index={index} />
-      </aside>
-    </SectionContainer>
+    <>
+      <SectionContainer className="">
+        <aside className="flex flex-1 flex-col gap-4">
+          <EditorSelectControl
+            value={question.typeOfQuestion}
+            name="typeOfQuestion"
+            label="Kas jauzmin"
+          />
+          <EditorPointsControl value={question.points} name="points" label="punkti par jautājumu" />
+        </aside>
+        <aside className="flex-1">
+          <Questions question={question} categoryIndex={categoryIndex} index={index} />
+        </aside>
+      </SectionContainer>
+      <SectionContainer className="flex justify-between gap-2">
+        <div className="flex-1">
+          <EditorInputControl name="bonusQuestion" label="Bonus jautājums" />
+        </div>
+        <div className="flex-1">
+          <EditorPointsControl
+            label="papildus punkti"
+            name="extraPoints"
+            value={question.extraPoints}
+          />
+        </div>
+      </SectionContainer>
+    </>
   )
 }

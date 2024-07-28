@@ -5,7 +5,9 @@ export const SectionContainer = ({
   className = ''
 }: PropsWithChildren<{ className?: string }>) => {
   return (
-    <article className={`my-4 flex flex-wrap gap-4 rounded bg-purple-300 p-4 shadow ${className}`}>
+    <article
+      className={`border-border-1 flex gap-2 rounded border p-4 shadow sm:flex-row ${className}`}
+    >
       {children}
     </article>
   )
