@@ -1,6 +1,7 @@
 import { IQuestion } from '@/types/Types'
 import Image from 'next/image'
 import Dialog from '@mui/material/Dialog'
+import { HelpCircle } from 'lucide-react'
 import { useState } from 'react'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
 import YouTube from 'react-youtube'
@@ -27,16 +28,21 @@ const YouTubeWrap = () => {
   if (!trackCode || trackCode.includes('http')) {
     return (
       <div className="flex h-full flex-col justify-start">
-        You need to Copy/paste track code
-        <Image
-          priority
-          onClick={() => setOpen(true)}
-          className="cursor-zoom-in"
-          src="/tutorial.png"
-          alt="tutorial"
-          width={340}
-          height={239}
-        />
+        <div className="text-center font-semibold">You need to Copy/paste track code</div>
+        <div className="relative mx-auto w-full rounded-lg text-center transition-all hover:opacity-80">
+          <div className="curspor z-2 pointer-events-none absolute left-0 top-0 flex h-full w-full items-center justify-center text-4xl">
+            <HelpCircle width={84} height={84} className="text-red-500" />
+          </div>
+          <Image
+            priority
+            onClick={() => setOpen(true)}
+            className="mx-auto cursor-zoom-in rounded-lg"
+            src="/tutorial.png"
+            alt="tutorial"
+            width={340}
+            height={239}
+          />
+        </div>
         <Dialog open={open} onClose={() => setOpen(false)} className="">
           <div className="flex max-w-[800px] items-center justify-center bg-white">
             <Image
@@ -50,11 +56,6 @@ const YouTubeWrap = () => {
         </Dialog>
       </div>
     )
-    // return (
-    //   <div className="flex min-h-40 min-w-[300px] items-center justify-center rounded border-2 border-dashed border-gray-700 lg:min-w-80 lg:px-8">
-    //     <IcoYouTube width={40} height={40} />
-    //   </div>
-    // )
   }
 
   return (
