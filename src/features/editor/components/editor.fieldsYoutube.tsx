@@ -125,7 +125,7 @@ export const YouTubeRelatedStuff = ({ question }: { question: IQuestion }) => {
           label="sākums (sekundes no video sākuma)"
         />
 
-        <EditorPointsControl name="length" value={15} label="ilgums" />
+        <EditorPointsControl checkEmpty name="length" value={15} label="ilgums" />
       </aside>
 
       <aside className="flex-1">

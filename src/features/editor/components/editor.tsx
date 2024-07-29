@@ -61,7 +61,7 @@ const EditorForm = ({ game }: { game: undefined | IGame }) => {
         {fields?.length > 0 ? (
           <form onBlur={() => updateStorage(getValues())} onSubmit={handleSubmit(downloadToFile)}>
             <section
-              className="borader-pink-300 boarder-2 max-w-4xl rounded-2xl p-4"
+              className="max-w-4xl rounded-2xl p-4"
               // on nav-change-category refresh questions block
               key={`${activeTab} ${fields.length}`}
             >

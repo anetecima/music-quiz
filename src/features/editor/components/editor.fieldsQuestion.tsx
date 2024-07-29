@@ -61,7 +61,12 @@ export const QuestionFields = ({
             name="typeOfQuestion"
             label="Kas jauzmin"
           />
-          <EditorPointsControl value={question.points} name="points" label="punkti par jautājumu" />
+          <EditorPointsControl
+            checkEmpty
+            value={question.points}
+            name="points"
+            label="punkti par jautājumu"
+          />
         </aside>
         <aside className="flex-1">
           <Questions question={question} categoryIndex={categoryIndex} index={index} />
