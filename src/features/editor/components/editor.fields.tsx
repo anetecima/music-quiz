@@ -18,9 +18,8 @@ const CategoryNav = ({
   categoryIndex: number
   removeCategory: () => void
 }) => {
-  const { control } = useFormContext()
-  const name = `gameObject[${categoryIndex}].options`
-  const fields = useWatch({ name })
+  const { control } = useFormContext<IGame>()
+  const fields = useWatch({ control, name: `gameObject.${categoryIndex}.options` })
 
   return (
     <div className="flex flex-col gap-2">
@@ -74,7 +73,9 @@ export const EditorFields = ({
         categoryIndex={categoryIndex}
         removeCategory={() => {
           if (confirm('R u Sure u Want to Erase?')) {
-            setActiveCategory(categoryIndex - 1)
+            if (categoryIndex > 0) {
+              setActiveCategory(categoryIndex - 1)
+            }
             removeCategory()
           }
         }}
@@ -86,7 +87,7 @@ export const EditorFields = ({
           className="border-border-1 relative my-4 rounded-xl border p-4 shadow-xl"
         >
           <div className="mb-2 flex justify-between">
-            <span className="text-whiate rounded border-2 p-1">
+            <span className="rounded-lg border-2 p-1 text-xs shadow">
               {categoryIndex} - {index}
             </span>
             <SimpleButton
@@ -96,7 +97,10 @@ export const EditorFields = ({
                 setInterval(() => updateStorage(getValues()), 100)
                 // in case last question, remove category and switch to previous
                 if (fields.length === 1) {
-                  setActiveCategory(categoryIndex - 1)
+                  if (categoryIndex > 0) {
+                    setActiveCategory(categoryIndex - 1)
+                  }
+
                   removeCategory()
                 }
               }}

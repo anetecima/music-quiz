@@ -26,7 +26,7 @@ const EditorAddAnything = ({
 }) => {
   return (
     <div
-      className="mx-auto max-w-4xl rounded-2xl border-2 border-dashed border-purple-500 p-4"
+      className="flex h-screen w-screen items-center justify-center"
       onClick={() => {
         append(newCategory())
         setActiveTab(0)
@@ -44,10 +44,10 @@ const EditorAddAnything = ({
 
 const EditorForm = ({ game }: { game: undefined | IGame }) => {
   const [activeTab, setActiveTab] = useState(0)
-  const form = useForm({ defaultValues: game })
+  const form = useForm<IGame>({ defaultValues: game })
   const { handleSubmit, getValues, control } = form
 
-  const categories = useFieldArray({
+  const categories = useFieldArray<IGame>({
     control,
     name: GAME_KEY
   })
@@ -58,7 +58,6 @@ const EditorForm = ({ game }: { game: undefined | IGame }) => {
     <FormProvider {...form}>
       <div className="h-full py-4 lg:flex lg:items-start lg:gap-8">
         <EditorNav append={append} activeTab={activeTab} setActiveTab={setActiveTab} />
-
         {fields?.length > 0 ? (
           <form onBlur={() => updateStorage(getValues())} onSubmit={handleSubmit(downloadToFile)}>
             <section

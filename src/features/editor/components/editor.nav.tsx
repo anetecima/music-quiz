@@ -16,7 +16,7 @@ const MuiTabLabel = ({ categoryIndex }: { categoryIndex: number }) => {
 const NavBtn = ({ children, ...props }: PropsWithChildren<any>) => {
   return (
     <SimpleButton
-      className="bg-cta mb-2 block w-full px-4 py-2 text-sm font-semibold text-white"
+      className="bg-cta mb-2 block w-full whitespace-nowrap px-4 py-2 text-sm font-semibold text-white"
       {...props}
     >
       {children}
@@ -37,7 +37,7 @@ export const EditorNav = ({
   const categories = getValues()[GAME_KEY] as IGameCategory[]
 
   return (
-    <nav className="h-full pr-2">
+    <nav className="pr-2">
       <Link href="/">
         <NavBtn>Back</NavBtn>
       </Link>

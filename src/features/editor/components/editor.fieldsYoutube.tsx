@@ -29,12 +29,13 @@ const YouTubeWrap = () => {
       <div className="flex h-full flex-col justify-start">
         You need to Copy/paste track code
         <Image
+          priority
           onClick={() => setOpen(true)}
           className="cursor-zoom-in"
           src="/tutorial.png"
           alt="tutorial"
           width={340}
-          height={34}
+          height={239}
         />
         <Dialog open={open} onClose={() => setOpen(false)} className="">
           <div className="flex max-w-[800px] items-center justify-center bg-white">

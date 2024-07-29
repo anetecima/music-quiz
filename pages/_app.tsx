@@ -1,6 +1,5 @@
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import React from 'react'
 import 'theme/tw.css'
 import { CacheProvider, EmotionCache } from '@emotion/react'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -18,15 +17,13 @@ export interface MyAppProps extends AppProps {
 const CustomApp = ({ Component, pageProps, emotionCache = clientSideEmotionCache }: MyAppProps) => (
   <CacheProvider value={emotionCache}>
     <Head>
-      <meta
-        name="viewport"
-        content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no"
-      />
+      {/*<meta*/}
+      {/*  name="viewport"*/}
+      {/*  content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no"*/}
+      {/*/>*/}
       <meta charSet="utf-8" />
       <title>WELCOME TO THE GAME!!!</title>
       <meta name="robots" content="noIndex, noFollow" />
-      {/* PWA primary color */}
-      <link key="favicon" rel="shortcut icon" href="/favicon_w.ico" />
     </Head>
 
     <main>

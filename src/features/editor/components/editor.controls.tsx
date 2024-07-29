@@ -59,7 +59,6 @@ export const EditorPointsControl = ({
   name: string
 }) => {
   const { control } = useFormContext()
-
   const cIndex = useSelectCategoryIndex()
   const qIndex = useSelectQuestionIndex()
 

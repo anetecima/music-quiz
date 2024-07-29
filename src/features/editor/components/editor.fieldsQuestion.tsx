@@ -22,13 +22,6 @@ const Questions = ({
   if (fields !== QuestionType.quiz) {
     return (
       <div className="flex flex-col gap-4">
-        {/*<EditorInputControl value={question.answer} label="izpildītājs" name="answer" />*/}
-        {/*<EditorInputControl*/}
-        {/*  value={question.songTitle}*/}
-        {/*  label="dziesmas nosaukums"*/}
-        {/*  name="songTitle"*/}
-        {/*/>*/}
-
         <EditorInputControl value={question.answer} label="Pareiza atbilde" name="answer" />
       </div>
     )
@@ -37,14 +30,14 @@ const Questions = ({
   return (
     <div className="flex flex-1 flex-col gap-2">
       <EditorInputControl value={question.quiz?.question} label="Jautajums" name="quiz.question" />
+      <EditorInputControl value={question.answer} label="Pareiza atbilde" name="answer" />
       {[0, 1, 2, 3].map(val => (
-        <div key={val}>
-          <EditorInputControl
-            value={question?.quiz?.variants[val]}
-            label={`Variant ${val + 1}`}
-            name={`quiz.variants[${val}]`}
-          />
-        </div>
+        <EditorInputControl
+          key={val}
+          value={question?.quiz?.variants?.[val] || ''}
+          label={`Variant ${val + 1}`}
+          name={`quiz.variants[${val}]`}
+        />
       ))}
     </div>
   )
