@@ -18,8 +18,8 @@ const CategoryNav = ({
   categoryIndex: number
   removeCategory: () => void
 }) => {
-  const { control } = useFormContext<IGame>()
-  const fields = useWatch({ control, name: `gameObject.${categoryIndex}.options` })
+  const { control } = useFormContext()
+  const fields = useWatch({ control, name: `gameObject[${categoryIndex}].options` })
 
   return (
     <div className="flex flex-col gap-2">
