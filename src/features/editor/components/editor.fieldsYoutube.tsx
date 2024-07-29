@@ -24,6 +24,7 @@ const YouTubeWrap = () => {
   const trackCode = useWatch({ name: name + '.track' })
   const start = useWatch({ name: name + '.start' })
   const length = useWatch({ name: name + '.length' })
+  const answer = useWatch({ name: name + '.answer' })
 
   if (!trackCode || trackCode.includes('http')) {
     return (
@@ -65,9 +66,8 @@ const YouTubeWrap = () => {
         videoId={trackCode}
         onReady={p => {
           try {
-            if (p?.target?.getVideoData) {
+            if (p?.target?.getVideoData && !answer) {
               setTitle(p.target.getVideoData().title)
-              // setValue(name + '.songTitle', p.target.getVideoData().title)
               setValue(name + '.answer', p.target.getVideoData().title)
             }
           } catch {
