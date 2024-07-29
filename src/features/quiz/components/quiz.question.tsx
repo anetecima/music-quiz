@@ -108,8 +108,9 @@ const QuizQuestionModal = ({ onClose, question }: { question: IQuestion; onClose
     <Modal isOpened className="flex items-center justify-center" onClose={onClose}>
       <div>
         <h2 className="text-2xl lg:text-7xl">{gameQuestions[typeOfQuestion] || typeOfQuestion}</h2>
-        {question.quiz && <QuestionWithVariants question={question} onClose={onClose} />}
-        {question.typeOfQuestion !== QuestionType.quiz && (
+        {question.typeOfQuestion === QuestionType.quiz ? (
+          <QuestionWithVariants question={question} onClose={onClose} />
+        ) : (
           <QuestionAsSong question={question} onClose={onClose} />
         )}
         {bonusQuestion && (
