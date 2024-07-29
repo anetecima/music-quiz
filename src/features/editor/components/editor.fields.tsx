@@ -81,10 +81,10 @@ export const EditorFields = ({
         }}
       />
 
-      {fields.map((option, index) => (
+      {fields.map((field, index) => (
         <div
-          key={option.id}
-          className="border-border-1 relative my-4 rounded-xl border p-4 shadow-xl"
+          key={field.id}
+          className="relative my-4 rounded-xl border border-border-1 p-4 shadow-xl"
         >
           <div className="mb-2 flex justify-between">
             <span className="rounded-lg border-2 p-1 text-xs shadow">
@@ -94,7 +94,11 @@ export const EditorFields = ({
               className="flex items-center justify-center px-2 text-xs text-red-800"
               onClick={() => {
                 remove(index)
-                setInterval(() => updateStorage(getValues()), 100)
+
+                setInterval(() => {
+                  updateStorage(getValues())
+                }, 100)
+
                 // in case last question, remove category and switch to previous
                 if (fields.length === 1) {
                   if (categoryIndex > 0) {
@@ -110,16 +114,21 @@ export const EditorFields = ({
           </div>
           <EditorCategoryProvider cIndex={categoryIndex} qIndex={index}>
             <div className="flex flex-col gap-4">
-              <YouTubeRelatedStuff question={option} />
-              <QuestionFields categoryIndex={categoryIndex} index={index} question={option} />
+              <YouTubeRelatedStuff question={field} />
+              <QuestionFields categoryIndex={categoryIndex} index={index} question={field} />
             </div>
           </EditorCategoryProvider>
         </div>
       ))}
 
       <SimpleButton
-        className="bg-cta h-14 w-full rounded-xl border-dashed font-bold text-white shadow"
-        onClick={() => append({ ...Question })}
+        className="h-14 w-full rounded-xl border-dashed bg-cta font-bold text-white shadow"
+        onClick={() => {
+          append({ ...Question })
+          setTimeout(() => {
+            window.scrollTo(0, document.body.scrollHeight)
+          }, 100)
+        }}
       >
         <div className="inline">+ Pievienot jautājumu</div>
       </SimpleButton>

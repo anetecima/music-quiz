@@ -34,13 +34,13 @@ const AnswerModal = ({ step, setStep }: { step: number; setStep: (T: number | nu
     <Modal className="flex justify-center" isOpened onClose={() => setStep(null)}>
       <div key={step} className="flex w-full flex-col justify-between gap-2">
         <h2 className="text-[40px]">
-          {step + 1}. {categoryName || gameQuestions[typeOfQuestion]}
-          <br /> {points}
+          {step + 1}. {categoryName || gameQuestions[typeOfQuestion]}{' '}
+          <span className="rounded-lg bg-purple-200 p-2 text-purple-800">{points}</span>
         </h2>
 
         <div className="opacity-1 animate-[show_12s_0.5] text-purple-800 transition">
+          {/*<div className="text-4xl">{songTitle}</div>*/}
           <div className="text-4xl">{answer}</div>
-          <div className="text-lg">{songTitle}</div>
         </div>
 
         {track && <YouTubeWrapper track={track} start={start} />}

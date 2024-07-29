@@ -89,8 +89,8 @@ const QuestionWithVariants = ({
             videoId={question.track}
             opts={{
               playerVars: {
-                start: Number(question.start),
-                end: Number(question.start) + Number(length),
+                start: Number(question.start) || 0,
+                end: Number(question.start || 0) + Number(question.length || 0),
                 autoplay: 1
               }
             }}

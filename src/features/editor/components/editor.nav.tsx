@@ -1,9 +1,10 @@
 import type { IGameCategory } from '@/types/Types'
-import Link from 'next/link'
+import { useRouter } from 'next/router'
 import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import React, { PropsWithChildren } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'
+import { updateStorage } from '@/helpers/helpers.storage'
 import { GAME_KEY } from '@/features/editor/editor.const'
 import { SimpleButton } from '@/components/ux/Button'
 import { newCategory } from '../editor.utils'
@@ -33,14 +34,20 @@ export const EditorNav = ({
   setActiveTab: (T: number) => void
   append: any
 }) => {
+  const router = useRouter()
   const { getValues } = useFormContext()
   const categories = getValues()[GAME_KEY] as IGameCategory[]
 
   return (
     <nav className="w-[300px] pr-2">
-      <Link href="/">
+      <div
+        onClick={() => {
+          updateStorage(getValues())
+          router.push('/')
+        }}
+      >
         <NavBtn>Back</NavBtn>
-      </Link>
+      </div>
 
       <div className="my-2">
         {categories?.length > 0 && (
@@ -67,7 +74,7 @@ export const EditorNav = ({
         Pievienot kategoriju
       </NavBtn>
 
-      {categories?.length > 0 && <NavBtn>Lejupielādēt spēles failu</NavBtn>}
+      {categories?.length > 0 && <NavBtn type="submit">Lejupielādēt spēles failu</NavBtn>}
     </nav>
   )
 }

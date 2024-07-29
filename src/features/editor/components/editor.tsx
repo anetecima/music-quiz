@@ -56,10 +56,16 @@ const EditorForm = ({ game }: { game: undefined | IGame }) => {
 
   return (
     <FormProvider {...form}>
-      <div className="h-full py-4 lg:flex lg:items-start lg:gap-8">
-        <EditorNav append={append} activeTab={activeTab} setActiveTab={setActiveTab} />
-        {fields?.length > 0 ? (
-          <form onBlur={() => updateStorage(getValues())} onSubmit={handleSubmit(downloadToFile)}>
+      <form
+        onBlur={() => {
+          updateStorage(getValues())
+        }}
+        onSubmit={handleSubmit(downloadToFile)}
+      >
+        <div className="h-full py-4 lg:flex lg:items-start lg:gap-8">
+          <EditorNav append={append} activeTab={activeTab} setActiveTab={setActiveTab} />
+
+          {fields?.length > 0 ? (
             <section
               className="max-w-4xl rounded-2xl p-4"
               // on nav-change-category refresh questions block
@@ -71,11 +77,12 @@ const EditorForm = ({ game }: { game: undefined | IGame }) => {
                 removeCategory={() => remove(activeTab)}
               />
             </section>
-          </form>
-        ) : (
-          <EditorAddAnything append={append} setActiveTab={setActiveTab} />
-        )}
-      </div>
+          ) : (
+            <EditorAddAnything append={append} setActiveTab={setActiveTab} />
+          )}
+        </div>
+      </form>
+      )
     </FormProvider>
   )
 }
