@@ -43,7 +43,7 @@ const AnswerModal = ({ step, setStep }: { step: number; setStep: (T: number | nu
           <div className="text-lg">{songTitle}</div>
         </div>
 
-        <YouTubeWrapper track={track} start={start} />
+        {track && <YouTubeWrapper track={track} start={start} />}
 
         <div className="mx-auto flex items-start gap-2">
           <button

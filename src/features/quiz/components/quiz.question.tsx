@@ -66,44 +66,31 @@ const QuestionWithVariants = ({
   onClose: () => void
   question: IQuestion
 }) => {
-  const { start = 0, track, length = 15 } = question
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     onClose()
-  //   }, 10000)
-  // }, [])
-
   return (
-    <div className="my-4 text-4xl">
-      {question.typeOfQuestion === QuestionType.quiz && (
-        <div className="mb-4 inline-block border-b-4 border-b-black ">
-          {question.quiz?.question}
-        </div>
-      )}
-
-      {question.typeOfQuestion === QuestionType.quiz && (
-        <div
-          className="flex flex-col gap-4 text-left [&>*:nth-child(1)]:bg-green-500
+    <div className="my-4 h-full">
+      <div className="mb-4 inline-block border-b-4 border-b-black text-4xl ">
+        {question.quiz?.question}
+      </div>
+      <div
+        className="flex flex-col gap-2 text-left [&>*:nth-child(1)]:bg-green-500
          [&>*:nth-child(2)]:bg-red-500 [&>*:nth-child(3)]:bg-yellow-500 [&>*:nth-child(4)]:bg-blue-500"
-        >
-          {question.quiz?.variants?.map((option, index) => (
-            <div key={option} className="rounded-lg p-4">
-              {index + 1}. {option}
-            </div>
-          ))}
-        </div>
-      )}
+      >
+        {question.quiz?.variants?.map((option, index) => (
+          <div key={index} className="rounded-lg p-2 text-2xl">
+            {index + 1}. {option}
+          </div>
+        ))}
+      </div>
 
-      {!!track && (
-        <div className="mx-auto w-full text-center">
+      {question.track && (
+        <div className="mx-auto mt-2 w-full">
           <YouTube
-            className="mx-auto  h-[800px] w-[1300px]"
-            videoId={track}
+            className="mx-auto h-full w-full"
+            videoId={question.track}
             opts={{
               playerVars: {
-                start: Number(start),
-                end: Number(start) + Number(length),
+                start: Number(question.start),
+                end: Number(question.start) + Number(length),
                 autoplay: 1
               }
             }}
@@ -121,13 +108,10 @@ const QuizQuestionModal = ({ onClose, question }: { question: IQuestion; onClose
     <Modal isOpened className="flex items-center justify-center" onClose={onClose}>
       <div>
         <h2 className="text-2xl lg:text-7xl">{gameQuestions[typeOfQuestion] || typeOfQuestion}</h2>
-
-        <QuestionWithVariants question={question} onClose={onClose} />
-
+        {question.quiz && <QuestionWithVariants question={question} onClose={onClose} />}
         {question.typeOfQuestion !== QuestionType.quiz && (
           <QuestionAsSong question={question} onClose={onClose} />
         )}
-
         {bonusQuestion && (
           <>
             <div className="mb-2 text-5xl">Bonus jautājums:</div>
