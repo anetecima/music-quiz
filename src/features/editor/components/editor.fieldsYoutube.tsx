@@ -3,7 +3,13 @@ import Image from 'next/image'
 import Dialog from '@mui/material/Dialog'
 import { HelpCircle } from 'lucide-react'
 import { useState } from 'react'
-import { Controller, useFormContext, useWatch } from 'react-hook-form'
+import {
+  Controller,
+  ControllerRenderProps,
+  FieldValues,
+  useFormContext,
+  useWatch
+} from 'react-hook-form'
 import YouTube from 'react-youtube'
 import { EditorInputControl } from '@/features/editor/components/editor.controls'
 import { useSelectCategoryIndex, useSelectQuestionIndex } from '@/features/editor/editor.provider'
@@ -88,25 +94,28 @@ export const YouTubeRelatedStuff = ({ question }: { question: IQuestion }) => {
   const { control } = useFormContext()
   const cIndex = useSelectCategoryIndex()
   const qIndex = useSelectQuestionIndex()
+  const onFormatCode = (
+    field: ControllerRenderProps<FieldValues, `gameObject[${number}].options[${number}].track`>
+  ) => {
+    try {
+      const url = new URL(field.value)
+      const slug = url.pathname.replace('/', '')
+      field.onChange(slug)
+    } catch {
+      //
+    }
+  }
 
   return (
     <SectionContainer>
       <aside className="flex flex-1 flex-col gap-4">
         <Controller
           render={({ field }) => (
-            <div className="flex items-center gap-1">
-              <QuizInput className="w-full grow" label="youtube track kods" {...field} />
+            <div className="flex">
+              <QuizInput className="grow" label="youtube track kods" {...field} />
               <SimpleButton
-                className="bg-cta p-3 text-xs font-semibold text-white shadow"
-                onClick={() => {
-                  try {
-                    const url = new URL(field.value)
-                    const slug = url.pathname.replace('/', '')
-                    field.onChange(slug)
-                  } catch {
-                    //
-                  }
-                }}
+                className="h-full shrink-0 rounded-none bg-cta px-4 text-sm font-semibold text-white"
+                onClick={() => onFormatCode(field)}
               >
                 Format
               </SimpleButton>

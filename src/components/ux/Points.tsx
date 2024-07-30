@@ -7,7 +7,7 @@ export const PointsWrap = forwardRef<
   HTMLDivElement,
   { label: string; onChange: (T: number) => void; checkEmpty?: boolean } & IInputProps
 >(({ label, checkEmpty, ...field }, ref) => (
-  <div className="flex flex-col items-center gap-2 sm:flex-row">
+  <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
     <QuizInput
       {...field}
       type="number"
