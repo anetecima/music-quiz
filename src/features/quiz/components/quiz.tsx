@@ -44,9 +44,9 @@ const Categories = () => {
       {gameObj?.map((item: IGame['gameObject'][number], categoryIndex: number) => (
         <div
           key={categoryIndex}
-          className="relative max-h-[180px] min-w-[30%] rounded-xl bg-white p-4 shadow-xl"
+          className="relative max-h-[180px] min-h-[160px] min-w-[30%] overflow-y-hidden rounded-xl bg-white p-4 shadow-xl"
         >
-          <h2 className="mb-5 text-[26px]">{item.categoryName}</h2>
+          <h2 className="relative z-[999] mb-8 text-[26px] text-white">{item.categoryName}</h2>
           <div className="flex items-center justify-between gap-4">
             {item.options.map((item, index) => (
               <QuizQuestion
@@ -56,6 +56,9 @@ const Categories = () => {
                 categoryIndex={categoryIndex}
               />
             ))}
+          </div>
+          <div className="absolute inset-0">
+            <img src="https://c.tenor.com/i8dFWAyMu1MAAAAC/tenor.gif" width="460" height="166" />
           </div>
         </div>
       ))}
