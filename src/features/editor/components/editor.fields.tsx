@@ -84,7 +84,7 @@ export const EditorFields = ({
       {fields.map((field, index) => (
         <div
           key={field.id}
-          className="relative my-4 rounded-xl border border-border-1 p-4 shadow-xl"
+          className="relative my-4 rounded-xl border border-border-1 p-4 shadow-xl sm:min-w-[740px]"
         >
           <div className="mb-2 flex justify-between">
             <span className="rounded-lg border-2 p-1 text-xs shadow">

@@ -1,14 +1,11 @@
-import { IQuestion } from '@/types/Types'
+import type { IQuestion } from '@/types/Types'
 import Image from 'next/image'
 import Dialog from '@mui/material/Dialog'
 import { HelpCircle } from 'lucide-react'
 import { useState } from 'react'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
 import YouTube from 'react-youtube'
-import {
-  EditorInputControl,
-  EditorPointsControl
-} from '@/features/editor/components/editor.controls'
+import { EditorInputControl } from '@/features/editor/components/editor.controls'
 import { useSelectCategoryIndex, useSelectQuestionIndex } from '@/features/editor/editor.provider'
 import { SimpleButton } from '@/components/ux/Button'
 import { QuizInput } from '@/components/ux/Input'
@@ -125,8 +122,9 @@ export const YouTubeRelatedStuff = ({ question }: { question: IQuestion }) => {
           value={question.start}
           label="sākums (sekundes no video sākuma)"
         />
+        <EditorInputControl name="length" value={15} label="ilgums" type="number" />
 
-        <EditorPointsControl checkEmpty name="length" value={15} label="ilgums" />
+        {/*<EditorPointsControl checkEmpty name="length" value={15} label="ilgums" />*/}
       </aside>
 
       <aside className="flex-1">

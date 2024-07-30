@@ -1,3 +1,4 @@
+import type { ComponentProps } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { useSelectCategoryIndex, useSelectQuestionIndex } from '@/features/editor/editor.provider'
 import { QuizInput, QuizTypeSelect } from '@/components/ux/Input'
@@ -6,19 +7,16 @@ import { PointsWrap } from '@/components/ux/Points'
 export const EditorInputControl = ({
   value,
   label,
-  name
-}: {
-  label: string
-  value?: string | number
-  name: string
-}) => {
+  name,
+  ...props
+}: { label: string } & ComponentProps<'input'>) => {
   const { control } = useFormContext()
   const cIndex = useSelectCategoryIndex()
   const qIndex = useSelectQuestionIndex()
 
   return (
     <Controller
-      render={({ field }) => <QuizInput label={label} {...field} />}
+      render={({ field }) => <QuizInput label={label} inputProps={props} {...field} />}
       defaultValue={value}
       name={`gameObject[${cIndex}].options[${qIndex}].${name}`}
       control={control}
