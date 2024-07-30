@@ -16,7 +16,14 @@ export const EditorInputControl = ({
 
   return (
     <Controller
-      render={({ field }) => <QuizInput label={label} inputProps={props} {...field} />}
+      render={({ field }) => (
+        <QuizInput
+          error={props.required && !field.value}
+          label={label}
+          inputProps={props}
+          {...field}
+        />
+      )}
       defaultValue={value}
       name={`gameObject[${cIndex}].options[${qIndex}].${name}`}
       control={control}
