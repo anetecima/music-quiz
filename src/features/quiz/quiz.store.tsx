@@ -1,72 +1,64 @@
 import type { IGame } from '@/types/Types'
-import React, { useContext, useEffect, useState } from 'react'
-import { getGameFromStorage, saveGameProgress } from '@/helpers/helpers.storage'
+import { produce } from 'immer'
+import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react'
+import { getGameFromStorage, saveGameProgressToLocal } from '@/helpers/helpers.storage'
 
 export const useInitGameStore = () => {
-  const [gameObject, setGameObject] = useState<IGame['gameObject']>([])
-  const [roundQuestions, setRoundQuestions] = useState<IGame['roundQuestions']>([])
+  const [quizGame, setQuizGame] = useState<IGame>()
 
   useEffect(() => {
     const gameObj = (getGameFromStorage() as IGame) || {}
-
-    if (gameObj) {
-      setGameObject(gameObj?.gameObject || [])
-      setRoundQuestions(gameObj?.roundQuestions || [])
-    }
+    setQuizGame(gameObj)
   }, [])
 
-  if (!gameObject.length) {
+  if (!quizGame?.gameObject.length) {
     return null
   }
 
   return {
-    state: {
-      gameObject,
-      roundQuestions
-    },
-    // mark song as seen and push to state question
+    quizGame: quizGame,
+
+    // Main Handler for question status when clicked
     markSong: (categoryIndex: number, songIndex: number) => {
-      // Mark song as seen
-      const newGameObject = gameObject.map((category, cIndex) => {
-        return cIndex !== categoryIndex
-          ? category
-          : {
-              ...category,
-              options: category.options.map((song, sIndex) => {
-                return sIndex === songIndex
-                  ? {
-                      ...song,
-                      active: false
-                    }
-                  : song
-              })
-            }
+      const newGameObject = produce(quizGame, draft => {
+        draft.gameObject[categoryIndex].options[songIndex].active = false
+        const song = quizGame.gameObject[categoryIndex].options[songIndex]
+        draft.roundQuestions.push({
+          ...song,
+          // we cannot assign categoryName to each question, (on category name change, need to update all children)
+          categoryName: draft.gameObject[categoryIndex].categoryName
+        })
       })
 
-      const song = gameObject[categoryIndex].options[songIndex]
-      song.categoryName = gameObject[categoryIndex].categoryName
-      const newRoundQuestions = [...roundQuestions, song]
-
-      setGameObject(newGameObject)
-      setRoundQuestions(newRoundQuestions)
-      // update local storage
-      saveGameProgress(newGameObject, newRoundQuestions)
+      setQuizGame(newGameObject)
+      saveGameProgressToLocal(newGameObject)
     },
 
     resetRound: () => {
-      setRoundQuestions([])
-      saveGameProgress(gameObject, [])
+      const mutated = {
+        ...quizGame,
+        roundQuestions: []
+      }
+
+      setQuizGame(mutated)
+      saveGameProgressToLocal(mutated)
     }
   }
 }
 
 type R = ReturnType<typeof useInitGameStore>
-export const GameContext = React.createContext<R | null>(null)
+export const GameContext = createContext<R | null>(null)
 
 // SELECTORS
-export const useSelectGameObj = () => useContext(GameContext)?.state?.gameObject
-export const useSelectQuestions = () => useContext(GameContext)?.state?.roundQuestions
+export const useSelectGameObj = () => useContext(GameContext)?.quizGame?.gameObject
+export const useSelectQuestions = () => useContext(GameContext)?.quizGame?.roundQuestions
 
 // ACTIONS
 export const useHandleResetRound = () => useContext(GameContext)?.resetRound
 export const useHandleMarkSong = () => useContext(GameContext)?.markSong
+
+export const QuizProvider = ({ children }: PropsWithChildren) => {
+  const store = useInitGameStore()
+
+  return <GameContext.Provider value={store}>{children}</GameContext.Provider>
+}

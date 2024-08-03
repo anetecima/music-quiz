@@ -1,12 +1,13 @@
-import { IQuestion } from '@/types/Types'
+import { IDbQuestion } from '@/types/Types'
 import { collection, deleteDoc, doc, getDocs } from '@firebase/firestore'
 import { db } from '@/helpers/firebaseConfig'
 
-export const fetchDataFromDb = async () => {
+export const fetchDataFromDb = async (): Promise<IDbQuestion[]> => {
   const querySnapshot = await getDocs(collection(db, 'questions'))
-  const data = [] as IQuestion[]
+  const data: IDbQuestion[] = []
+
   querySnapshot.forEach(question => {
-    data.push({ ...(question.data() as IQuestion) })
+    data.push(question.data() as IDbQuestion)
   })
 
   return data
@@ -16,8 +17,6 @@ export const deleteCollection = async () => {
   const querySnapshot = await getDocs(collection(db, 'questions'))
 
   querySnapshot.forEach(question => {
-    // console.log('question', question.id) /
-    // data.push({ ...(question.data() as IQuestion) })
     deleteDoc(doc(db, 'questions', question.id))
   })
 }

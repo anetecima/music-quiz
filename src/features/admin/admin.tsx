@@ -1,6 +1,5 @@
 import IcoDelete from '@/assets/icons/close.svg'
 import { useRouter } from 'next/router'
-import React from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { SimpleButton } from '@/components/ux/Button'
 import { QuizInput } from '@/components/ux/Input'
@@ -31,14 +30,10 @@ export const AdminPage = () => {
     }
   }
 
-  // console.log('players', players)
-
   return (
     <>
       <main className="items-start gap-8 px-4 py-2 pt-[10%] md:mx-auto lg:flex lg:w-1/2">
         <aside className="boarder boarder-purple-600 flex flex-col gap-4 rounded p-4">
-          {/*<h1 className="text-center text-2xl text-pink-800">Players</h1>*/}
-
           {players?.map((field, index) => {
             return (
               <div

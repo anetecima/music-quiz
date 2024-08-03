@@ -1,5 +1,5 @@
 import type { IGame } from '@/types/Types'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { getGameFromStorage, updateStorage } from '@/helpers/helpers.storage'
 import { EditorFields } from '@/features/editor/components/editor.fields'
@@ -42,7 +42,7 @@ const EditorAddAnything = ({
   )
 }
 
-const EditorForm = ({ game }: { game: undefined | IGame }) => {
+const EditorForm = ({ game }: { game?: IGame }) => {
   const [activeTab, setActiveTab] = useState(0)
   const form = useForm<IGame>({ defaultValues: game })
   const { handleSubmit, getValues, control } = form
@@ -73,8 +73,12 @@ const EditorForm = ({ game }: { game: undefined | IGame }) => {
             >
               <EditorFields
                 categoryIndex={activeTab}
-                setActiveCategory={setActiveTab}
-                removeCategory={() => remove(activeTab)}
+                onCategoryRemove={() => {
+                  if (activeTab > 0) {
+                    setActiveTab(activeTab - 1)
+                  }
+                  remove(activeTab)
+                }}
               />
             </section>
           ) : (
@@ -88,16 +92,7 @@ const EditorForm = ({ game }: { game: undefined | IGame }) => {
 }
 
 export const Editor = () => {
-  const [game, setGame] = useState<IGame | undefined>()
-
-  useEffect(() => {
-    const game = getGameFromStorage() as IGame
-    setGame(game || null)
-  }, [])
-
-  if (game === undefined) {
-    return null
-  }
+  const game = getGameFromStorage()
 
   return (
     <main className="h-screen px-4 py-2 md:mx-auto">

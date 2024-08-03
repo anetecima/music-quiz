@@ -53,15 +53,14 @@ const CategoryNav = ({
 
 export const EditorFields = ({
   categoryIndex,
-  removeCategory,
-  setActiveCategory
+  onCategoryRemove
 }: {
-  removeCategory: () => void
-  setActiveCategory: (T: number) => void
   categoryIndex: number
+  onCategoryRemove: () => void
 }) => {
   const { getValues } = useFormContext()
 
+  // Array of questions(options)
   const { fields, append, remove, replace } = useFieldArray<IGame, `gameObject.${number}.options`>({
     name: `gameObject.${categoryIndex}.options` // unique name for your Field Array
   })
@@ -73,10 +72,7 @@ export const EditorFields = ({
         categoryIndex={categoryIndex}
         removeCategory={() => {
           if (confirm('R u Sure u Want to Erase?')) {
-            if (categoryIndex > 0) {
-              setActiveCategory(categoryIndex - 1)
-            }
-            removeCategory()
+            onCategoryRemove()
           }
         }}
       />
@@ -94,18 +90,11 @@ export const EditorFields = ({
               className="flex items-center justify-center px-2 text-xs text-red-800"
               onClick={() => {
                 remove(index)
-
-                setInterval(() => {
-                  updateStorage(getValues())
-                }, 100)
+                setInterval(() => updateStorage(getValues()), 100)
 
                 // in case last question, remove category and switch to previous
                 if (fields.length === 1) {
-                  if (categoryIndex > 0) {
-                    setActiveCategory(categoryIndex - 1)
-                  }
-
-                  removeCategory()
+                  onCategoryRemove()
                 }
               }}
             >

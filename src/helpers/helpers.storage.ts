@@ -3,10 +3,11 @@ import { IGame } from '@/types/Types'
 const KEY = 'gameObject'
 
 export const updateStorage = (formValues: any) => {
+  console.log('update', formValues)
   localStorage.setItem(KEY, JSON.stringify(formValues))
 }
 
-export const getGameFromStorage = (): IGame | undefined | null => {
+export const getGameFromStorage = (): IGame | undefined => {
   try {
     const val = localStorage.getItem(KEY)
 
@@ -21,24 +22,15 @@ export const getGameFromStorage = (): IGame | undefined | null => {
   }
 }
 
-export const saveGameProgress = (
-  gameObject: IGame['gameObject'],
-  roundQuestions: IGame['roundQuestions']
-) => {
-  localStorage.setItem(
-    KEY,
-    JSON.stringify({
-      gameObject,
-      roundQuestions
-    })
-  )
+export const saveGameProgressToLocal = (gameObject: IGame) => {
+  localStorage.setItem(KEY, JSON.stringify(gameObject))
 }
 
 export const saveScoresToLocalStorage = (data: any) => {
   localStorage.setItem('quizScores', JSON.stringify(data))
 }
 
-export const readScoresToLocalStorage = () => {
+export const readScoresFromLocalStorage = () => {
   try {
     const val = localStorage.getItem('quizScores')
 

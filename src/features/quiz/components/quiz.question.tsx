@@ -59,16 +59,10 @@ const QuestionAsSong = ({ onClose, question }: { question: IQuestion; onClose: (
   )
 }
 
-const QuestionWithVariants = ({
-  onClose,
-  question
-}: {
-  onClose: () => void
-  question: IQuestion
-}) => {
+const QuestionWithVariants = ({ question }: { question: IQuestion }) => {
   return (
     <div className="my-4 h-full">
-      <div className="mb-4 inline-block border-b-4 border-b-black text-4xl ">
+      <div className="mb-4 inline-block border-b-4 border-b-black text-4xl">
         {question.quiz?.question}
       </div>
       <div
@@ -109,7 +103,7 @@ const QuizQuestionModal = ({ onClose, question }: { question: IQuestion; onClose
       <div>
         <h2 className="text-2xl lg:text-7xl">{gameQuestions[typeOfQuestion] || typeOfQuestion}</h2>
         {question.typeOfQuestion === QuestionType.quiz ? (
-          <QuestionWithVariants question={question} onClose={onClose} />
+          <QuestionWithVariants question={question} />
         ) : (
           <QuestionAsSong question={question} onClose={onClose} />
         )}
@@ -135,8 +129,9 @@ export const QuizQuestion = ({
   categoryIndex: number
 }) => {
   const [isOpened, setIsOpened] = useState(false)
+  // Mark song as not active
+  const markSongAsNotActive = useHandleMarkSong()
   const { active, points } = question
-  const handleMarkSong = useHandleMarkSong()
 
   return (
     <>
@@ -153,8 +148,10 @@ export const QuizQuestion = ({
       {isOpened && (
         <QuizQuestionModal
           onClose={async () => {
+            setIsOpened(false)
+            // Not played yet
             if (active) {
-              handleMarkSong?.(categoryIndex, questionIndex)
+              markSongAsNotActive?.(categoryIndex, questionIndex)
 
               try {
                 await writeToDb(question)
@@ -162,8 +159,6 @@ export const QuizQuestion = ({
                 //
               }
             }
-
-            setIsOpened(false)
           }}
           question={question}
         />

@@ -1,4 +1,4 @@
-import { IQuestion } from '@/types/Types'
+import type { IQuestion } from '@/types/Types'
 import { doc, setDoc } from '@firebase/firestore'
 import { DOC_NAME } from '@/helpers/db/db.cons'
 import { db } from '@/helpers/firebaseConfig'
@@ -9,8 +9,8 @@ export const writeToDb = async (song: IQuestion) => {
   }
 }
 
-export const writeScoresToDb = async (table: any) => {
-  if (table) {
-    // await setDoc(doc(db, 'scores', 'game'), table)
-  }
-}
+// export const writeScoresToDb = async (table: any) => {
+//   if (table) {
+//     // await setDoc(doc(db, 'scores', 'game'), table)
+//   }
+// }

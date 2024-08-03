@@ -1,5 +1,5 @@
 import type { IGame } from '@/types/Types'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import YouTube from 'react-youtube'
 import { Modal } from '@/components/modal'
 import { gameQuestions } from '../../../const'
@@ -24,11 +24,9 @@ const YouTubeWrapper = ({
 )
 
 const AnswerModal = ({ step, setStep }: { step: number; setStep: (T: number | null) => void }) => {
-  const roundQuestions = useSelectQuestions() || []
-  const totalSteps = roundQuestions.length
-  const { answer, track, start, typeOfQuestion, points, songTitle, categoryName } =
-    roundQuestions[step]
   const resetHandler = useHandleResetRound()
+  const roundQuestions = useSelectQuestions() || []
+  const { answer, track, start, typeOfQuestion, points, categoryName } = roundQuestions[step]
 
   return (
     <Modal className="flex justify-center" isOpened onClose={() => setStep(null)}>
@@ -39,8 +37,7 @@ const AnswerModal = ({ step, setStep }: { step: number; setStep: (T: number | nu
         </h2>
 
         <div className="opacity-1 animate-[show_12s_0.5] text-purple-800 transition">
-          {/*<div className="text-4xl">{songTitle}</div>*/}
-          <div className="text-4xl">{answer}</div>
+          <p className="text-4xl">{answer}</p>
         </div>
 
         {track && <YouTubeWrapper track={track} start={start} />}
@@ -56,7 +53,7 @@ const AnswerModal = ({ step, setStep }: { step: number; setStep: (T: number | nu
           <button
             className="rounded-lg bg-black p-5 text-2xl text-white disabled:opacity-30"
             onClick={() => {
-              if (step >= totalSteps - 1) {
+              if (step >= roundQuestions.length - 1) {
                 setStep(null)
                 resetHandler?.()
               } else {
@@ -64,7 +61,7 @@ const AnswerModal = ({ step, setStep }: { step: number; setStep: (T: number | nu
               }
             }}
           >
-            {step >= totalSteps - 1 ? 'Aizvērt' : 'Nākamā'}
+            {step >= roundQuestions.length - 1 ? 'Aizvērt' : 'Nākamā'}
           </button>
         </div>
       </div>

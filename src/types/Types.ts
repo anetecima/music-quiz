@@ -1,5 +1,4 @@
-import React from 'react'
-
+type QuestionType = 'artist' | 'song' | 'quiz'
 export interface IGameCategory {
   categoryName: string
   image: string
@@ -7,8 +6,7 @@ export interface IGameCategory {
 }
 
 export interface IQuestion {
-  categoryName?: string
-  timestamp?: string
+  // categoryName?: string
   points: number
   extraPoints: number
   bonusQuestion?: string
@@ -17,7 +15,7 @@ export interface IQuestion {
     variants: string[]
   }
   songTitle: string
-  typeOfQuestion: 'artist' | 'song' | 'quiz'
+  typeOfQuestion: QuestionType
   track: string
   answer: string
   active: boolean
@@ -25,11 +23,19 @@ export interface IQuestion {
   length?: number
 }
 
-export interface IGame {
-  gameObject: IGameCategory[]
-  roundQuestions: IQuestion[]
+export interface IRoundQuestion extends IQuestion {
+  categoryName: string
 }
 
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string
+export interface IGame {
+  gameObject: IGameCategory[]
+  roundQuestions: IRoundQuestion[]
 }
+
+export interface IDbQuestion extends IQuestion {
+  timestamp: number
+}
+
+// export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+//   label?: string
+// }

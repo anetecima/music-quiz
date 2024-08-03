@@ -1,8 +1,10 @@
-import type { IQuestion } from '@/types/Types'
+import type { IDbQuestion, IQuestion } from '@/types/Types'
 import { useRouter } from 'next/router'
-import React, { ReactNode, useEffect, useState } from 'react'
+import { produce } from 'immer'
+import { Loader2 } from 'lucide-react'
+import { ReactNode, useEffect, useMemo, useState } from 'react'
 import { fetchDataFromDb } from '@/helpers/db/db.read'
-import { readScoresToLocalStorage, saveScoresToLocalStorage } from '@/helpers/helpers.storage'
+import { readScoresFromLocalStorage, saveScoresToLocalStorage } from '@/helpers/helpers.storage'
 import { SimpleButton } from '@/components/ux/Button'
 
 type Players = { name: string; points: number }[]
@@ -19,52 +21,36 @@ const AnswerBtn = ({ children, ...props }: { children: ReactNode } & any) => {
   )
 }
 
-function Page({ questions, players }: { questions: IQuestion[]; players: Players }) {
+function Page({ questions, players }: { questions: IDbQuestion[]; players: Players }) {
+  const [collapsed, setCollapsed] = useState(true)
   const [playerIndex, setPlayerIndex] = useState(0)
-  const [playerTable, setPlayerTable] = useState<IScores>(() => {
-    const prevDataFromStorage = readScoresToLocalStorage() as IScores
 
-    if (prevDataFromStorage) {
-      return prevDataFromStorage.map(player => ({
-        name: player.name,
-        total: player.total,
-        points: questions.map((_, index) => {
-          return player.points[index] || null
-        })
-      }))
-    }
+  const [playerTable, setPlayerTable] = useState(() => {
+    const prevDataFromStorage = readScoresFromLocalStorage() as IScores
 
-    return players.map(player => ({
-      name: player.name,
-      total: 0,
-      points: questions.map(() => null)
-    }))
+    return prevDataFromStorage
+      ? prevDataFromStorage
+      : players.map(player => ({
+          name: player.name,
+          total: 0,
+          points: questions.map(() => undefined)
+        }))
   })
 
+  const _played = useMemo(() => playerTable, [])
   const nextPlayerClick = () => setPlayerIndex(prev => prev + 1)
   const prevPlayerClick = () => setPlayerIndex(prev => prev - 1)
 
   const addPoints = (newPoints: number, index: number) => {
     if (playerTable && playerTable[playerIndex]) {
-      setPlayerTable(prev => {
-        const resTable = prev.map((player, pIndex) => {
-          const result =
-            pIndex !== playerIndex
-              ? player
-              : {
-                  ...player,
-                  points: player.points.map((point, pIndex) =>
-                    pIndex === index ? newPoints : point
-                  )
-                }
-
-          result.total = result.points.reduce((acc, p) => Number(acc) + Number(p), 0) || 0
-          return result
-        })
-
-        saveScoresToLocalStorage(resTable)
-        return resTable
+      const newGameObject = produce(playerTable, draft => {
+        draft[playerIndex].points[index] = newPoints
+        draft[playerIndex].total =
+          draft[playerIndex].points.reduce((acc, p) => Number(acc) + Number(p), 0) || 0
       })
+
+      saveScoresToLocalStorage(newGameObject)
+      setPlayerTable(newGameObject)
     }
   }
 
@@ -81,9 +67,22 @@ function Page({ questions, players }: { questions: IQuestion[]; players: Players
         </ul>
       </header>
 
+      {playerTable[playerIndex].points?.length > 0 && (
+        <a
+          className="cursor-pointer text-blue-400 hover:text-blue-300"
+          onClick={() => setCollapsed(prev => !prev)}
+        >
+          See prev answers
+        </a>
+      )}
+
       <aside className="grow overflow-y-scroll">
         {questions.map((question: IQuestion, index) => {
           const points = playerTable[playerIndex]?.points?.[index]
+
+          if (collapsed && _played[playerIndex]?.points?.[index] !== undefined) {
+            return null
+          }
 
           return (
             <div
@@ -129,7 +128,7 @@ function Page({ questions, players }: { questions: IQuestion[]; players: Players
       </aside>
 
       <footer className="flex flex-wrap items-center justify-around border-t-2 px-4 py-2 md:flex-col">
-        <h1 className=" text-xl capitalize text-pink-700">
+        <h1 className="text-xl capitalize text-pink-700">
           {players?.[playerIndex]?.name}. Total: <strong>{playerTable[playerIndex].total}</strong>
         </h1>
 
@@ -155,29 +154,16 @@ function Page({ questions, players }: { questions: IQuestion[]; players: Players
 }
 
 export default function Edit() {
-  const [isClient, setIsClient] = useState(false)
-  const [isReady, setIsReady] = useState(false)
   const router = useRouter()
-  const [questions, setQuestions] = useState<IQuestion[]>([])
+  const [playedQuestions, setPlayedQuestions] = useState<IDbQuestion[]>()
 
   useEffect(() => {
+    // will get array of played questions, sort by time
     fetchDataFromDb().then(response => {
-      // @ts-ignore
-      let _r = response.sort((a, b) => b.timestamp - a.timestamp)
-      setQuestions(_r as IQuestion[])
-      setIsReady(true)
+      const sortedByAppearance = response?.sort((a, b) => a.timestamp - b.timestamp) || []
+      setPlayedQuestions(sortedByAppearance)
     })
-
-    setIsClient(true)
   }, [])
-
-  if (!isClient || !isReady) {
-    return (
-      <div className="flex h-screen items-center justify-center text-2xl font-bold">
-        Please wait, loading...
-      </div>
-    )
-  }
 
   const players: Players = router?.query?.players
     ? JSON.parse(router?.query?.players as string)
@@ -187,5 +173,14 @@ export default function Edit() {
     return null
   }
 
-  return <Page players={players} questions={questions} />
+  if (!playedQuestions) {
+    return (
+      <div className="flex h-screen w-full flex-col items-center justify-center gap-8">
+        <Loader2 height={80} width={80} className="animate-spin" />
+        <div className="text-xl">Loading from db</div>
+      </div>
+    )
+  }
+
+  return <Page players={players} questions={playedQuestions} />
 }

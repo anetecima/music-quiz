@@ -1,8 +1,8 @@
 import type { IGame } from '@/types/Types'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Snowfall from 'react-snowfall'
 import { IntermissionModal } from '@/features/quiz/components/quiz.intermission'
-import { GameContext, useInitGameStore, useSelectGameObj } from '../quiz.store'
+import { QuizProvider, useSelectGameObj } from '../quiz.store'
 import { QuizAnswers } from './quiz.answers'
 import { QuizQuestion } from './quiz.question'
 
@@ -46,7 +46,7 @@ const Categories = () => {
           key={categoryIndex}
           className="relative max-h-[180px] min-h-[160px] min-w-[30%] overflow-y-hidden rounded-xl bg-white p-4 shadow-xl"
         >
-          <h2 className="relative z-[999] mb-8 text-[26px] text-white">{item.categoryName}</h2>
+          <h2 className="relative z-[999] mb-8 text-[26px]">{item.categoryName}</h2>
           <div className="flex items-center justify-between gap-4">
             {item.options.map((item, index) => (
               <QuizQuestion
@@ -57,9 +57,9 @@ const Categories = () => {
               />
             ))}
           </div>
-          <div className="absolute inset-0">
-            <img src="https://c.tenor.com/i8dFWAyMu1MAAAAC/tenor.gif" width="460" height="166" />
-          </div>
+          {/*<div className="absolute inset-0">*/}
+          {/*  <img src="https://c.tenor.com/i8dFWAyMu1MAAAAC/tenor.gif" width="460" height="166" />*/}
+          {/*</div>*/}
         </div>
       ))}
     </div>
@@ -67,22 +67,18 @@ const Categories = () => {
 }
 
 export const QuizGame = () => {
-  const store = useInitGameStore()
-
   return (
-    <GameContext.Provider value={store}>
+    <QuizProvider>
       {/*<Tree width={200} height={300} color="red" className="absolute  top-0 z-[4] text-pink-500" />*/}
       <IntermissionModal />
       {/*<SnowFall />*/}
-      <div className="font-fuzzy bg-taylor z-[2] flex h-screen flex-col justify-center bg-white px-12 text-center">
+      <div className="font-fuzzy bg-fur z-[2] flex h-screen flex-col justify-center bg-white px-12 text-center">
         <div className="relative my-[20px] flex items-center justify-center gap-[20px]">
-          <h1 className="relative rounded-lg bg-pink-400 p-8 text-4xl uppercase lg:text-6xl">
-            Kategorijas
-          </h1>
+          <h1 className="relative p-8 text-4xl uppercase lg:text-6xl">Kategorijas</h1>
         </div>
         <Categories />
         <QuizAnswers />
       </div>
-    </GameContext.Provider>
+    </QuizProvider>
   )
 }
