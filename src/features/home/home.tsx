@@ -17,7 +17,7 @@ const LinkItem = ({
   <Link
     href={href}
     onClick={onClick}
-    className="cursor-pointer rounded-[100%] p-14 text-3xl uppercase transition-all hover:bg-purple-400 hover:opacity-90"
+    className="cursor-pointer rounded-full bg-white p-14 text-3xl uppercase transition-all hover:bg-purple-400 hover:opacity-90"
   >
     {children}
   </Link>
@@ -71,7 +71,7 @@ const UploadGameButton = () => {
   const router = useRouter()
 
   return (
-    <div className="relative cursor-pointer rounded-[100%] p-14 text-3xl uppercase transition-all hover:bg-purple-400 hover:opacity-90">
+    <div className="relative cursor-pointer rounded-full bg-white p-14 text-3xl uppercase transition-all hover:bg-purple-400 hover:opacity-90">
       Augšupielādēt failu un spēlēt
       <input
         className="absolute inset-0 z-[3] cursor-pointer opacity-0"
@@ -96,7 +96,7 @@ const UploadGameButton = () => {
 
 export const HomePage = () => (
   <main className="bg-fur flex min-h-screen justify-center">
-    <div className="flex flex-wrap items-center justify-center text-center lg:flex-nowrap">
+    <div className="flex flex-wrap items-center justify-center gap-2 text-center lg:flex-nowrap">
       <LinkItem href="/edit">Rediģēt vai izveidot spēles failu</LinkItem>
       <UploadGameButton />
       <BackToGame />
