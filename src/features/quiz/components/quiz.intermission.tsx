@@ -4,11 +4,11 @@ import YouTube from 'react-youtube'
 import { Modal } from '@/components/modal'
 
 const random = [
+  { code: 'GEsU4IcUh2o', start: 0 }, // 2025 mashup
+  { code: 'RLn5qNngGn4', start: 71 }, // domingo
   { code: 'OcKMvf6PCgg', start: 0 }, // 2025 mashup
   { code: 'vD479G8PvCQ', start: 17 }, // 2025 mashup
-  { code: 'LtdJx-R_nC4', start: 0 }, // 2025 mashup
-  { code: 'RLn5qNngGn4', start: 71 }, // 2025 mashup
-  { code: 'GEsU4IcUh2o', start: 0 } // 2025 mashup
+  { code: 'LtdJx-R_nC4', start: 0 } // 2025 mashup
   // { code: '3tmd-ClpJxA', start: 36 }, // Taylor
   // { code: 'uhzy7JaU2Zc', start: 0 }, // LIPS
   // { code: 'e4whRXxnF4Q', start: 0 }, // compilation 1
@@ -25,10 +25,7 @@ const YouTubeWrapper = ({ index }: { index: number }) => {
   return (
     <div className="relative flex w-full flex-[3] items-center justify-center">
       <YouTube
-        className={
-          // [0, 1].includes(index) ? 'absolute inset-0 h-full w-full' : 'h-[300px] w-[500px]'
-          'h-screen w-screen'
-        }
+        className={[0, 1].includes(index) ? 'h-screen w-screen' : 'absolute inset-0 h-full w-full'}
         videoId={code}
         opts={{
           playerVars: {
