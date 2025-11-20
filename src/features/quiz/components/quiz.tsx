@@ -19,11 +19,7 @@ const SnowFall = () => {
     return null
   }
 
-  return (
-    <div className="absolute top-0 z-[1] h-screen w-full bg-transparent">
-      <Snowfall />
-    </div>
-  )
+  return <Snowfall />
 }
 
 const Categories = () => {
@@ -34,17 +30,24 @@ const Categories = () => {
   }
 
   return (
-    <div className="container mx-auto my-0 flex flex-wrap items-center justify-center gap-12">
+    <div className="z-[4] flex flex-wrap items-center justify-center gap-12">
       {gameObj?.map((item: IGame['gameObject'][number], categoryIndex: number) => (
         <div
           key={categoryIndex}
           className={cn(
-            'max-h-[180px] min-h-[160px] min-w-[30%] ',
-            'overflow-y-hidden rounded-xl bg-white p-4 text-center shadow-xl'
+            'relative border-4 border-pink-200',
+            'flex flex-col justify-between gap-2',
+            'max-h-[180px] min-h-[100px] min-w-[30%]',
+            'rounded-md bg-white shadow-xl'
           )}
         >
-          <h2 className="mb-8 text-[28px]">{item.categoryName}</h2>
-          <div className="flex items-center justify-between gap-4">
+          <div className="absolute top-0 flex w-full translate-y-[-50%] justify-center">
+            <h2 className="overflow-hidden text-ellipsis whitespace-nowrap rounded-lg bg-pink-200 px-4 text-[28px]">
+              {item.categoryName}
+            </h2>
+          </div>
+
+          <div className="flex items-center justify-between gap-4 p-4 px-5 pt-12">
             {item.options.map((item, index) => (
               <QuizQuestion
                 key={index}
@@ -54,9 +57,9 @@ const Categories = () => {
               />
             ))}
           </div>
-          {/*<div className="absolute inset-0">*/}
-          {/*  <img src="https://c.tenor.com/i8dFWAyMu1MAAAAC/tenor.gif" width="460" height="166" />*/}
-          {/*</div>*/}
+          {/*<div className="absolute inset-0">
+            <img src="https://c.tenor.com/i8dFWAyMu1MAAAAC/tenor.gif" width="460" height="166" />
+          </div>*/}
         </div>
       ))}
     </div>
@@ -68,15 +71,18 @@ export const QuizGame = () => {
     <QuizProvider>
       {/*<Tree width={200} height={300} color="red" className="absolute top-0  z-[4] text-pink-500 " />*/}
       <IntermissionModal />
-      {/*<div className="px-12">*/}
-      {/*</div>*/}
+
       <section className="font-fuzzy bg-fur relative  h-screen">
-        <div className="flex h-full flex-col justify-center  p-2">
-          <div className="relative grow overflow-auto">
+        <div className="flex h-full flex-col justify-between p-5">
+          <div className="relative  grow items-center justify-center overflow-auto pt-4">
             <Categories />
-            <SnowFall />
+            <div className="absolute left-0 top-0 z-[1] h-full w-full">
+              <div className="px-22 h-full w-full ">
+                <SnowFall />
+              </div>
+            </div>
           </div>
-          <div className="shrink-0  p-2">
+          <div className="shrink-0 p-2">
             <QuizAnswers />
           </div>
         </div>

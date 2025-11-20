@@ -1,6 +1,8 @@
+import { Pause } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import Snowfall from 'react-snowfall'
 import YouTube from 'react-youtube'
+import { cn } from '@/helpers/cn'
 import { Modal } from '@/components/modal'
 
 const random = [
@@ -78,13 +80,21 @@ export const IntermissionModal = () => {
   const [isOpened, setIsOpened] = useState(false)
   const index = getRandomInt(random.length)
 
+  function onOpen() {
+    setIsOpened(true)
+  }
+
   return (
     <>
       <button
-        className="absolute right-4 top-4 z-[2] h-12 w-12 text-4xl text-purple-500"
-        onClick={() => setIsOpened(true)}
+        className={cn(
+          'absolute right-2 top-2 z-[2]',
+          'h-12 w-12 rounded-md border-2 border-purple-400 text-4xl text-purple-500',
+          'flex items-center justify-center'
+        )}
+        onClick={onOpen}
       >
-        ||
+        <Pause />
       </button>
 
       {isOpened && <IntermissionBody index={index} setIsOpened={setIsOpened} />}

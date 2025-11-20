@@ -102,7 +102,9 @@ const QuizQuestionModal = ({ onClose, question }: { question: IQuestion; onClose
   return (
     <Modal isOpened className="flex items-center justify-center" onClose={onClose}>
       <div>
-        <h2 className="text-2xl lg:text-7xl">{gameQuestions[typeOfQuestion] || typeOfQuestion}</h2>
+        <h2 className="text-center text-2xl lg:text-7xl">
+          {gameQuestions[typeOfQuestion] || typeOfQuestion}
+        </h2>
         {question.typeOfQuestion === QuestionType.quiz ? (
           <QuestionWithVariants question={question} />
         ) : (
