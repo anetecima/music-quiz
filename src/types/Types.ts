@@ -3,6 +3,7 @@ export interface IGameCategory {
   categoryName: string
   image: string
   options: IQuestion[]
+  isSpecial?: boolean
 }
 
 export interface IQuestion {
@@ -34,6 +35,7 @@ export interface IGame {
 
 export interface IDbQuestion extends IQuestion {
   timestamp: number
+  roundNum: number
 }
 
 // export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {

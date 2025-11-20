@@ -5,6 +5,7 @@ import { getGameFromStorage, saveGameProgressToLocal } from '@/helpers/helpers.s
 
 export const useInitGameStore = () => {
   const [quizGame, setQuizGame] = useState<IGame>()
+  const [round, setRound] = useState<number>(1)
 
   useEffect(() => {
     const gameObj = (getGameFromStorage() as IGame) || {}
@@ -17,6 +18,7 @@ export const useInitGameStore = () => {
 
   return {
     quizGame: quizGame,
+    roundNum: round,
 
     // Main Handler for question status when clicked
     markSong: (categoryIndex: number, songIndex: number) => {
@@ -34,12 +36,17 @@ export const useInitGameStore = () => {
       saveGameProgressToLocal(newGameObject)
     },
 
+    nextRound() {
+      setRound(round + 1)
+    },
+
     resetRound: () => {
       const mutated = {
         ...quizGame,
         roundQuestions: []
       }
 
+      setRound(1)
       setQuizGame(mutated)
       saveGameProgressToLocal(mutated)
     }
@@ -52,10 +59,12 @@ export const GameContext = createContext<R | null>(null)
 // SELECTORS
 export const useSelectGameObj = () => useContext(GameContext)?.quizGame?.gameObject
 export const useSelectQuestions = () => useContext(GameContext)?.quizGame?.roundQuestions
+export const useSelectRoundNum = () => useContext(GameContext)?.roundNum
 
 // ACTIONS
 export const useHandleResetRound = () => useContext(GameContext)?.resetRound
 export const useHandleMarkSong = () => useContext(GameContext)?.markSong
+export const useHandleNextRound = () => useContext(GameContext)?.nextRound
 
 export const QuizProvider = ({ children }: PropsWithChildren) => {
   const store = useInitGameStore()

@@ -1,37 +1,12 @@
 import type { IGame } from '@/types/Types'
-// import Tree from '@/assets/icons/tree.svg'
-import { useEffect, useState } from 'react'
-import Snowfall from 'react-snowfall'
+import Link from 'next/link'
+import { cn } from '@/helpers/cn'
 import { IntermissionModal } from '@/features/quiz/components/quiz.intermission'
+import { QuizSpecialRoundModal } from '@/features/quiz/components/quiz.specialRound'
+import { MainGameWrapper } from '@/components/container'
 import { QuizProvider, useSelectGameObj } from '../quiz.store'
 import { QuizAnswers } from './quiz.answers'
 import { QuizQuestion } from './quiz.question'
-
-const SnowFall = () => {
-  const [isClient, setIsClient] = useState(false)
-
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
-
-  if (!isClient) {
-    return null
-  }
-
-  return (
-    <div
-      style={{
-        zIndex: '1',
-        height: '100vh',
-        width: '100%',
-        background: 'transparent',
-        position: 'absolute'
-      }}
-    >
-      <Snowfall />
-    </div>
-  )
-}
 
 const Categories = () => {
   const gameObj = useSelectGameObj()
@@ -41,25 +16,46 @@ const Categories = () => {
   }
 
   return (
-    <div className="container mx-auto my-0 flex flex-wrap items-center justify-center gap-12">
+    <div className="container mx-auto flex flex-wrap items-center justify-center gap-10">
       {gameObj?.map((item: IGame['gameObject'][number], categoryIndex: number) => (
         <div
           key={categoryIndex}
-          className="relative max-h-[180px] min-h-[160px] min-w-[30%] overflow-y-hidden rounded-xl bg-white p-4 shadow-xl"
+          className={cn(
+            'relative  overflow-y-hidden',
+            'rounded-xl  p-4 text-center shadow-xl',
+            item.isSpecial ? '' : 'min-h-[120px] min-w-[30%] bg-white'
+          )}
         >
-          <h2 className="relative z-[999] mb-8 text-[28px]">{item.categoryName}</h2>
-          <div className="flex items-center justify-between gap-4">
-            {item.options.map((item, index) => (
-              <QuizQuestion
-                key={index}
-                question={item}
-                questionIndex={index}
-                categoryIndex={categoryIndex}
-              />
-            ))}
-          </div>
-          {/*<div className="absolute inset-0">*/}
-          {/*  <img src="https://c.tenor.com/i8dFWAyMu1MAAAAC/tenor.gif" width="460" height="166" />*/}
+          {item.isSpecial && <QuizSpecialRoundModal item={item} categoryIndex={categoryIndex} />}
+
+          {!item.isSpecial && (
+            <h2 className={cn('relative z-[1] inline-flex p-1 text-3xl font-bold')}>
+              {item.categoryName}
+            </h2>
+          )}
+
+          {!item.isSpecial && (
+            <div className="z-[1] flex items-center justify-between gap-4">
+              {item.options.map((item, index) => (
+                <QuizQuestion
+                  key={index}
+                  question={item}
+                  questionIndex={index}
+                  categoryIndex={categoryIndex}
+                />
+              ))}
+            </div>
+          )}
+
+          {/*<div className="absolute inset-0 flex w-full items-center justify-center">*/}
+          {/*<img*/}
+          {/*  src="https://media.tenor.com/VnZqP8XcaMsAAAAj/little-pills.gif"*/}
+          {/*  width="360"*/}
+          {/*  height="166"*/}
+          {/*/>*/}
+          {/*<img src="https://tenor.com/hAoVG3aHt5z.gif" width="460" height="166" />*/}
+          {/*<img src="https://c.tenor.com/i8dFWAyMu1MAAAAC/tenor.gif" width="460" height="166" />*/}
+          {/*<img src="/underwater_1.jpg" className="h-full w-full object-cover" />*/}
           {/*</div>*/}
         </div>
       ))}
@@ -70,16 +66,15 @@ const Categories = () => {
 export const QuizGame = () => {
   return (
     <QuizProvider>
-      {/*<Tree width={200} height={300} color="red" className="absolute top-0  z-[4] text-pink-500 " />*/}
       <IntermissionModal />
-      <SnowFall />
-      <div className="font-fuzzy bg-fur z-[2] flex min-h-screen flex-col justify-center bg-white px-12 text-center">
-        <div className="relative my-[20px] flex items-center justify-center gap-[20px]">
-          {/*<h1 className="relative p-8 text-4xl uppercase lg:text-6xl">Kategorijas</h1>*/}
-        </div>
+      <Link className="absolute left-2 top-2 cursor-pointer text-xl text-white underline" href="/">
+        Back
+      </Link>
+
+      <MainGameWrapper className="bg-main-game">
         <Categories />
         <QuizAnswers />
-      </div>
+      </MainGameWrapper>
     </QuizProvider>
   )
 }

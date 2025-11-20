@@ -1,5 +1,4 @@
-// import { GameEditor } from 'editPage/editor'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Editor } from '@/features/editor/components/editor'
 
 export default function Edit() {

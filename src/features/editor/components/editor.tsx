@@ -52,7 +52,7 @@ const EditorForm = ({ game }: { game?: IGame }) => {
     name: GAME_KEY
   })
 
-  const { fields, append, remove } = categories
+  const { fields, append, remove, swap, replace } = categories
 
   return (
     <FormProvider {...form}>
@@ -63,7 +63,12 @@ const EditorForm = ({ game }: { game?: IGame }) => {
         onSubmit={handleSubmit(downloadToFile)}
       >
         <div className="h-full py-4 lg:flex lg:items-start lg:gap-8">
-          <EditorNav append={append} activeTab={activeTab} setActiveTab={setActiveTab} />
+          <EditorNav
+            append={append}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            replace={replace}
+          />
 
           {fields?.length > 0 ? (
             <section

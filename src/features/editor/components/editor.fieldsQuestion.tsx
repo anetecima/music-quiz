@@ -43,15 +43,37 @@ const Questions = ({
   )
 }
 
-export const QuestionFields = ({
-  question,
-  categoryIndex,
-  index
-}: {
+type Props = {
   index: number
   categoryIndex: number
   question: IQuestion
-}) => {
+}
+
+const BonusSection = ({ question, categoryIndex, index }: Props) => {
+  const bonutQText = useWatch({
+    name: `gameObject[${categoryIndex}].options[${index}].bonusQuestion`
+  })
+
+  return (
+    <>
+      <div className="flex-1">
+        <EditorInputControl name="bonusQuestion" label="Bonus jautājums" />
+      </div>
+      <div className="flex-1">
+        <EditorPointsControl
+          isDisabled={!bonutQText}
+          label="papildus punkti"
+          name="extraPoints"
+          value={question.extraPoints}
+        />
+      </div>
+    </>
+  )
+}
+
+export const QuestionFields = (props: Props) => {
+  const { index, categoryIndex, question } = props
+
   return (
     <>
       <SectionContainer>
@@ -73,16 +95,7 @@ export const QuestionFields = ({
         </aside>
       </SectionContainer>
       <SectionContainer className="flex justify-between gap-2">
-        <div className="flex-1">
-          <EditorInputControl name="bonusQuestion" label="Bonus jautājums" />
-        </div>
-        <div className="flex-1">
-          <EditorPointsControl
-            label="papildus punkti"
-            name="extraPoints"
-            value={question.extraPoints}
-          />
-        </div>
+        <BonusSection {...props} />
       </SectionContainer>
     </>
   )

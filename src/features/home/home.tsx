@@ -1,25 +1,35 @@
-import { IGame } from '@/types/Types'
+import type { IGame } from '@/types/Types'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { ChangeEvent, PropsWithChildren, useEffect, useState } from 'react'
-import { deleteCollection } from '@/helpers/db/db.read'
+import { ChangeEvent, PropsWithChildren, useEffect, useState } from 'react'
+import { cn } from '@/helpers/cn'
+import { deleteCollection } from '@/helpers/db/db.write'
 import {
   getGameFromStorage,
   saveScoresToLocalStorage,
   updateStorage
 } from '@/helpers/helpers.storage'
+import { MainGameWrapper } from '@/components/container'
+
+const LinkButton = ({ children }: PropsWithChildren) => (
+  <div
+    className={cn(
+        'relative text-4xl hover:underline'
+      // 'relative cursor-pointer rounded-full p-12 text-2xl uppercase transition-colors',
+      // 'bg-white hover:bg-purple-400 hover:opacity-90'
+    )}
+  >
+    {children}
+  </div>
+)
 
 const LinkItem = ({
   children,
   href,
   onClick
 }: PropsWithChildren<{ href: string; onClick?: () => void }>) => (
-  <Link
-    href={href}
-    onClick={onClick}
-    className="cursor-pointer rounded-full bg-white p-14 text-3xl uppercase transition-all hover:bg-purple-400 hover:opacity-90"
-  >
-    {children}
+  <Link href={href} onClick={onClick}>
+    <LinkButton>{children}</LinkButton>
   </Link>
 )
 
@@ -57,7 +67,7 @@ const BackToGame = () => {
             })
 
             saveScoresToLocalStorage(null)
-            deleteCollection()
+            void deleteCollection()
           }
         }}
       >
@@ -71,7 +81,7 @@ const UploadGameButton = () => {
   const router = useRouter()
 
   return (
-    <div className="relative cursor-pointer rounded-full bg-white p-14 text-3xl uppercase transition-all hover:bg-purple-400 hover:opacity-90">
+    <LinkButton>
       Augšupielādēt failu un spēlēt
       <input
         className="absolute inset-0 z-[3] cursor-pointer opacity-0"
@@ -90,16 +100,16 @@ const UploadGameButton = () => {
           }
         }}
       />
-    </div>
+    </LinkButton>
   )
 }
 
 export const HomePage = () => (
-  <main className="bg-fur flex min-h-screen justify-center">
-    <div className="flex flex-wrap items-center justify-center gap-2 text-center lg:flex-nowrap">
+  <MainGameWrapper>
+    <div className="flex flex-wrap items-center justify-center gap-10 lg:flex-nowrap">
       <LinkItem href="/edit">Rediģēt vai izveidot spēles failu</LinkItem>
       <UploadGameButton />
       <BackToGame />
     </div>
-  </main>
+  </MainGameWrapper>
 )

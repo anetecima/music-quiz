@@ -1,9 +1,10 @@
 import type { IQuestion } from '@/types/Types'
 import IcoPlay from '@/assets/icons/play.svg'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import YouTube from 'react-youtube'
+import { cn } from '@/helpers/cn'
 import { writeToDb } from '@/helpers/db/db.write'
-import { useHandleMarkSong } from '@/features/quiz/quiz.store'
+import { useHandleMarkSong, useSelectRoundNum } from '@/features/quiz/quiz.store'
 import { Modal } from '@/components/modal'
 import { gameQuestions, QuestionType } from '../../../const'
 
@@ -66,8 +67,11 @@ const QuestionWithVariants = ({ question }: { question: IQuestion }) => {
         {question.quiz?.question}
       </div>
       <div
-        className="flex flex-col gap-2 text-left [&>*:nth-child(1)]:bg-green-500
-         [&>*:nth-child(2)]:bg-red-500 [&>*:nth-child(3)]:bg-yellow-500 [&>*:nth-child(4)]:bg-blue-500"
+        className={cn(
+          'flex flex-col gap-2 text-left',
+          '[&>*:nth-child(1)]:bg-green-500 [&>*:nth-child(2)]:bg-red-500',
+          '[&>*:nth-child(3)]:bg-yellow-500 [&>*:nth-child(4)]:bg-blue-500'
+        )}
       >
         {question.quiz?.variants?.map((option, index) => (
           <div key={index} className="rounded-lg p-2 text-2xl">
@@ -131,15 +135,19 @@ export const QuizQuestion = ({
   const [isOpened, setIsOpened] = useState(false)
   // Mark song as not active
   const markSongAsNotActive = useHandleMarkSong()
+  const roundNum = useSelectRoundNum()
   const { active, points } = question
 
   return (
     <>
       <div
         data-status={active ? 'active' : ''}
-        className="z-[2] flex h-12 w-12 items-center justify-center rounded-full bg-zinc-300 text-xl
-        transition data-[status=active]:cursor-pointer data-[status=active]:bg-[#f9c7ff]
-        data-[status=active]:hover:animate-spin"
+        className={cn(
+          'flex items-center justify-center',
+          'z-[2] h-12 w-12 rounded-full bg-zinc-300 text-xl font-bold',
+          'transition data-[status=active]:hover:animate-spin',
+          'data-[status=active]:cursor-pointer data-[status=active]:bg-[#f9c7ff]'
+        )}
         onClick={() => setIsOpened(true)}
       >
         {points}
@@ -154,7 +162,7 @@ export const QuizQuestion = ({
               markSongAsNotActive?.(categoryIndex, questionIndex)
 
               try {
-                await writeToDb(question)
+                await writeToDb({ roundNum: roundNum || 0, ...question })
               } catch (e) {
                 //
               }

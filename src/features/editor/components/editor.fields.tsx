@@ -1,4 +1,5 @@
 import type { IGame } from '@/types/Types'
+import { ToggleButton } from '@mui/material'
 import { Trash2 } from 'lucide-react'
 import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form'
 import { updateStorage } from '@/helpers/helpers.storage'
@@ -18,8 +19,9 @@ const CategoryNav = ({
   categoryIndex: number
   removeCategory: () => void
 }) => {
-  const { control } = useFormContext()
+  const { control, setValue } = useFormContext()
   const fields = useWatch({ control, name: `gameObject[${categoryIndex}].options` })
+  const isSpecial = useWatch({ control, name: `gameObject[${categoryIndex}].isSpecial` })
 
   return (
     <div className="flex flex-col gap-2">
@@ -46,6 +48,15 @@ const CategoryNav = ({
         >
           sortet pec punktiem
         </SimpleButton>
+        <ToggleButton
+          onClick={() => {
+            setValue(`gameObject[${categoryIndex}].isSpecial`, !isSpecial, { shouldTouch: true })
+          }}
+          value="false"
+          className="w-full rounded-none border border-blue-400 px-4 text-xs uppercase text-blue-500"
+        >
+          {!isSpecial ? 'Set is special' : 'Unset is special'}
+        </ToggleButton>
       </div>
     </div>
   )

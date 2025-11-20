@@ -58,8 +58,10 @@ export const EditorPointsControl = ({
   value,
   label,
   name,
-  checkEmpty = false
+  checkEmpty = false,
+  isDisabled = false
 }: {
+  isDisabled?: boolean
   checkEmpty?: boolean
   label: string
   value?: string | number
@@ -71,7 +73,11 @@ export const EditorPointsControl = ({
 
   return (
     <Controller
-      render={({ field }) => <PointsWrap checkEmpty={checkEmpty} {...field} label={label} />}
+      render={({ field }) => {
+        return (
+          <PointsWrap isDisabled={isDisabled} checkEmpty={checkEmpty} {...field} label={label} />
+        )
+      }}
       defaultValue={value}
       name={`gameObject[${cIndex}].options[${qIndex}].${name}`}
       control={control}
