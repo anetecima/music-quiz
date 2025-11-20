@@ -28,16 +28,29 @@ const AnswerModal = ({ step, setStep }: { step: number; setStep: (T: number | nu
   const roundQuestions = useSelectQuestions() || []
   const { answer, track, start, typeOfQuestion, points, categoryName } = roundQuestions[step]
 
+  function onPrevClick() {
+    step !== 0 && setStep(step - 1)
+  }
+
+  function onNextClick() {
+    if (step >= roundQuestions.length - 1) {
+      setStep(null)
+      resetHandler?.()
+    } else {
+      setStep(step + 1)
+    }
+  }
+
   return (
     <Modal className="flex justify-center" isOpened onClose={() => setStep(null)}>
       <div key={step} className="flex w-full flex-col justify-between gap-2">
-        <h2 className="text-[40px]">
+        <h2 className="text-3xl">
           {step + 1}. {categoryName || gameQuestions[typeOfQuestion]}{' '}
           <span className="rounded-lg bg-purple-200 p-2 text-purple-800">{points}</span>
         </h2>
 
         <div className="opacity-1 animate-[show_12s_0.5] text-purple-800 transition">
-          <p className="text-4xl">{answer}</p>
+          <p className="text-3xl">{answer}</p>
         </div>
 
         {track && <YouTubeWrapper track={track} start={start} />}
@@ -46,20 +59,14 @@ const AnswerModal = ({ step, setStep }: { step: number; setStep: (T: number | nu
           <button
             disabled={step === 0}
             className="rounded-lg bg-black p-5 text-2xl text-white disabled:opacity-30"
-            onClick={() => step !== 0 && setStep(step - 1)}
+            onClick={onPrevClick}
           >
             Iepriekšējā
           </button>
+
           <button
             className="rounded-lg bg-black p-5 text-2xl text-white disabled:opacity-30"
-            onClick={() => {
-              if (step >= roundQuestions.length - 1) {
-                setStep(null)
-                resetHandler?.()
-              } else {
-                setStep(step + 1)
-              }
-            }}
+            onClick={onNextClick}
           >
             {step >= roundQuestions.length - 1 ? 'Aizvērt' : 'Nākamā'}
           </button>
@@ -75,7 +82,7 @@ export const QuizAnswers = () => {
 
   return (
     <>
-      <div className="z-[2] mt-10 flex items-center justify-center">
+      <div className="z-[2] flex items-center justify-center">
         <ul className=" flex cursor-pointer items-center justify-center gap-2">
           {roundQuestions?.map((_, index) => (
             <li

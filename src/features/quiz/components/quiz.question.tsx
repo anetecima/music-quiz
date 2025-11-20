@@ -2,6 +2,7 @@ import type { IQuestion } from '@/types/Types'
 import IcoPlay from '@/assets/icons/play.svg'
 import React, { useEffect, useState } from 'react'
 import YouTube from 'react-youtube'
+import { cn } from '@/helpers/cn'
 import { writeToDb } from '@/helpers/db/db.write'
 import { useHandleMarkSong } from '@/features/quiz/quiz.store'
 import { Modal } from '@/components/modal'
@@ -133,36 +134,35 @@ export const QuizQuestion = ({
   const markSongAsNotActive = useHandleMarkSong()
   const { active, points } = question
 
+  async function onModalClose() {
+    setIsOpened(false)
+    // Not played yet
+    if (active) {
+      markSongAsNotActive?.(categoryIndex, questionIndex)
+
+      try {
+        await writeToDb(question)
+      } catch (e) {
+        //
+      }
+    }
+  }
+
   return (
     <>
       <div
         data-status={active ? 'active' : ''}
-        className="z-[2] flex h-12 w-12 items-center justify-center rounded-full bg-zinc-300 text-xl
-        transition data-[status=active]:cursor-pointer data-[status=active]:bg-[#f9c7ff]
-        data-[status=active]:hover:animate-spin"
+        className={cn(
+          'z-[2] flex h-12 w-12 items-center justify-center rounded-full bg-zinc-300 text-xl',
+          'data-[status=active]:cursor-pointer data-[status=active]:bg-[#f9c7ff] data-[status=active]:hover:animate-spin',
+          'transition'
+        )}
         onClick={() => setIsOpened(true)}
       >
         {points}
       </div>
 
-      {isOpened && (
-        <QuizQuestionModal
-          onClose={async () => {
-            setIsOpened(false)
-            // Not played yet
-            if (active) {
-              markSongAsNotActive?.(categoryIndex, questionIndex)
-
-              try {
-                await writeToDb(question)
-              } catch (e) {
-                //
-              }
-            }
-          }}
-          question={question}
-        />
-      )}
+      {isOpened && <QuizQuestionModal onClose={onModalClose} question={question} />}
     </>
   )
 }

@@ -19,6 +19,7 @@ const random = [
 function getRandomInt(max: number) {
   return Math.floor(Math.random() * max)
 }
+
 const YouTubeWrapper = ({ index }: { index: number }) => {
   const { code, start } = random[index]
 

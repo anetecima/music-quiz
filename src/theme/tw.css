@@ -10,7 +10,9 @@
 
     .bg-fur {
         /*@apply bg-[url('/furOptimized.jpg')] bg-cover*/
-        @apply bg-[url('/snake.jpg')] bg-cover
+        /*@apply bg-[url('/snake.jpg')] bg-cover*/
+        @apply bg-[url('/ilze37.jpeg')];
+        background-size: 500px auto;
         /*@apply bg-[url('/halloween2.webp')] bg-cover*/
     }
 
