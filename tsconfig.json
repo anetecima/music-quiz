@@ -19,6 +19,7 @@
       "@/features/*": ["./features/*"],
       "@/components/*": ["./components/*"],
       "@/helpers/*": ["./helpers/*"],
+      "@/hooks/*": ["./hooks/*"],
       "@/types/*": ["./types/*"],
       "@/assets/*": ["../public/*"]
     },

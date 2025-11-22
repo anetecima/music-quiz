@@ -21,15 +21,8 @@ export default function MyDocument({ emotionStyleTags }: MyDocumentProps) {
   return (
     <Html lang="en">
       <Head>
-        {/* PWA primary color */}
         <meta name="theme-color" content={themeMui.palette.primary.main} />
         <meta name="emotion-insertion-point" content="" />
-        {/*<link rel="preconnect" href="https://fonts.googleapis.com" />*/}
-        {/*<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />*/}
-        {/*<link*/}
-        {/*  href="https://fonts.googleapis.com/css2?family=Rubik+Beastly&display=swap"*/}
-        {/*  rel="stylesheet"*/}
-        {/*/>*/}
         {emotionStyleTags}
       </Head>
       <body>
