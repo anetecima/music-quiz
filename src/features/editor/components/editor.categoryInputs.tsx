@@ -4,7 +4,7 @@ import {
   EditorInputControl,
   EditorPointsControl,
   EditorSelectControl
-} from '@/features/editor/components/editor.controls'
+} from '@/features/editor/components/editor.commonControls'
 import { SectionContainer } from '@/components/ux/SectionContainer'
 import { QuestionType } from '../../../const'
 
@@ -32,18 +32,19 @@ const Questions = ({
       <EditorInputControl value={question.quiz?.question} label="Jautajums" name="quiz.question" />
       <EditorInputControl value={question.answer} label="Pareiza atbilde" name="answer" />
       {[0, 1, 2, 3].map(val => (
-        <EditorInputControl
-          key={val}
-          value={question?.quiz?.variants?.[val] || ''}
-          label={`Variant ${val + 1}`}
-          name={`quiz.variants[${val}]`}
-        />
+        <div key={val}>
+          <EditorInputControl
+            value={question?.quiz?.variants?.[val] || ''}
+            label={`Variant ${val + 1}`}
+            name={`quiz.variants[${val}]`}
+          />
+        </div>
       ))}
     </div>
   )
 }
 
-export const QuestionFields = ({
+export const EditorCategoryInputs = ({
   question,
   categoryIndex,
   index
@@ -56,11 +57,16 @@ export const QuestionFields = ({
     <>
       <SectionContainer>
         <aside className="flex flex-1 flex-col gap-4">
-          <EditorSelectControl
-            value={question.typeOfQuestion}
-            name="typeOfQuestion"
-            label="Kas jauzmin"
-          />
+          <div className="w-full">
+            <EditorSelectControl
+              value={question.typeOfQuestion}
+              name="typeOfQuestion"
+              label="Kas jauzmin"
+            />
+          </div>
+
+          <Questions question={question} categoryIndex={categoryIndex} index={index} />
+
           <EditorPointsControl
             checkEmpty
             value={question.points}
@@ -68,21 +74,16 @@ export const QuestionFields = ({
             label="punkti par jautājumu"
           />
         </aside>
-        <aside className="flex-1">
-          <Questions question={question} categoryIndex={categoryIndex} index={index} />
-        </aside>
       </SectionContainer>
-      <SectionContainer className="flex justify-between gap-2">
-        <div className="flex-1">
-          <EditorInputControl name="bonusQuestion" label="Bonus jautājums" />
-        </div>
-        <div className="flex-1">
-          <EditorPointsControl
-            label="papildus punkti"
-            name="extraPoints"
-            value={question.extraPoints}
-          />
-        </div>
+
+      <SectionContainer>
+        <EditorInputControl name="bonusQuestion" label="Bonus jautājums" />
+        <EditorPointsControl
+          className="w-full"
+          label="papildus punkti"
+          name="extraPoints"
+          value={question.extraPoints}
+        />
       </SectionContainer>
     </>
   )

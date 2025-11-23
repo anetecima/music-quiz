@@ -1,25 +1,17 @@
 import type { IGame } from '@/types/Types'
 // import Tree from '@/assets/icons/tree.svg'
-import { useEffect, useState } from 'react'
 import Snowfall from 'react-snowfall'
 import { cn } from '@/helpers/cn'
+import { useIsClient } from '@/hooks/useIsClient'
 import { IntermissionModal } from '@/features/quiz/components/quiz.intermission'
 import { QuizProvider, useSelectGameObj } from '../quiz.store'
 import { QuizAnswers } from './quiz.answers'
 import { QuizQuestion } from './quiz.question'
 
 const SnowFall = () => {
-  const [isClient, setIsClient] = useState(false)
+  const isClient = useIsClient()
 
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
-
-  if (!isClient) {
-    return null
-  }
-
-  return <Snowfall />
+  return isClient ? <Snowfall /> : null
 }
 
 const Categories = () => {
@@ -35,10 +27,9 @@ const Categories = () => {
         <div
           key={categoryIndex}
           className={cn(
-            'relative border-4 border-pink-200',
+            'relative rounded-md border-4 border-pink-200 bg-white shadow-xl',
             'flex flex-col justify-between gap-2',
-            'max-h-[180px] min-h-[100px] min-w-[30%]',
-            'rounded-md bg-white shadow-xl'
+            'max-h-[180px] min-h-[100px] min-w-[30%]'
           )}
         >
           <div className="absolute top-0 flex w-full translate-y-[-50%] justify-center">
@@ -74,10 +65,10 @@ export const QuizGame = () => {
 
       <section className="font-fuzzy bg-fur relative  h-screen">
         <div className="flex h-full flex-col justify-between p-5">
-          <div className="relative  grow items-center justify-center overflow-auto pt-4">
+          <div className="relative grow items-center justify-center overflow-auto pt-4">
             <Categories />
             <div className="absolute left-0 top-0 z-[1] h-full w-full">
-              <div className="px-22 h-full w-full ">
+              <div className="px-22 h-full w-full">
                 <SnowFall />
               </div>
             </div>

@@ -4,6 +4,7 @@ import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import React, { PropsWithChildren } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'
+import { cn } from '@/helpers/cn'
 import { updateStorage } from '@/helpers/helpers.storage'
 import { GAME_KEY } from '@/features/editor/editor.const'
 import { SimpleButton } from '@/components/ux/Button'
@@ -28,53 +29,60 @@ const NavBtn = ({ children, ...props }: PropsWithChildren<any>) => {
 export const EditorNav = ({
   activeTab,
   setActiveTab,
+  isVertical,
   append
 }: {
   activeTab: number
   setActiveTab: (T: number) => void
+  isVertical?: boolean
   append: any
 }) => {
   const router = useRouter()
   const { getValues } = useFormContext()
   const categories = getValues()[GAME_KEY] as IGameCategory[]
 
-  return (
-    <nav className="w-[300px] pr-2">
-      <div
-        onClick={() => {
-          updateStorage(getValues())
-          router.push('/')
-        }}
-      >
-        <NavBtn>Back</NavBtn>
-      </div>
+  function onBackBtnClick() {
+    updateStorage(getValues())
+    router.push('/')
+  }
 
-      <div className="my-2">
+  function onCategoryAdd() {
+    append(newCategory())
+    setActiveTab(categories.length)
+  }
+
+  return (
+    <nav className={cn(isVertical ? 'w-full' : 'min-w-[250px]')}>
+      <NavBtn onClick={onBackBtnClick}>Atpakal uz galveno</NavBtn>
+
+      {/*<h3 className="mx-auto flex justify-center pb-2 text-lg font-bold text-cta">
+        Saraksts ar kategorijam
+      </h3>*/}
+
+      <div>
         {categories?.length > 0 && (
           <Tabs
             classes={{ scrollableY: 'max-h-[55vh]' }}
             variant="scrollable"
+            orientation={isVertical ? 'horizontal' : 'vertical'}
             value={activeTab}
-            orientation="vertical"
             onChange={(_e, val) => setActiveTab(val)}
           >
             {categories?.map((category, categoryIndex) => (
-              <Tab key={categoryIndex} label={<MuiTabLabel categoryIndex={categoryIndex} />} />
+              <Tab
+                key={categoryIndex}
+                className={'flex items-start justify-start'}
+                label={<MuiTabLabel categoryIndex={categoryIndex} />}
+              />
             ))}
           </Tabs>
         )}
       </div>
 
-      <NavBtn
-        onClick={() => {
-          append(newCategory())
-          setActiveTab(categories.length)
-        }}
-      >
-        Pievienot kategoriju
-      </NavBtn>
-
-      {categories?.length > 0 && <NavBtn type="submit">Lejupielādēt spēles failu</NavBtn>}
+      <div className={cn('flex', isVertical ? 'mt-2 flex-row gap-8' : 'flex-col ')}>
+        <NavBtn onClick={onCategoryAdd}>Pievienot kategoriju</NavBtn>
+        {categories?.length > 0 && <NavBtn type="submit">Lejupielādēt spēles failu</NavBtn>}
+      </div>
     </nav>
   )
 }

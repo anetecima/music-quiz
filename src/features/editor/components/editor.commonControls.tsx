@@ -16,17 +16,18 @@ export const EditorInputControl = ({
 
   return (
     <Controller
+      defaultValue={value}
+      name={`gameObject[${cIndex}].options[${qIndex}].${name}`}
+      control={control}
       render={({ field }) => (
         <QuizInput
+          fullWidth={true}
           error={props.required && !field.value}
           label={label}
           inputProps={props}
           {...field}
         />
       )}
-      defaultValue={value}
-      name={`gameObject[${cIndex}].options[${qIndex}].${name}`}
-      control={control}
     />
   )
 }
@@ -56,14 +57,15 @@ export const EditorSelectControl = ({
 
 export const EditorPointsControl = ({
   value,
-  label,
   name,
-  checkEmpty = false
+  checkEmpty = false,
+  ...props
 }: {
-  checkEmpty?: boolean
-  label: string
-  value?: string | number
   name: string
+  value?: string | number
+  checkEmpty?: boolean
+  className?: string
+  label: string
 }) => {
   const { control } = useFormContext()
   const cIndex = useSelectCategoryIndex()
@@ -71,7 +73,7 @@ export const EditorPointsControl = ({
 
   return (
     <Controller
-      render={({ field }) => <PointsWrap checkEmpty={checkEmpty} {...field} label={label} />}
+      render={({ field }) => <PointsWrap checkEmpty={checkEmpty} {...field} {...props} />}
       defaultValue={value}
       name={`gameObject[${cIndex}].options[${qIndex}].${name}`}
       control={control}

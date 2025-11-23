@@ -11,7 +11,7 @@ import {
   useWatch
 } from 'react-hook-form'
 import YouTube from 'react-youtube'
-import { EditorInputControl } from '@/features/editor/components/editor.controls'
+import { EditorInputControl } from '@/features/editor/components/editor.commonControls'
 import { useSelectCategoryIndex, useSelectQuestionIndex } from '@/features/editor/editor.provider'
 import { SimpleButton } from '@/components/ux/Button'
 import { QuizInput } from '@/components/ux/Input'
@@ -90,10 +90,11 @@ const YouTubeWrap = () => {
   )
 }
 
-export const YouTubeRelatedStuff = ({ question }: { question: IQuestion }) => {
+export const EditorCategoryYoutube = ({ question }: { question: IQuestion }) => {
   const { control } = useFormContext()
   const cIndex = useSelectCategoryIndex()
   const qIndex = useSelectQuestionIndex()
+
   const onFormatCode = (
     field: ControllerRenderProps<FieldValues, `gameObject[${number}].options[${number}].track`>
   ) => {
@@ -114,7 +115,7 @@ export const YouTubeRelatedStuff = ({ question }: { question: IQuestion }) => {
             <div className="flex">
               <QuizInput className="grow" label="youtube track kods" {...field} />
               <SimpleButton
-                className="h-full shrink-0 rounded-none bg-cta px-4 text-sm font-semibold text-white"
+                className=" rounded-none bg-cta px-4 text-sm font-semibold text-white"
                 onClick={() => onFormatCode(field)}
               >
                 Format
@@ -133,8 +134,6 @@ export const YouTubeRelatedStuff = ({ question }: { question: IQuestion }) => {
         />
 
         <EditorInputControl required name="length" value={15} label="ilgums" type="number" />
-
-        {/*<EditorPointsControl checkEmpty name="length" value={15} label="ilgums" />*/}
       </aside>
 
       <aside className="flex-1">

@@ -13,7 +13,7 @@ type IScores = { name: string; total: number; points: (number | null)[] }[]
 const AnswerBtn = ({ children, ...props }: { children: ReactNode } & any) => {
   return (
     <SimpleButton
-      className="w-full bg-blue-500 px-4 text-white shadow disabled:opacity-20 lg:h-10"
+      className="w-full bg-blue-500 px-4 text-white  disabled:opacity-20 lg:h-10"
       {...props}
     >
       {children}
@@ -136,14 +136,14 @@ function Page({ questions, players }: { questions: IDbQuestion[]; players: Playe
           <SimpleButton
             disabled={playerIndex === 0}
             onClick={prevPlayerClick}
-            className="h-12 bg-purple-400 px-4 text-white shadow disabled:opacity-30"
+            className="h-12 bg-purple-400 px-4 text-white disabled:opacity-30"
           >
             Prev
           </SimpleButton>
           <SimpleButton
             disabled={playerIndex === players.length - 1}
             onClick={nextPlayerClick}
-            className="h-12 bg-purple-400 px-4 text-white shadow disabled:opacity-30"
+            className="h-12 bg-purple-400 px-4 text-white disabled:opacity-30"
           >
             Next
           </SimpleButton>
