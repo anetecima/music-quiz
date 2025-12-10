@@ -39,3 +39,23 @@ export function onGameJsonUpload(file: File, cb: any) {
     }
   }
 }
+
+export function onImgUpload(file: File) {
+  if (file.size > 3000000) {
+    alert('File is too large')
+  }
+
+  const reader = new FileReader()
+  reader.readAsDataURL(file)
+
+  reader.onload = () => {
+    const KEY = 'myQuizImg'
+    localStorage.setItem(KEY, reader.result as string)
+    window.location.reload()
+  }
+}
+
+export function onImgRemove() {
+  const KEY = 'myQuizImg'
+  localStorage.removeItem(KEY)
+}

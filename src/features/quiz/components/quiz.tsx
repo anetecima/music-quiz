@@ -2,6 +2,7 @@ import type { IGame } from '@/types/Types'
 // import Tree from '@/assets/icons/tree.svg'
 import Snowfall from 'react-snowfall'
 import { cn } from '@/helpers/cn'
+import { getImgFromLocalStorage } from '@/helpers/helpers.storage'
 import { useIsClient } from '@/hooks/useIsClient'
 import { IntermissionModal } from '@/features/quiz/components/quiz.intermission'
 import { QuizProvider, useSelectGameObj } from '../quiz.store'
@@ -58,12 +59,14 @@ const Categories = () => {
 }
 
 export const QuizGame = () => {
+  const style = getImgFromLocalStorage()
+
   return (
     <QuizProvider>
       {/*<Tree width={200} height={300} color="red" className="absolute top-0  z-[4] text-pink-500 " />*/}
       <IntermissionModal />
 
-      <section className="font-fuzzy bg-fur relative  h-screen">
+      <section className="font-fuzzy bg-fur relative h-screen" style={style}>
         <div className="flex h-full flex-col justify-between p-5">
           <div className="relative grow items-center justify-center overflow-auto pt-4">
             <Categories />

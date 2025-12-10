@@ -1,4 +1,5 @@
 import { IGame } from '@/types/Types'
+import { useIsClient } from '@/hooks/useIsClient'
 
 const KEY = 'gameObject'
 
@@ -42,4 +43,10 @@ export const readScoresFromLocalStorage = () => {
   } catch (e) {
     console.warn('Error: Local storage get', KEY)
   }
+}
+
+export const getImgFromLocalStorage = () => {
+  const isClient = useIsClient()
+  const image = typeof window === 'object' ? localStorage.getItem('myQuizImg') : null
+  return isClient && image ? { backgroundImage: 'url(' + image + ')' } : {}
 }

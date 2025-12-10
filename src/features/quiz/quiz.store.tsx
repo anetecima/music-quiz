@@ -11,7 +11,7 @@ export const useInitGameStore = () => {
     setQuizGame(gameObj)
   }, [])
 
-  if (!quizGame?.gameObject.length) {
+  if (!quizGame?.gameObject?.length) {
     return null
   }
 
