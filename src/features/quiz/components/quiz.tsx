@@ -66,7 +66,7 @@ export const QuizGame = () => {
       {/*<Tree width={200} height={300} color="red" className="absolute top-0  z-[4] text-pink-500 " />*/}
       <IntermissionModal />
 
-      <section className="font-fuzzy bg-fur relative h-screen" style={style}>
+      <section className="font-fuzzy bg-fur relative h-screen" style={style || {}}>
         <div className="flex h-full flex-col justify-between p-5">
           <div className="relative grow items-center justify-center overflow-auto pt-4">
             <Categories />

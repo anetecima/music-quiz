@@ -48,5 +48,5 @@ export const readScoresFromLocalStorage = () => {
 export const getImgFromLocalStorage = () => {
   const isClient = useIsClient()
   const image = typeof window === 'object' ? localStorage.getItem('myQuizImg') : null
-  return isClient && image ? { backgroundImage: 'url(' + image + ')' } : {}
+  return isClient && image ? { backgroundImage: 'url(' + image + ')' } : null
 }

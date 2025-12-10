@@ -58,4 +58,5 @@ export function onImgUpload(file: File) {
 export function onImgRemove() {
   const KEY = 'myQuizImg'
   localStorage.removeItem(KEY)
+  window.location.reload()
 }

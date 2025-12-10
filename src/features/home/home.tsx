@@ -57,10 +57,10 @@ export const HomePage = () => {
     }
   }
 
-  const style = getImgFromLocalStorage()
+  const bgImageStyle = getImgFromLocalStorage()
 
   return (
-    <main className="bg-fur flex min-h-screen justify-center" style={style}>
+    <main className="bg-fur flex min-h-screen justify-center" style={bgImageStyle || {}}>
       <div className="container flex flex-col items-center  justify-center gap-4 text-center md:flex-row">
         <LinkItem href="/edit">Rediģēt vai izveidot spēles failu</LinkItem>
         <Item>
@@ -80,7 +80,7 @@ export const HomePage = () => {
             className="absolute inset-0 z-[3] cursor-pointer opacity-0"
           />
         </Item>
-        <Item onClick={onImgRemove}>Izdest Attelu</Item>
+        {!!bgImageStyle && <Item onClick={onImgRemove}>Izdest Attelu</Item>}
         {hasGame && (
           <>
             <LinkItem href="/quiz">Turpināt spēli</LinkItem>
