@@ -1,8 +1,9 @@
 import type { IGameCategory } from '@/types/Types'
+import type { PropsWithChildren } from 'react'
 import { useRouter } from 'next/router'
 import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
-import React, { PropsWithChildren } from 'react'
+import { ChevronDown, ChevronUp } from 'lucide-react'
 import { useFormContext, useWatch } from 'react-hook-form'
 import { cn } from '@/helpers/cn'
 import { updateStorage } from '@/helpers/helpers.storage'
@@ -10,9 +11,42 @@ import { GAME_KEY } from '@/features/editor/editor.const'
 import { SimpleButton } from '@/components/ux/Button'
 import { newCategory } from '../editor.utils'
 
-const MuiTabLabel = ({ categoryIndex }: { categoryIndex: number }) => {
+const NavItem = ({ categoryIndex, move }: { categoryIndex: number; move: any }) => {
   const categoryName = useWatch({ name: `gameObject.${categoryIndex}.categoryName` })
-  return <h4>{categoryName || 'Empty'}</h4>
+  const { getValues } = useFormContext()
+  const categories = getValues()[GAME_KEY] as IGameCategory[]
+
+  function onDownClick() {
+    move(categoryIndex, categoryIndex - 1)
+  }
+
+  function onUpClick() {
+    move(categoryIndex, categoryIndex + 1)
+  }
+
+  return (
+    <div className="flex items-center gap-2">
+      <div className="flex">
+        <button
+          type="button"
+          className={cn(categoryIndex === categories.length - 1 && ' text-gray-200')}
+          disabled={categoryIndex === categories.length - 1}
+          onClick={onUpClick}
+        >
+          <ChevronDown width={18} />
+        </button>
+        <button
+          type="button"
+          className={cn(categoryIndex === 0 && ' text-gray-200')}
+          disabled={categoryIndex === 0}
+          onClick={onDownClick}
+        >
+          <ChevronUp width={18} />
+        </button>
+      </div>
+      <h4>{categoryName || 'Empty'}</h4>
+    </div>
+  )
 }
 
 const NavBtn = ({ children, ...props }: PropsWithChildren<any>) => {
@@ -30,12 +64,14 @@ export const EditorNav = ({
   activeTab,
   setActiveTab,
   isVertical,
-  append
+  append,
+  move
 }: {
   activeTab: number
   setActiveTab: (T: number) => void
   isVertical?: boolean
   append: any
+  move: any
 }) => {
   const router = useRouter()
   const { getValues } = useFormContext()
@@ -55,10 +91,6 @@ export const EditorNav = ({
     <nav className={cn(isVertical ? 'w-full' : 'min-w-[250px]')}>
       <NavBtn onClick={onBackBtnClick}>Atpakal uz galveno</NavBtn>
 
-      {/*<h3 className="mx-auto flex justify-center pb-2 text-lg font-bold text-cta">
-        Saraksts ar kategorijam
-      </h3>*/}
-
       <div>
         {categories?.length > 0 && (
           <Tabs
@@ -72,7 +104,7 @@ export const EditorNav = ({
               <Tab
                 key={categoryIndex}
                 className={'flex items-start justify-start'}
-                label={<MuiTabLabel categoryIndex={categoryIndex} />}
+                label={<NavItem categoryIndex={categoryIndex} move={move} />}
               />
             ))}
           </Tabs>

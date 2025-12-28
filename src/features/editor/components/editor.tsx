@@ -44,7 +44,7 @@ const EditorForm = ({ game }: { game?: IGame }) => {
     name: GAME_KEY
   })
 
-  const { fields, append, remove } = categories
+  const { fields, append, remove, move } = categories
 
   function onFormBlur() {
     updateStorage(getValues())
@@ -65,6 +65,7 @@ const EditorForm = ({ game }: { game?: IGame }) => {
         <div className={cn('flex flex-col gap-8 lg:items-start', isVertical ? '' : 'lg:flex-row ')}>
           <EditorNav
             append={append}
+            move={move}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
             isVertical={isVertical}
