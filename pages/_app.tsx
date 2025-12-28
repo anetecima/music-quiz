@@ -23,7 +23,7 @@ const CustomApp = ({ Component, pageProps, emotionCache = clientSideEmotionCache
       <meta name="robots" content="noIndex, noFollow" />
     </Head>
     <main>
-      <ThemeProvider defaultTheme="miaaant" enableColorScheme themes={['light', 'mint']}>
+      <ThemeProvider defaultTheme="light" enableColorScheme themes={['light', 'mint']}>
         <MuiProvider theme={themeMui}>
           <CssBaseline />
           <Component {...pageProps} />

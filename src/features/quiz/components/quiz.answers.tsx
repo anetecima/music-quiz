@@ -44,13 +44,13 @@ const AnswerModal = ({ step, setStep }: { step: number; setStep: (T: number | nu
 
   return (
     <Modal className="flex justify-center" isOpened onClose={() => setStep(null)}>
-      <div key={step} className="flex w-full flex-col justify-between gap-2">
+      <div key={step} className="flex w-full flex-col justify-between gap-3">
         <h2 className="text-3xl">
           {step + 1}. {categoryName || gameQuestions[typeOfQuestion]}{' '}
-          <span className="rounded-lg bg-purple-200 p-2 text-purple-800">{points}</span>
+          <span className="bg-game-100 rounded-lg p-2 ">{points}</span>
         </h2>
 
-        <div className="opacity-1 animate-[show_12s_0.5] text-purple-800 transition">
+        <div className="opacity-1 animate-[show_12s_0.5]  underline transition">
           <p className="text-3xl">{answer}</p>
         </div>
 
@@ -89,13 +89,20 @@ export const QuizAnswers = () => {
             <li
               key={index}
               className={cn(
+                'relative',
                 'flex h-12 w-12 items-center justify-center rounded-full text-4xl',
-                !!roundQuestions?.[index] ? 'bg-game-answer' : 'bg-[grey]'
+                roundQuestions?.[index] ? 'bg-game-200' : 'bg-[grey]'
               )}
               onClick={() => {
                 setStep(index)
               }}
             >
+              <img
+                alt="partyHat"
+                src="/party-hat.png"
+                width={52}
+                className="absolute left-[11px] top-[-37px] rotate-[22deg]"
+              />
               {index + 1}
             </li>
           ))}

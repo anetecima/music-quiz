@@ -8,8 +8,7 @@ module.exports = {
           100: 'var(--game-category-bg)',
           200: 'var(--game-button-bg)',
           300: 'var(--game-question-modal-timer)',
-          modal: 'var(--game-question-modal-bg)',
-          answer: 'var(--game-answer-btn-bg)'
+          modal: 'var(--game-question-modal-bg)'
         },
         cta: 'rgb(182 127 178)',
         border: {

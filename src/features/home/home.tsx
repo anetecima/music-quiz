@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { ChangeEvent, ComponentProps, PropsWithChildren, useEffect, useState } from 'react'
+import { ChangeEvent, ComponentProps, PropsWithChildren, useEffect, useState } from 'react'
 import { cn } from '@/helpers/cn'
 import { getGameFromStorage, getImgFromLocalStorage } from '@/helpers/helpers.storage'
 import {
@@ -9,6 +9,7 @@ import {
   onImgUpload,
   onStartFromScratch
 } from '@/features/home/home.helpers'
+import { ThemeModeButton } from '@/components/themeProvider'
 
 const Item = ({ className = '', ...props }: PropsWithChildren<ComponentProps<'div'>>) => {
   return (
@@ -17,7 +18,7 @@ const Item = ({ className = '', ...props }: PropsWithChildren<ComponentProps<'di
       className={cn(
         className,
         'relative',
-        ' bg-white hover:bg-purple-400 hover:opacity-90',
+        ' hover:bg-game-200 bg-game-100 hover:opacity-90',
         'cursor-pointer rounded-md p-5 text-xl uppercase transition-all'
       )}
     />
@@ -61,6 +62,8 @@ export const HomePage = () => {
 
   return (
     <main className="bg-fur flex min-h-screen justify-center" style={bgImageStyle || {}}>
+      <ThemeModeButton className="left-2 " />
+
       <div className="container flex flex-col items-center  justify-center gap-4 text-center md:flex-row">
         <LinkItem href="/edit">Rediģēt vai izveidot spēles failu</LinkItem>
         <Item>

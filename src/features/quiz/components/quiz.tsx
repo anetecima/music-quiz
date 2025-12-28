@@ -5,6 +5,8 @@ import { cn } from '@/helpers/cn'
 import { getImgFromLocalStorage } from '@/helpers/helpers.storage'
 import { useIsClient } from '@/hooks/useIsClient'
 import { IntermissionModal } from '@/features/quiz/components/quiz.intermission'
+import { HomeButton } from '@/components/homeButton'
+import { ThemeModeButton } from '@/components/themeProvider'
 import { QuizProvider, useSelectGameObj } from '../quiz.store'
 import { QuizAnswers } from './quiz.answers'
 import { QuizQuestion } from './quiz.question'
@@ -64,6 +66,9 @@ export const QuizGame = () => {
   return (
     <QuizProvider>
       {/*<Tree width={200} height={300} color="red" className="absolute top-0  z-[4] text-pink-500 " />*/}
+
+      <HomeButton />
+      <ThemeModeButton className="left-16" />
       <IntermissionModal />
 
       <section className="font-fuzzy bg-fur relative h-screen" style={style || {}}>

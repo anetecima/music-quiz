@@ -3,27 +3,26 @@
 @tailwind utilities;
 
 body {
-  color: #000;
+  color: #0b0a0a;
 }
 
 @layer base {
   :root {
     --game-button-bg: #f9c7ff;
     --game-category-bg: rgb(251 207 232);
-    --game-question-modal-bg: #f9c7ff;
-    --game-question-modal-timer: #8b5cf6;
-    --game-answer-btn-bg: #f9c7ff;
+    --game-question-modal-bg: #f2adfa;
+    --game-question-modal-timer: #f9c7ff;
   }
 
   html[data-theme='mint'] {
     body {
       color: #fff;
     }
-    --game-button-bg: red;
-    --game-category-bg: yellow;
-    --game-question-modal-bg: blue;
-    --game-question-modal-timer: green;
-    --game-answer-btn-bg: green;
+
+    --game-button-bg: #d422e7;
+    --game-category-bg: #c514d8;
+    --game-question-modal-bg: #a70ebd;
+    --game-question-modal-timer: #d422e7;
   }
 }
 
@@ -34,9 +33,9 @@ body {
   }
 
   .bg-fur {
-    /*@apply bg-[url('/furOptimized.jpg')] bg-cover*/
-    /*@apply bg-[url('/snake.jpg')] bg-cover*/
-    @apply bg-[url('/ilze37.jpeg')];
+    @apply bg-[url('/furOptimized.jpg')];
+    /*@apply bg-[url('/snake.jpg')] bg-cover;*/
+    /*@apply bg-[url('/ilze37.jpeg')];*/
     background-size: 500px auto;
     /*@apply bg-[url('/halloween2.webp')] bg-cover*/
   }

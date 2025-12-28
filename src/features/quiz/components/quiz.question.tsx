@@ -53,7 +53,7 @@ const QuestionAsSong = ({ onClose, question }: { question: IQuestion; onClose: (
         </div>
       ) : (
         <div className="cursor-pointer" onClick={() => setIsPlaying(true)}>
-          <CirclePlay width={400} height={400} className="text-game-300" />
+          <CirclePlay width={400} height={400} className="" />
         </div>
       )}
     </div>
@@ -102,7 +102,7 @@ const QuizQuestionModal = ({ onClose, question }: { question: IQuestion; onClose
   return (
     <Modal isOpened className="flex items-center justify-center" onClose={onClose}>
       <div>
-        <h2 className="text-game-300 text-center text-2xl lg:text-7xl">
+        <h2 className=" text-center text-2xl lg:text-7xl">
           {gameQuestions[typeOfQuestion] || typeOfQuestion}
         </h2>
         {question.typeOfQuestion === QuestionType.quiz ? (
