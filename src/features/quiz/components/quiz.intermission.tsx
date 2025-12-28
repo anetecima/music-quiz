@@ -89,7 +89,7 @@ export const IntermissionModal = () => {
       <button
         className={cn(
           'absolute right-2 top-2 z-[2]',
-          'h-12 w-12 rounded-md border-2 border-purple-400 text-4xl text-purple-500',
+          'text-game-200 border-game-100 h-12 w-12 rounded-md border-2 text-4xl',
           'flex items-center justify-center'
         )}
         onClick={onOpen}

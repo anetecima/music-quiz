@@ -1,5 +1,5 @@
 import type { IQuestion } from '@/types/Types'
-import IcoPlay from '@/assets/icons/play.svg'
+import { CirclePlay } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import YouTube from 'react-youtube'
 import { cn } from '@/helpers/cn'
@@ -22,7 +22,7 @@ const Timer = ({ length }: { length: number }) => {
   }, [])
 
   return (
-    <div className="flex h-96 w-96 items-center justify-center rounded-full bg-violet-500 text-9xl text-[150px] text-white">
+    <div className="bg-game-300 flex h-96 w-96 items-center justify-center rounded-full text-9xl text-[150px] text-white">
       {timer}
     </div>
   )
@@ -53,7 +53,7 @@ const QuestionAsSong = ({ onClose, question }: { question: IQuestion; onClose: (
         </div>
       ) : (
         <div className="cursor-pointer" onClick={() => setIsPlaying(true)}>
-          <IcoPlay width={400} height={400} />
+          <CirclePlay width={400} height={400} className="text-game-300" />
         </div>
       )}
     </div>
@@ -102,7 +102,7 @@ const QuizQuestionModal = ({ onClose, question }: { question: IQuestion; onClose
   return (
     <Modal isOpened className="flex items-center justify-center" onClose={onClose}>
       <div>
-        <h2 className="text-center text-2xl lg:text-7xl">
+        <h2 className="text-game-300 text-center text-2xl lg:text-7xl">
           {gameQuestions[typeOfQuestion] || typeOfQuestion}
         </h2>
         {question.typeOfQuestion === QuestionType.quiz ? (
@@ -152,17 +152,18 @@ export const QuizQuestion = ({
 
   return (
     <>
-      <div
+      <button
         data-status={active ? 'active' : ''}
+        onClick={() => setIsOpened(true)}
         className={cn(
-          'z-[2] flex h-12 w-12 items-center justify-center rounded-full bg-zinc-300 text-xl',
-          'data-[status=active]:cursor-pointer data-[status=active]:bg-[#f9c7ff] data-[status=active]:hover:animate-spin',
+          'z-[2] flex h-12 w-12 items-center justify-center rounded-full  text-xl',
+          'bg-zinc-300',
+          'data-[status=active]:bg-game-200 data-[status=active]:cursor-pointer data-[status=active]:hover:animate-spin',
           'transition'
         )}
-        onClick={() => setIsOpened(true)}
       >
         {points}
-      </div>
+      </button>
 
       {isOpened && <QuizQuestionModal onClose={onModalClose} question={question} />}
     </>

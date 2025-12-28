@@ -3,7 +3,8 @@ import Head from 'next/head'
 import 'theme/tw.css'
 import { CacheProvider, EmotionCache } from '@emotion/react'
 import CssBaseline from '@mui/material/CssBaseline'
-import { ThemeProvider } from '@mui/material/styles'
+import { ThemeProvider as MuiProvider } from '@mui/material/styles'
+import { ThemeProvider } from '@/components/themeProvider'
 import createEmotionCache from '../src/createEmotionCache'
 import themeMui from '../src/theme/theme.mui'
 
@@ -17,19 +18,16 @@ export interface MyAppProps extends AppProps {
 const CustomApp = ({ Component, pageProps, emotionCache = clientSideEmotionCache }: MyAppProps) => (
   <CacheProvider value={emotionCache}>
     <Head>
-      {/*<meta*/}
-      {/*  name="viewport"*/}
-      {/*  content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no"*/}
-      {/*/>*/}
       <meta charSet="utf-8" />
       <title>WELCOME TO THE GAME!!!</title>
       <meta name="robots" content="noIndex, noFollow" />
     </Head>
-
     <main>
-      <ThemeProvider theme={themeMui}>
-        <CssBaseline />
-        <Component {...pageProps} />
+      <ThemeProvider defaultTheme="miaaant" enableColorScheme themes={['light', 'mint']}>
+        <MuiProvider theme={themeMui}>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </MuiProvider>
       </ThemeProvider>
     </main>
   </CacheProvider>

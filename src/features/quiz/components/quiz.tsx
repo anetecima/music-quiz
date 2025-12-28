@@ -28,13 +28,13 @@ const Categories = () => {
         <div
           key={categoryIndex}
           className={cn(
-            'relative rounded-md border-4 border-pink-200 bg-white shadow-xl',
+            'border-game-100 relative rounded-md border-4 bg-white shadow-xl',
             'flex flex-col justify-between gap-2',
             'max-h-[180px] min-h-[100px] min-w-[30%]'
           )}
         >
           <div className="absolute top-0 flex w-full translate-y-[-50%] justify-center">
-            <h2 className="overflow-hidden text-ellipsis whitespace-nowrap rounded-lg bg-pink-200 px-4 text-[28px]">
+            <h2 className="bg-game-100 overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-4 text-[28px]">
               {item.categoryName}
             </h2>
           </div>
@@ -68,7 +68,7 @@ export const QuizGame = () => {
 
       <section className="font-fuzzy bg-fur relative h-screen" style={style || {}}>
         <div className="flex h-full flex-col justify-between p-5">
-          <div className="relative grow items-center justify-center overflow-auto pt-4">
+          <div className="relative flex grow items-center justify-center overflow-auto pt-4">
             <Categories />
             <div className="absolute left-0 top-0 z-[1] h-full w-full">
               <div className="px-22 h-full w-full">

@@ -1,6 +1,7 @@
 import type { IGame } from '@/types/Types'
 import { useState } from 'react'
 import YouTube from 'react-youtube'
+import { cn } from '@/helpers/cn'
 import { Modal } from '@/components/modal'
 import { gameQuestions } from '../../../const'
 import { useHandleResetRound, useSelectQuestions } from '../quiz.store'
@@ -87,11 +88,13 @@ export const QuizAnswers = () => {
           {roundQuestions?.map((_, index) => (
             <li
               key={index}
-              className="flex h-12 w-12 items-center justify-center rounded-full text-4xl"
+              className={cn(
+                'flex h-12 w-12 items-center justify-center rounded-full text-4xl',
+                !!roundQuestions?.[index] ? 'bg-game-answer' : 'bg-[grey]'
+              )}
               onClick={() => {
                 setStep(index)
               }}
-              style={{ backgroundColor: roundQuestions?.[index] ? 'yellow' : 'grey' }}
             >
               {index + 1}
             </li>

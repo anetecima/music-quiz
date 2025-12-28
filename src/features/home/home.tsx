@@ -80,7 +80,7 @@ export const HomePage = () => {
             className="absolute inset-0 z-[3] cursor-pointer opacity-0"
           />
         </Item>
-        {!!bgImageStyle && <Item onClick={onImgRemove}>Izdest Attelu</Item>}
+        {!!bgImageStyle && <Item onClick={onImgRemove}>Izdzēst Attelu</Item>}
         {hasGame && (
           <>
             <LinkItem href="/quiz">Turpināt spēli</LinkItem>

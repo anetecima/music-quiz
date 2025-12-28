@@ -2,21 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-    .font-fuzzy {
-        font-weight: bold;
-        /*font-family: 'Rubik Beastly', serif;*/
-    }
+body {
+  color: #000;
+}
 
-    .bg-fur {
-        /*@apply bg-[url('/furOptimized.jpg')] bg-cover*/
-        /*@apply bg-[url('/snake.jpg')] bg-cover*/
-        @apply bg-[url('/ilze37.jpeg')];
-        background-size: 500px auto;
-        /*@apply bg-[url('/halloween2.webp')] bg-cover*/
-    }
-
-    .bg-taylor {
-        @apply bg-[url('/bgTaylor.webp')]
-    }
+@layer base {
+  :root {
+    --game-button-bg: #f9c7ff;
+    --game-category-bg: rgb(251 207 232);
+    --game-question-modal-bg: #f9c7ff;
+    --game-question-modal-timer: #8b5cf6;
+    --game-answer-btn-bg: #f9c7ff;
   }
+
+  html[data-theme='mint'] {
+    body {
+      color: #fff;
+    }
+    --game-button-bg: red;
+    --game-category-bg: yellow;
+    --game-question-modal-bg: blue;
+    --game-question-modal-timer: green;
+    --game-answer-btn-bg: green;
+  }
+}
+
+@layer utilities {
+  .font-fuzzy {
+    font-weight: bold;
+    /*font-family: 'Rubik Beastly', serif;*/
+  }
+
+  .bg-fur {
+    /*@apply bg-[url('/furOptimized.jpg')] bg-cover*/
+    /*@apply bg-[url('/snake.jpg')] bg-cover*/
+    @apply bg-[url('/ilze37.jpeg')];
+    background-size: 500px auto;
+    /*@apply bg-[url('/halloween2.webp')] bg-cover*/
+  }
+
+  .bg-taylor {
+    @apply bg-[url('/bgTaylor.webp')];
+  }
+}
