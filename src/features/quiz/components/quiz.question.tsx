@@ -54,9 +54,14 @@ const QuestionAsSong = ({
           />
         </div>*/}
 
-        <div className="bg-game-200 flex h-96 w-96 items-center justify-center rounded-full text-9xl text-[150px] ">
+        <div className="bg-game-200 relative flex h-96 w-96 items-center justify-center rounded-full text-9xl text-[150px]">
           {showTimer ? (
-            <Timer length={+length} />
+            <>
+              <div className="bg-game-200 absolute h-full w-full animate-[grow_.5s_ease-in-out_infinite] rounded-full text-9xl text-[150px] opacity-80" />
+              <div className="z-10">
+                <Timer length={+length} />
+              </div>
+            </>
           ) : (
             <LoaderCircle width={90} height={90} className="animate-spin" strokeWidth={0.9} />
           )}

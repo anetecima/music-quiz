@@ -27,7 +27,14 @@ module.exports = {
         slide: {
           '0%': { transform: 'translate(0%)' },
           '40%': { transform: 'translate(20%)' },
+          '60%': { transform: 'translate(100%)' },
           '100%': { transform: 'translate(100%)' }
+        },
+
+        grow: {
+          '0%, 100%': { transform: 'scale(1)' },
+          '20%': { transform: 'scale(1.02)' },
+          '60%': { transform: 'scale(1.03)' }
         },
 
         show: {
