@@ -1,5 +1,5 @@
 import type { IQuestion } from '@/types/Types'
-import { CirclePlay } from 'lucide-react'
+import { CirclePlay, LoaderCircle } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import YouTube from 'react-youtube'
 import { cn } from '@/helpers/cn'
@@ -21,21 +21,47 @@ const Timer = ({ length }: { length: number }) => {
     }
   }, [])
 
-  return (
-    <div className="bg-game-300 flex h-96 w-96 items-center justify-center rounded-full text-9xl text-[150px] text-white">
-      {timer}
-    </div>
-  )
+  return <>{timer}</>
 }
 
-const QuestionAsSong = ({ onClose, question }: { question: IQuestion; onClose: () => void }) => {
-  const [isPlaying, setIsPlaying] = useState(false)
+const QuestionAsSong = ({
+  onClose,
+  question,
+  isPlaying,
+  setIsPlaying
+}: {
+  isPlaying: boolean
+  setIsPlaying: (isPlaying: boolean) => void
+  question: IQuestion
+  onClose: () => void
+}) => {
   const [showTimer, setShowTimer] = useState(false)
   const { start = 0, track, length = 15 } = question
-  return (
-    <div className="relative flex h-[500px] w-[1000px] items-center justify-center text-center">
-      {showTimer && <Timer length={+length} />}
-      {isPlaying ? (
+
+  if (isPlaying) {
+    return (
+      <>
+        {/*<div className="absolute left-[20%] top-0">
+          <Spotlight strokeWidth={0.9} width={222} height={222} className="text-yellow-200 " />
+        </div>
+
+        <div className="absolute right-[20%] top-0">
+          <Spotlight
+            strokeWidth={0.9}
+            width={222}
+            height={222}
+            className="scale-x-[-1] text-yellow-200"
+          />
+        </div>*/}
+
+        <div className="bg-game-200 flex h-96 w-96 items-center justify-center rounded-full text-9xl text-[150px] ">
+          {showTimer ? (
+            <Timer length={+length} />
+          ) : (
+            <LoaderCircle width={90} height={90} className="animate-spin" strokeWidth={0.9} />
+          )}
+        </div>
+
         <div style={{ transform: 'translateY(-10000px)' }}>
           <YouTube
             className="absolute inset-0 h-full w-full"
@@ -51,11 +77,13 @@ const QuestionAsSong = ({ onClose, question }: { question: IQuestion; onClose: (
             }}
           />
         </div>
-      ) : (
-        <div className="cursor-pointer" onClick={() => setIsPlaying(true)}>
-          <CirclePlay width={400} height={400} className="" />
-        </div>
-      )}
+      </>
+    )
+  }
+
+  return (
+    <div className="cursor-pointer" onClick={() => setIsPlaying(true)}>
+      <CirclePlay width={400} height={400} />
     </div>
   )
 }
@@ -98,26 +126,58 @@ const QuestionWithVariants = ({ question }: { question: IQuestion }) => {
 
 const QuizQuestionModal = ({ onClose, question }: { question: IQuestion; onClose: () => void }) => {
   const { typeOfQuestion, extraPoints, bonusQuestion } = question
+  const [isPlaying, setIsPlaying] = useState(false)
 
   return (
-    <Modal isOpened className="flex items-center justify-center" onClose={onClose}>
-      <div>
-        <h2 className=" text-center text-2xl lg:text-7xl">
-          {gameQuestions[typeOfQuestion] || typeOfQuestion}
-        </h2>
+    <Modal
+      isOpened
+      className={cn(
+        'bg-game-400 items-center justify-center transition duration-500',
+        isPlaying && 'bg-game-500'
+      )}
+      onClose={onClose}
+    >
+      {isPlaying && (
+        <div className="absolute z-[999999999] h-full w-full animate-[slide_3s_forwards] bg-white">
+          <div className="absolute z-[999999999] flex h-full w-full items-center justify-center">
+            <img
+              alt="santa"
+              src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdW96bWozcHBiYnhyeW05eGt1bDd1MmR2cTA1MGo1ZGJlOXZ6Nzc5NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kfozgIgxf5qyvWwByh/giphy.gif"
+              width="460"
+              height="166"
+            />
+          </div>
+        </div>
+      )}
+
+      <article className="relative flex h-full grow flex-col items-center justify-center">
+        <section className="absolute top-24 flex flex-col gap-8">
+          <h2 className="text-4xl lg:text-8xl">
+            {gameQuestions[typeOfQuestion] || typeOfQuestion}
+          </h2>
+
+          {bonusQuestion && (
+            <div className="flex flex-wrap items-center gap-2 text-xl lg:text-5xl">
+              <h3 className="underline">Bonus jautājums:</h3>
+              <p className="flex items-center gap-2 ">
+                {bonusQuestion}
+                {extraPoints && <span className="">(+ {extraPoints} punkti)</span>}
+              </p>
+            </div>
+          )}
+        </section>
+
         {question.typeOfQuestion === QuestionType.quiz ? (
           <QuestionWithVariants question={question} />
         ) : (
-          <QuestionAsSong question={question} onClose={onClose} />
+          <QuestionAsSong
+            question={question}
+            onClose={onClose}
+            isPlaying={isPlaying}
+            setIsPlaying={setIsPlaying}
+          />
         )}
-        {bonusQuestion && (
-          <>
-            <div className="mb-2 text-5xl">Bonus jautājums:</div>
-            <div className="text-4xl">{bonusQuestion}</div>
-            {extraPoints && <div className="text-4xl">+ {extraPoints} punkti</div>}
-          </>
-        )}
-      </div>
+      </article>
     </Modal>
   )
 }
@@ -157,8 +217,8 @@ export const QuizQuestion = ({
         onClick={() => setIsOpened(true)}
         className={cn(
           'z-[2] flex h-12 w-12 items-center justify-center rounded-full  text-xl',
-          'bg-zinc-300',
-          'data-[status=active]:bg-game-200 data-[status=active]:cursor-pointer data-[status=active]:hover:animate-spin',
+          'data-[status=active]:bg-game-200 bg-zinc-300',
+          'data-[status=active]:cursor-pointer data-[status=active]:hover:animate-spin',
           'transition'
         )}
       >

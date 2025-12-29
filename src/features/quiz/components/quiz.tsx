@@ -31,17 +31,17 @@ const Categories = () => {
           key={categoryIndex}
           className={cn(
             'border-game-100 relative rounded-md border-4 bg-white shadow-xl',
-            'flex flex-col justify-between gap-2',
-            'max-h-[180px] min-h-[100px] min-w-[30%]'
+            'flex flex-col justify-between'
+            // 'max-h-[180px] min-h-[100px]'
           )}
         >
-          <div className="absolute top-0 flex w-full translate-y-[-50%] justify-center">
+          <div className="mx-5 flex w-full translate-y-[-50%] justify-center">
             <h2 className="bg-game-100 overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-4 text-[28px]">
               {item.categoryName}
             </h2>
           </div>
 
-          <div className="flex items-center justify-between gap-4 p-4 px-5 pt-12">
+          <div className="flex items-center justify-between gap-4 p-4 px-5 ">
             {item.options.map((item, index) => (
               <QuizQuestion
                 key={index}
@@ -81,7 +81,7 @@ export const QuizGame = () => {
               </div>
             </div>
           </div>
-          <div className="shrink-0 p-2">
+          <div className="shrink-0 p-2 pt-10">
             <QuizAnswers />
           </div>
         </div>

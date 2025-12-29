@@ -8,10 +8,11 @@ body {
 
 @layer base {
   :root {
-    --game-button-bg: #f9c7ff;
-    --game-category-bg: rgb(251 207 232);
-    --game-question-modal-bg: #f2adfa;
-    --game-question-modal-timer: #f9c7ff;
+    --game-100: #f9c7ff;
+    --game-200: rgb(251 207 232);
+    --game-400: #f2adfa;
+    --game-500: #81358a;
+    /*--game-question-modal-timer: #f9c7ff;*/
   }
 
   html[data-theme='mint'] {
@@ -19,10 +20,11 @@ body {
       color: #fff;
     }
 
-    --game-button-bg: #d422e7;
-    --game-category-bg: #c514d8;
-    --game-question-modal-bg: #a70ebd;
-    --game-question-modal-timer: #d422e7;
+    --game-100: #d422e7;
+    --game-200: #c514d8;
+    --game-400: #c514d8;
+    --game-500: #81358a;
+    /*--game-question-modal-timer: #d422e7;*/
   }
 }
 

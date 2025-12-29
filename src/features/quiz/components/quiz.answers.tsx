@@ -43,7 +43,7 @@ const AnswerModal = ({ step, setStep }: { step: number; setStep: (T: number | nu
   }
 
   return (
-    <Modal className="flex justify-center" isOpened onClose={() => setStep(null)}>
+    <Modal className="bg-game-400 p-12" isOpened onClose={() => setStep(null)}>
       <div key={step} className="flex w-full flex-col justify-between gap-3">
         <h2 className="text-3xl">
           {step + 1}. {categoryName || gameQuestions[typeOfQuestion]}{' '}

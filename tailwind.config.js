@@ -5,10 +5,11 @@ module.exports = {
     extend: {
       colors: {
         game: {
-          100: 'var(--game-category-bg)',
-          200: 'var(--game-button-bg)',
-          300: 'var(--game-question-modal-timer)',
-          modal: 'var(--game-question-modal-bg)'
+          100: 'var(--game-100)',
+          200: 'var(--game-200)',
+          300: 'var(--game-300)',
+          400: 'var(--game-400)',
+          500: 'var(--game-500)'
         },
         cta: 'rgb(182 127 178)',
         border: {
@@ -22,6 +23,13 @@ module.exports = {
           '0%, 100%': { transform: 'rotate(-3deg)' },
           '50%': { transform: 'rotate(3deg)' }
         },
+
+        slide: {
+          '0%': { transform: 'translate(0%)' },
+          '40%': { transform: 'translate(20%)' },
+          '100%': { transform: 'translate(100%)' }
+        },
+
         show: {
           '0%, 100%': { opacity: '0' },
           '50%': { opacity: 1 }

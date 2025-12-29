@@ -62,7 +62,7 @@ const IntermissionBody = ({
   }, [])
 
   return (
-    <Modal className="flex justify-center" isOpened onClose={() => setIsOpened(false)}>
+    <Modal className="bg-game-400" isOpened onClose={() => setIsOpened(false)}>
       <Snowfall />
       <div className="flex flex-col items-center justify-center gap-2">
         <div className="absolute z-[999] flex h-[400px] w-[400px] items-center justify-center rounded-full bg-pink-200 p-12">
