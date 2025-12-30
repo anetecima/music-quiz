@@ -62,7 +62,7 @@ export const HomePage = () => {
 
   return (
     <main className="bg-fur flex min-h-screen justify-center" style={bgImageStyle || {}}>
-      <ThemeModeButton className="left-2 " />
+      <ThemeModeButton className="absolute left-2 top-2" />
 
       <div className="container flex flex-col items-center  justify-center gap-4 text-center md:flex-row">
         <LinkItem href="/edit">Rediģēt vai izveidot spēles failu</LinkItem>

@@ -27,7 +27,7 @@ export const ThemeModeButton = ({ className = '' }: ComponentProps<'button'>) =>
   return (
     <button
       onClick={() => setTheme(theme === 'light' ? 'mint' : 'light')}
-      className={cn('bg-game-100 absolute top-2  z-[2] cursor-pointer  rounded-md p-3', className)}
+      className={cn('bg-game-100 z-[2] cursor-pointer rounded-md p-3', className)}
     >
       {theme === 'light' ? <Sun /> : <Moon />}
     </button>

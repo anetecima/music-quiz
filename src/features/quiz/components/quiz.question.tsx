@@ -1,28 +1,13 @@
 import type { IQuestion } from '@/types/Types'
 import { CirclePlay, LoaderCircle } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import YouTube from 'react-youtube'
 import { cn } from '@/helpers/cn'
 import { writeToDb } from '@/helpers/db/db.write'
 import { useHandleMarkSong } from '@/features/quiz/quiz.store'
 import { Modal } from '@/components/modal'
+import { Timer } from '@/components/timer'
 import { gameQuestions, QuestionType } from '../../../const'
-
-const Timer = ({ length }: { length: number }) => {
-  const [timer, setTimer] = useState(length)
-
-  useEffect(() => {
-    const timeout = setInterval(() => {
-      setTimer(seconds => seconds - 1)
-    }, 1000)
-
-    return () => {
-      clearTimeout(timeout)
-    }
-  }, [])
-
-  return <>{timer}</>
-}
 
 const QuestionAsSong = ({
   onClose,
@@ -144,7 +129,7 @@ const QuizQuestionModal = ({ onClose, question }: { question: IQuestion; onClose
     >
       {isPlaying && (
         <div className="absolute z-[999999999] h-full w-full animate-[slide_3s_forwards] bg-white">
-          <div className="absolute z-[999999999] flex h-full w-full items-center justify-center">
+          <div className="flex h-full w-full items-center justify-center">
             <img
               alt="santa"
               src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdW96bWozcHBiYnhyeW05eGt1bDd1MmR2cTA1MGo1ZGJlOXZ6Nzc5NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kfozgIgxf5qyvWwByh/giphy.gif"
