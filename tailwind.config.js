@@ -31,6 +31,27 @@ module.exports = {
           '100%': { transform: 'translate(100%)' }
         },
 
+        slideRight: {
+          '0%': { left: '0' },
+          '100%': { left: '100%' }
+        },
+
+        slideLeft: {
+          '0%': { right: '0' },
+          '100%': { right: '100%' }
+        },
+
+        slideUp: {
+          '0%': { transform: 'translateY(-360px)' },
+          '100%': { transform: 'translateY(0px)' }
+        },
+
+        /*colors: {
+          '0%': { background: 'white' },
+          '80%': { background: 'white' },
+          '40%': { background: 'white' }
+        },*/
+
         grow: {
           '0%, 100%': { transform: 'scale(1)' },
           '20%': { transform: 'scale(1.02)' },

@@ -5,9 +5,26 @@ import YouTube from 'react-youtube'
 import { cn } from '@/helpers/cn'
 import { writeToDb } from '@/helpers/db/db.write'
 import { useHandleMarkSong } from '@/features/quiz/quiz.store'
+import { DiscoBall } from '@/components/animations/discoBall'
+import { DancingSanta } from '@/components/animations/santa'
 import { Modal } from '@/components/modal'
 import { Timer } from '@/components/timer'
 import { gameQuestions, QuestionType } from '../../../const'
+
+{
+  /*<div className="absolute left-[20%] top-0">
+          <Spotlight strokeWidth={0.9} width={222} height={222} className="text-yellow-200 " />
+        </div>
+
+        <div className="absolute right-[20%] top-0">
+          <Spotlight
+            strokeWidth={0.9}
+            width={222}
+            height={222}
+            className="scale-x-[-1] text-yellow-200"
+          />
+        </div>*/
+}
 
 const QuestionAsSong = ({
   onClose,
@@ -23,35 +40,36 @@ const QuestionAsSong = ({
   const [showTimer, setShowTimer] = useState(false)
   const { start = 0, track, length = 15 } = question
 
-  if (isPlaying) {
-    return (
-      <>
-        {/*<div className="absolute left-[20%] top-0">
-          <Spotlight strokeWidth={0.9} width={222} height={222} className="text-yellow-200 " />
+  return (
+    <>
+      {!isPlaying && (
+        <div
+          className="pos-abt-center absolute top-0 z-[2] cursor-pointer "
+          onClick={() => setIsPlaying(true)}
+        >
+          <CirclePlay width={400} height={400} className="stroke-[.9]" />
         </div>
+      )}
 
-        <div className="absolute right-[20%] top-0">
-          <Spotlight
-            strokeWidth={0.9}
-            width={222}
-            height={222}
-            className="scale-x-[-1] text-yellow-200"
-          />
-        </div>*/}
+      <div
+        className={cn(
+          'bg-game-200 relative flex h-96 w-96 items-center justify-center rounded-full text-9xl text-[150px] transition-opacity delay-500',
+          isPlaying ? 'opacity-100' : 'opacity-0'
+        )}
+      >
+        {showTimer ? (
+          <>
+            <div className="bg-game-200 absolute h-full w-full animate-[grow_.5s_ease-in-out_infinite] rounded-full text-9xl text-[150px] opacity-80" />
+            <div className="z-10">
+              <Timer length={+length} />
+            </div>
+          </>
+        ) : (
+          <LoaderCircle width={90} height={90} className="animate-spin" strokeWidth={0.9} />
+        )}
+      </div>
 
-        <div className="bg-game-200 relative flex h-96 w-96 items-center justify-center rounded-full text-9xl text-[150px]">
-          {showTimer ? (
-            <>
-              <div className="bg-game-200 absolute h-full w-full animate-[grow_.5s_ease-in-out_infinite] rounded-full text-9xl text-[150px] opacity-80" />
-              <div className="z-10">
-                <Timer length={+length} />
-              </div>
-            </>
-          ) : (
-            <LoaderCircle width={90} height={90} className="animate-spin" strokeWidth={0.9} />
-          )}
-        </div>
-
+      {isPlaying && (
         <div style={{ transform: 'translateY(-10000px)' }}>
           <YouTube
             className="absolute inset-0 h-full w-full"
@@ -67,14 +85,8 @@ const QuestionAsSong = ({
             }}
           />
         </div>
-      </>
-    )
-  }
-
-  return (
-    <div className="cursor-pointer" onClick={() => setIsPlaying(true)}>
-      <CirclePlay width={400} height={400} />
-    </div>
+      )}
+    </>
   )
 }
 
@@ -117,6 +129,7 @@ const QuestionWithVariants = ({ question }: { question: IQuestion }) => {
 const QuizQuestionModal = ({ onClose, question }: { question: IQuestion; onClose: () => void }) => {
   const { typeOfQuestion, extraPoints, bonusQuestion } = question
   const [isPlaying, setIsPlaying] = useState(false)
+  const randomNum = Math.floor(Math.random() * 3) + 1
 
   return (
     <Modal
@@ -127,33 +140,42 @@ const QuizQuestionModal = ({ onClose, question }: { question: IQuestion; onClose
       )}
       onClose={onClose}
     >
-      {isPlaying && (
-        <div className="absolute z-[999999999] h-full w-full animate-[slide_3s_forwards] bg-white">
-          <div className="flex h-full w-full items-center justify-center">
-            <img
-              alt="santa"
-              src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdW96bWozcHBiYnhyeW05eGt1bDd1MmR2cTA1MGo1ZGJlOXZ6Nzc5NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kfozgIgxf5qyvWwByh/giphy.gif"
-              width="460"
-              height="166"
-            />
-          </div>
+      {isPlaying && randomNum === 1 && <DiscoBall />}
+      {isPlaying && randomNum === 2 && <DancingSanta />}
+      {isPlaying && randomNum === 3 && (
+        <div className="absolute z-[110] h-full w-full">
+          <img
+            className="absolute left-0 top-10 z-[999] scale-x-[-1] animate-[slideRight_2s_linear_infinite]"
+            alt="santa"
+            src="https://img1.picmix.com/output/stamp/normal/3/6/8/9/2409863_0d10d.gif"
+          />
+
+          <img
+            className="absolute bottom-10 right-0 z-[999] animate-[slideLeft_2s_linear_infinite]"
+            alt="santa"
+            src="https://img1.picmix.com/output/stamp/normal/3/6/8/9/2409863_0d10d.gif"
+          />
         </div>
       )}
 
       <article className="relative flex h-full grow flex-col items-center justify-center">
         <section className="absolute top-24 flex flex-col gap-8">
-          <h2 className="text-4xl lg:text-8xl">
-            {gameQuestions[typeOfQuestion] || typeOfQuestion}
-          </h2>
+          {!isPlaying && (
+            <>
+              <h2 className="text-4xl lg:text-8xl">
+                {gameQuestions[typeOfQuestion] || typeOfQuestion}
+              </h2>
 
-          {bonusQuestion && (
-            <div className="flex flex-wrap items-center gap-2 text-xl lg:text-5xl">
-              <h3 className="underline">Bonus jautājums:</h3>
-              <p className="flex items-center gap-2 ">
-                {bonusQuestion}
-                {extraPoints && <span className="">(+ {extraPoints} punkti)</span>}
-              </p>
-            </div>
+              {bonusQuestion && (
+                <div className="flex flex-wrap items-center gap-2 text-xl lg:text-5xl">
+                  <h3 className="underline">Bonus jautājums:</h3>
+                  <p className="flex items-center gap-2 ">
+                    {bonusQuestion}
+                    {extraPoints && <span className="">(+ {extraPoints} punkti)</span>}
+                  </p>
+                </div>
+              )}
+            </>
           )}
         </section>
 

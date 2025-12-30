@@ -1,21 +1,23 @@
 import { Pause } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Snowfall from 'react-snowfall'
 import YouTube from 'react-youtube'
 import { cn } from '@/helpers/cn'
 import { Modal } from '@/components/modal'
 
 const random = [
-  { code: 'GEsU4IcUh2o', start: 0 }, // 2025 mashup
-  { code: 'RLn5qNngGn4', start: 71 }, // domingo
-  { code: 'OcKMvf6PCgg', start: 0 }, // 2025 mashup
-  { code: 'vD479G8PvCQ', start: 17 }, // 2025 mashup
-  { code: 'LtdJx-R_nC4', start: 0 } // 2025 mashup
+  // { code: 'GEsU4IcUh2o', start: 0 } // 2025 mashup
+  // { code: 'RLn5qNngGn4', start: 71 } // domingo
+  // { code: 'OcKMvf6PCgg', start: 0 } // 2025 mashup
+  // { code: 'vD479G8PvCQ', start: 17 } // 2025 mashup
+  { code: 'knqGVAqSWxg', start: 132 }, // 2025 mashup
+  { code: 'nZeti_YyjrQ', start: 26 }, // 2025 mashup
+  { code: 'kfcBUw4zU8o', start: 444 }, // 2025 mashup
+  // { code: 'LtdJx-R_nC4', start: 0 }, // 2025 mashup
   // { code: '3tmd-ClpJxA', start: 36 }, // Taylor
-  // { code: 'uhzy7JaU2Zc', start: 0 }, // LIPS
-  // { code: 'e4whRXxnF4Q', start: 0 }, // compilation 1
+  { code: 'uhzy7JaU2Zc', start: 0 } // LIPS
+  // { code: 'e4whRXxnF4Q', start: 0 } // compilation 1
   // { code: 'e_7m23pgqK4', start: 0 } // compilatoin 2
-  // { code: 'ru1LC9lW20Q', start: 20 }
 ] as const
 
 function getRandomInt(max: number) {
@@ -28,7 +30,8 @@ const YouTubeWrapper = ({ index }: { index: number }) => {
   return (
     <div className="relative flex w-full flex-[3] items-center justify-center">
       <YouTube
-        className={[0, 1].includes(index) ? 'h-screen w-screen' : 'absolute inset-0 h-full w-full'}
+        // className={[0, 1].includes(index) ? 'h-screen w-screen' : 'absolute inset-0 h-full w-full'}
+        className={'absolute inset-0 h-full w-full'}
         videoId={code}
         opts={{
           playerVars: {
@@ -66,6 +69,7 @@ const IntermissionBody = ({
       <Snowfall />
       <div className="flex flex-col items-center justify-center gap-2">
         <div className="absolute z-[999] flex h-[400px] w-[400px] items-center justify-center rounded-full bg-pink-200 p-12">
+          <div className="bg-game-200 absolute h-full w-full animate-[grow_.5s_ease-in-out_infinite] rounded-full text-9xl text-[150px] opacity-80" />
           <h2 className="mb-4 animate-ping text-6xl text-pink-800 lg:text-9xl">{timer}</h2>
         </div>
         <div>
