@@ -8,11 +8,11 @@ body {
 
 @layer base {
   :root {
+    --game-grey: rgb(212 212 216);
     --game-100: #f9c7ff;
     --game-200: rgb(251 207 232);
     --game-400: #f2adfa;
     --game-500: #81358a;
-    /*--game-question-modal-timer: #f9c7ff;*/
   }
 
   html[data-theme='mint'] {
@@ -20,11 +20,17 @@ body {
       color: #fff;
     }
 
-    --game-100: #d422e7;
-    --game-200: #c514d8;
-    --game-400: #c514d8;
-    --game-500: #81358a;
-    /*--game-question-modal-timer: #d422e7;*/
+    /*--game-grey: rgb(212 212 216);*/
+    /*--game-100: #d422e7;*/
+    /*--game-200: #c514d8;*/
+/*    --game-400: #c514d8;
+    --game-500: #81358a;*/
+
+    --game-grey: #EFBF04;
+    --game-100: #EFBF04;
+    --game-200: #660033;
+    --game-400: #660033;
+    --game-500: #550a2c;
   }
 }
 

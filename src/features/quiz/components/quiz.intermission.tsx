@@ -70,7 +70,7 @@ const IntermissionBody = ({
       <div className="flex flex-col items-center justify-center gap-2">
         <div className="absolute z-[999] flex h-[400px] w-[400px] items-center justify-center rounded-full bg-pink-200 p-12">
           <div className="bg-game-200 absolute h-full w-full animate-[grow_.5s_ease-in-out_infinite] rounded-full text-9xl text-[150px] opacity-80" />
-          <h2 className="mb-4 animate-ping text-6xl text-pink-800 lg:text-9xl">{timer}</h2>
+          <h2 className="mb-4 animate-ping text-6xl lg:text-9xl">{timer}</h2>
         </div>
         <div>
           <YouTubeWrapper index={index} />

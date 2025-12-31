@@ -30,14 +30,13 @@ const Categories = () => {
         <article
           key={categoryIndex}
           className={cn(
-            'px-5',
             'border-game-100 rounded-lg border-4 bg-white shadow-xl',
-            'flex flex-col justify-between'
+            'flex flex-col justify-between px-5'
             // 'max-h-[180px] min-h-[100px]'
           )}
         >
-          <div className={cn('text-center', 'translate-y-[-50%] ')}>
-            <h2 className="bg-game-100 inline overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-4 text-[28px]">
+          <div className={cn('translate-y-[-50%] text-center')}>
+            <h2 className="bg-game-100 inline overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-4 text-[28px] font-semibold text-black">
               {item.categoryName}
             </h2>
           </div>

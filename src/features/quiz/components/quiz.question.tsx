@@ -10,6 +10,7 @@ import { DancingSanta } from '@/components/animations/santa'
 import { Modal } from '@/components/modal'
 import { Timer } from '@/components/timer'
 import { gameQuestions, QuestionType } from '../../../const'
+import { poppinsFont } from '../../../theme/fonts'
 
 {
   /*<div className="absolute left-[20%] top-0">
@@ -126,10 +127,20 @@ const QuestionWithVariants = ({ question }: { question: IQuestion }) => {
   )
 }
 
+function RidingSanta({ className = '' }) {
+  return (
+    <img
+      className={cn('absolute z-[999]', className)}
+      alt="santa"
+      src="https://img1.picmix.com/output/stamp/normal/3/6/8/9/2409863_0d10d.gif"
+    />
+  )
+}
+
 const QuizQuestionModal = ({ onClose, question }: { question: IQuestion; onClose: () => void }) => {
   const { typeOfQuestion, extraPoints, bonusQuestion } = question
   const [isPlaying, setIsPlaying] = useState(false)
-  const randomNum = Math.floor(Math.random() * 3) + 1
+  const randomNum = Math.floor(Math.random() * 2) + 1
 
   return (
     <Modal
@@ -141,21 +152,19 @@ const QuizQuestionModal = ({ onClose, question }: { question: IQuestion; onClose
       onClose={onClose}
     >
       {isPlaying && randomNum === 1 && <DiscoBall />}
-      {isPlaying && randomNum === 2 && <DancingSanta />}
-      {isPlaying && randomNum === 3 && (
-        <div className="absolute z-[110] h-full w-full">
-          <img
-            className="absolute left-0 top-10 z-[999] scale-x-[-1] animate-[slideRight_2s_linear_infinite]"
-            alt="santa"
-            src="https://img1.picmix.com/output/stamp/normal/3/6/8/9/2409863_0d10d.gif"
-          />
-
-          <img
-            className="absolute bottom-10 right-0 z-[999] animate-[slideLeft_2s_linear_infinite]"
-            alt="santa"
-            src="https://img1.picmix.com/output/stamp/normal/3/6/8/9/2409863_0d10d.gif"
-          />
-        </div>
+      {isPlaying && randomNum === 2 && (
+        <>
+          <div className="absolute left-[10%] flex h-96 w-96 items-center justify-center rounded-full">
+            <DancingSanta />
+          </div>
+          <div className="absolute right-[10%] flex h-96 w-96 items-center justify-center rounded-full">
+            <DancingSanta />
+          </div>
+          <div className="absolute z-[110] h-full w-full">
+            <RidingSanta className="left-0 top-10 scale-x-[-1] animate-[slideRight_2s_linear_infinite]" />
+            <RidingSanta className="absolute bottom-10 right-0 z-[999] animate-[slideLeft_2s_linear_infinite]" />
+          </div>
+        </>
       )}
 
       <article className="relative flex h-full grow flex-col items-center justify-center">
@@ -228,10 +237,11 @@ export const QuizQuestion = ({
         data-status={active ? 'active' : ''}
         onClick={() => setIsOpened(true)}
         className={cn(
+          poppinsFont.className,
+          '!font-semibold',
           'z-[2] flex h-12 w-12 items-center justify-center rounded-full  text-xl',
-          'data-[status=active]:bg-game-200 bg-zinc-300',
-          'data-[status=active]:cursor-pointer data-[status=active]:hover:animate-spin',
-          'transition'
+          active ? 'bg-game-200' : 'bg-game-200 opacity-30',
+          'transition data-[status=active]:cursor-pointer data-[status=active]:hover:animate-spin'
         )}
       >
         {points}

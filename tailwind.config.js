@@ -5,12 +5,15 @@ module.exports = {
     extend: {
       colors: {
         game: {
+          grey: 'var(--game-grey)',
           100: 'var(--game-100)',
           200: 'var(--game-200)',
           300: 'var(--game-300)',
           400: 'var(--game-400)',
           500: 'var(--game-500)'
         },
+
+        // for editor
         cta: 'rgb(182 127 178)',
         border: {
           1: '#ddd',
