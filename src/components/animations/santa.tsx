@@ -1,3 +1,5 @@
+import { cn } from '@/helpers/cn'
+
 export const DancingSanta = () => {
   return (
     <div className="absolute flex items-center  justify-center rounded-md">
@@ -11,5 +13,32 @@ export const DancingSanta = () => {
         />
       </div>
     </div>
+  )
+}
+
+function RidingSanta({ className = '' }) {
+  return (
+    <img
+      className={cn('absolute z-[999]', className)}
+      alt="santa"
+      src="https://img1.picmix.com/output/stamp/normal/3/6/8/9/2409863_0d10d.gif"
+    />
+  )
+}
+
+function RidingSantas({ className = '' }) {
+  return (
+    <>
+      <div className="absolute left-[10%] flex h-96 w-96 items-center justify-center rounded-full">
+        <DancingSanta />
+      </div>
+      <div className="absolute right-[10%] flex h-96 w-96 items-center justify-center rounded-full">
+        <DancingSanta />
+      </div>
+      <div className="absolute z-[110] h-full w-full">
+        <RidingSanta className="left-0 top-10 scale-x-[-1] animate-[slideRight_2s_linear_infinite]" />
+        <RidingSanta className="absolute bottom-10 right-0 z-[999] animate-[slideLeft_2s_linear_infinite]" />
+      </div>
+    </>
   )
 }

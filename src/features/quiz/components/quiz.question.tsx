@@ -6,35 +6,16 @@ import { cn } from '@/helpers/cn'
 import { writeToDb } from '@/helpers/db/db.write'
 import { useHandleMarkSong } from '@/features/quiz/quiz.store'
 import { DiscoBall } from '@/components/animations/discoBall'
-import { DancingSanta } from '@/components/animations/santa'
 import { Modal } from '@/components/modal'
 import { Timer } from '@/components/timer'
 import { gameQuestions, QuestionType } from '../../../const'
-import { poppinsFont } from '../../../theme/fonts'
-
-{
-  /*<div className="absolute left-[20%] top-0">
-          <Spotlight strokeWidth={0.9} width={222} height={222} className="text-yellow-200 " />
-        </div>
-
-        <div className="absolute right-[20%] top-0">
-          <Spotlight
-            strokeWidth={0.9}
-            width={222}
-            height={222}
-            className="scale-x-[-1] text-yellow-200"
-          />
-        </div>*/
-}
 
 const QuestionAsSong = ({
   onClose,
   question,
-  isPlaying,
-  setIsPlaying
+  isPlaying
 }: {
   isPlaying: boolean
-  setIsPlaying: (isPlaying: boolean) => void
   question: IQuestion
   onClose: () => void
 }) => {
@@ -43,18 +24,10 @@ const QuestionAsSong = ({
 
   return (
     <>
-      {!isPlaying && (
-        <div
-          className="pos-abt-center absolute top-0 z-[2] cursor-pointer "
-          onClick={() => setIsPlaying(true)}
-        >
-          <CirclePlay width={400} height={400} className="stroke-[.9]" />
-        </div>
-      )}
-
       <div
         className={cn(
-          'bg-game-200 relative flex h-96 w-96 items-center justify-center rounded-full text-9xl text-[150px] transition-opacity delay-500',
+          'flex items-center justify-center',
+          'bg-game-200 relative h-96 w-96 rounded-full text-9xl transition-opacity delay-500',
           isPlaying ? 'opacity-100' : 'opacity-0'
         )}
       >
@@ -127,52 +100,31 @@ const QuestionWithVariants = ({ question }: { question: IQuestion }) => {
   )
 }
 
-function RidingSanta({ className = '' }) {
-  return (
-    <img
-      className={cn('absolute z-[999]', className)}
-      alt="santa"
-      src="https://img1.picmix.com/output/stamp/normal/3/6/8/9/2409863_0d10d.gif"
-    />
-  )
-}
-
 const QuizQuestionModal = ({ onClose, question }: { question: IQuestion; onClose: () => void }) => {
-  const { typeOfQuestion, extraPoints, bonusQuestion } = question
+  const { typeOfQuestion, extraPoints, bonusQuestion, points } = question
   const [isPlaying, setIsPlaying] = useState(false)
-  const randomNum = Math.floor(Math.random() * 2) + 1
 
   return (
     <Modal
       isOpened
       className={cn(
-        'bg-game-400 items-center justify-center transition duration-500',
+        'bg-game-400 flex items-center justify-center transition duration-500',
         isPlaying && 'bg-game-500'
       )}
       onClose={onClose}
     >
-      {isPlaying && randomNum === 1 && <DiscoBall />}
-      {isPlaying && randomNum === 2 && (
-        <>
-          <div className="absolute left-[10%] flex h-96 w-96 items-center justify-center rounded-full">
-            <DancingSanta />
-          </div>
-          <div className="absolute right-[10%] flex h-96 w-96 items-center justify-center rounded-full">
-            <DancingSanta />
-          </div>
-          <div className="absolute z-[110] h-full w-full">
-            <RidingSanta className="left-0 top-10 scale-x-[-1] animate-[slideRight_2s_linear_infinite]" />
-            <RidingSanta className="absolute bottom-10 right-0 z-[999] animate-[slideLeft_2s_linear_infinite]" />
-          </div>
-        </>
-      )}
+      {isPlaying && <DiscoBall />}
+      {/*{isPlaying && randomNum === 2 && <RidingSantas />}*/}
 
-      <article className="relative flex h-full grow flex-col items-center justify-center">
-        <section className="absolute top-24 flex flex-col gap-8">
+      <article className="flex h-full flex-col">
+        <section className="flex flex-col gap-2">
           {!isPlaying && (
             <>
-              <h2 className="text-4xl lg:text-8xl">
+              <h2 className="mt-20 flex items-center justify-between text-4xl lg:text-8xl">
                 {gameQuestions[typeOfQuestion] || typeOfQuestion}
+                <span className="bg-game-100 ml-2 rounded-full p-6 text-2xl font-bold shadow lg:text-4xl">
+                  {points}
+                </span>
               </h2>
 
               {bonusQuestion && (
@@ -191,12 +143,24 @@ const QuizQuestionModal = ({ onClose, question }: { question: IQuestion; onClose
         {question.typeOfQuestion === QuestionType.quiz ? (
           <QuestionWithVariants question={question} />
         ) : (
-          <QuestionAsSong
-            question={question}
-            onClose={onClose}
-            isPlaying={isPlaying}
-            setIsPlaying={setIsPlaying}
-          />
+          <section className="flex grow flex-col items-center justify-center">
+            {!isPlaying && (
+              <div className="cursor-pointer" onClick={() => setIsPlaying(true)}>
+                <CirclePlay width={400} height={400} className="stroke-[.9]" />
+              </div>
+            )}
+
+            {isPlaying && (
+              <QuestionAsSong question={question} onClose={onClose} isPlaying={isPlaying} />
+            )}
+          </section>
+        )}
+
+        {isPlaying && (
+          <h2 className="absolute bottom-10 mt-20 flex  items-center justify-center py-4 text-center text-4xl">
+            {gameQuestions[typeOfQuestion] || typeOfQuestion}
+            <span className="ml-2">({points})</span>
+          </h2>
         )}
       </article>
     </Modal>
@@ -234,14 +198,11 @@ export const QuizQuestion = ({
   return (
     <>
       <button
-        data-status={active ? 'active' : ''}
         onClick={() => setIsOpened(true)}
         className={cn(
-          poppinsFont.className,
-          '!font-semibold',
-          'z-[2] flex h-12 w-12 items-center justify-center rounded-full  text-xl',
-          active ? 'bg-game-200' : 'bg-game-200 opacity-30',
-          'transition data-[status=active]:cursor-pointer data-[status=active]:hover:animate-spin'
+          'flex items-center justify-center',
+          'h-12 w-12  rounded-full  text-2xl transition',
+          active ? 'bg-game-200 cursor-pointer hover:animate-spin' : 'bg-game-200 opacity-30'
         )}
       >
         {points}

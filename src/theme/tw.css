@@ -19,15 +19,19 @@ body {
     body {
       color: #fff;
     }
+    --game-grey: rgb(212 212 216);
+    --game-100: #d422e7;
+    --game-200: #c514d8;
+    --game-400: #c514d8;
+    --game-500: #81358a;
+  }
 
-    /*--game-grey: rgb(212 212 216);*/
-    /*--game-100: #d422e7;*/
-    /*--game-200: #c514d8;*/
-/*    --game-400: #c514d8;
-    --game-500: #81358a;*/
-
-    --game-grey: #EFBF04;
-    --game-100: #EFBF04;
+  html[data-theme='newYear'] {
+    body {
+      color: #fff;
+    }
+    --game-grey: #efbf04;
+    --game-100: #efbf04;
     --game-200: #660033;
     --game-400: #660033;
     --game-500: #550a2c;
