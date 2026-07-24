@@ -56,10 +56,8 @@ body {
 
   .bg-fur {
     @apply bg-[url('/furOptimized.jpg')];
-    /*@apply bg-[url('/snake.jpg')] bg-cover;*/
-    /*@apply bg-[url('/ilze37.jpeg')];*/
+    @apply bg-[url('/vacation.png')];
     background-size: 500px cover;
-
     /*background-repeat: no-repeat;*/
     /*background-position: center top;*/
     /*@apply bg-[url('/halloween2.webp')] bg-cover*/
