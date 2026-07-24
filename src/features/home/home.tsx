@@ -18,7 +18,7 @@ const Item = ({ className = '', ...props }: PropsWithChildren<ComponentProps<'di
       className={cn(
         className,
         'relative',
-        ' hover:bg-game-200 bg-game-100 hover:opacity-90',
+        ' bg-game-100 hover:bg-game-200 hover:opacity-90',
         'cursor-pointer rounded-md p-5 text-xl uppercase transition-all'
       )}
     />
@@ -53,6 +53,7 @@ export const HomePage = () => {
 
   function uploadImage(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files[0]) {
+      console.log('???')
       const selectedFile = e.target.files[0]
       onImgUpload(selectedFile)
     }

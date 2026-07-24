@@ -15,18 +15,28 @@ body {
     --game-500: #81358a;
   }
 
+
+
+  html[data-theme='mint'] > body {
+    color: #fff;
+  }
   html[data-theme='mint'] {
-    body {
-      color: #fff;
-    }
+    /*body {*/
+    /*  color: #fff;*/
+    /*}*/
+    /*--game-grey: rgb(212 212 216);*/
+    /*--game-100: #d422e7;*/
+    /*--game-200: #c514d8;*/
+    /*--game-400: #c514d8;*/
+    /*--game-500: #81358a;*/
     --game-grey: rgb(212 212 216);
-    --game-100: #d422e7;
-    --game-200: #c514d8;
-    --game-400: #c514d8;
-    --game-500: #81358a;
+    --game-100: #ee4605;
+    --game-200: #26c1d6;
+    --game-400: #d81448;
+    --game-500: #2a819c;
   }
 
-  html[data-theme='newYear'] {
+/*  html[data-theme='newYear'] {
     body {
       color: #fff;
     }
@@ -35,7 +45,7 @@ body {
     --game-200: #660033;
     --game-400: #660033;
     --game-500: #550a2c;
-  }
+  }*/
 }
 
 @layer utilities {
@@ -48,7 +58,10 @@ body {
     @apply bg-[url('/furOptimized.jpg')];
     /*@apply bg-[url('/snake.jpg')] bg-cover;*/
     /*@apply bg-[url('/ilze37.jpeg')];*/
-    background-size: 500px auto;
+    background-size: 500px cover;
+
+    /*background-repeat: no-repeat;*/
+    /*background-position: center top;*/
     /*@apply bg-[url('/halloween2.webp')] bg-cover*/
   }
 

@@ -1,5 +1,5 @@
 import type { IGame } from '@/types/Types'
-import { Trash2 } from 'lucide-react'
+import { EyeOff, Trash2 } from 'lucide-react'
 import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form'
 import { updateStorage } from '@/helpers/helpers.storage'
 import { EditorCategoryInputs } from '@/features/editor/components/editor.categoryInputs'
@@ -69,7 +69,8 @@ export const EditorCategory = ({
 
   function onRemoveQuestion(index: number) {
     remove(index)
-    setInterval(() => updateStorage(getValues()), 100)
+    updateStorage(getValues())
+    // setInterval(() => updateStorage(getValues()), 100)
 
     // in case last question, remove category and switch to previous
     if (fields.length === 1) {
@@ -106,15 +107,26 @@ export const EditorCategory = ({
         >
           <div className="mb-2 flex justify-between">
             <span className="rounded-md bg-pink-200 p-2 text-xs">
-              {categoryIndex} - {index}
+              {categoryIndex} - {index + 1}
             </span>
 
-            <SimpleButton
-              className="px-2 text-xs text-red-800"
-              onClick={() => onRemoveQuestion(index)}
-            >
-              <Trash2 width={20} />
-            </SimpleButton>
+            <div className="gap-2">
+              <SimpleButton
+                title="Izdzest"
+                className="px-2 text-xs text-red-800"
+                onClick={() => onRemoveQuestion(index)}
+              >
+                <Trash2 width={20} />
+              </SimpleButton>
+
+              <SimpleButton
+                title="Paslept"
+                className="px-2 text-xs text-blue-800"
+                onClick={() => {}}
+              >
+                <EyeOff width={20} />
+              </SimpleButton>
+            </div>
           </div>
 
           <EditorCategoryProvider cIndex={categoryIndex} qIndex={index}>

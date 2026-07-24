@@ -47,7 +47,7 @@ const AnswerModal = ({ step, setStep }: { step: number; setStep: (T: number | nu
       <div key={step} className="flex w-full flex-col justify-between gap-3">
         <h2 className="text-3xl">
           {step + 1}. {categoryName || gameQuestions[typeOfQuestion]}{' '}
-          <span className="bg-game-100 rounded-lg p-2 ">{points}</span>
+          <span className="rounded-lg bg-game-100 p-2 ">{points}</span>
         </h2>
 
         <div className="opacity-1 animate-[show_12s_0.5]  underline transition">
@@ -97,12 +97,12 @@ export const QuizAnswers = () => {
                 setStep(index)
               }}
             >
-              <img
-                alt="partyHat"
-                src="/party-hat.png"
-                width={52}
-                className="absolute left-[11px] top-[-37px] rotate-[22deg]"
-              />
+              {/*<img*/}
+              {/*  alt="partyHat"*/}
+              {/*  src="/party-hat.png"*/}
+              {/*  width={52}*/}
+              {/*  className="absolute left-[11px] top-[-37px] rotate-[22deg]"*/}
+              {/*/>*/}
               {index + 1}
             </li>
           ))}

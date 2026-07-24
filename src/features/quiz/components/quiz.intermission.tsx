@@ -1,9 +1,10 @@
 import { Pause } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
-import Snowfall from 'react-snowfall'
+import { useState } from 'react'
+// import Snowfall from 'react-snowfall'
 import YouTube from 'react-youtube'
 import { cn } from '@/helpers/cn'
 import { Modal } from '@/components/modal'
+import { Timer } from '@/components/timer'
 
 const random = [
   // { code: 'GEsU4IcUh2o', start: 0 } // 2025 mashup
@@ -51,26 +52,15 @@ const IntermissionBody = ({
   index: number
   setIsOpened: (T: boolean) => void
 }) => {
-  const [timer, setTimer] = useState(180)
-
-  useEffect(() => {
-    const timeout = setInterval(() => {
-      setTimer(seconds => seconds - 1)
-    }, 1000)
-
-    return () => {
-      setTimer(180)
-      clearTimeout(timeout)
-    }
-  }, [])
-
   return (
     <Modal className="bg-game-400" isOpened onClose={() => setIsOpened(false)}>
-      <Snowfall />
+      {/*<Snowfall />*/}
       <div className="flex flex-col items-center justify-center gap-2">
         <div className="absolute z-[999] flex h-[400px] w-[400px] items-center justify-center rounded-full bg-pink-200 p-12">
-          <div className="bg-game-200 absolute h-full w-full animate-[grow_.5s_ease-in-out_infinite] rounded-full text-9xl text-[150px] opacity-80" />
-          <h2 className="mb-4 animate-ping text-6xl lg:text-9xl">{timer}</h2>
+          <div className="absolute h-full w-full animate-[grow_.5s_ease-in-out_infinite] rounded-full bg-game-200 text-9xl text-[150px] opacity-80" />
+          <h2 className="mb-4 animate-ping text-6xl lg:text-9xl">
+            <Timer length={180} />
+          </h2>
         </div>
         <div>
           <YouTubeWrapper index={index} />
@@ -92,7 +82,7 @@ export const IntermissionModal = () => {
     <>
       <button
         className={cn(
-          'text-game-200 border-game-100 h-12 w-12 rounded-md border-2 text-4xl',
+          'h-12 w-12 rounded-md border-2 border-game-100 text-4xl text-game-200',
           'flex items-center justify-center'
         )}
         onClick={onOpen}

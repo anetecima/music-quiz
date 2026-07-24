@@ -28,10 +28,10 @@ const Categories = () => {
       {gameObj?.map((item: IGame['gameObject'][number], categoryIndex: number) => (
         <article
           key={categoryIndex}
-          className={cn('border-game-100 rounded-lg border-4 bg-white px-5 shadow-xl')}
+          className={cn('rounded-lg border-4 border-game-100 bg-white px-5 shadow-xl')}
         >
           <div className="translate-y-[-50%] text-center">
-            <h2 className="bg-game-100 inline overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-4 text-[28px] font-semibold">
+            <h2 className="inline overflow-hidden text-ellipsis whitespace-nowrap rounded-lg bg-game-100 px-4 text-[28px] font-semibold">
               {item.categoryName}
             </h2>
           </div>
@@ -57,7 +57,7 @@ const Categories = () => {
 
 const TopNav = () => {
   return (
-    <div className=" flex items-center p-2">
+    <div className="flex items-center">
       <div className="flex grow items-center gap-2">
         <HomeButton />
         <ThemeModeButton />
@@ -76,7 +76,7 @@ export const QuizGame = () => {
   return (
     <QuizProvider>
       <article className="bg-fur relative h-screen" style={style || {}}>
-        <section className="flex h-full flex-col justify-between">
+        <section className="flex h-full flex-col justify-between p-2">
           <TopNav />
           <Categories />
 
@@ -88,7 +88,7 @@ export const QuizGame = () => {
             </div>
           </div>*/}
 
-          <div className="shrink-0 p-2 pt-10">
+          <div className="shrink-0 pt-10">
             <QuizAnswers />
           </div>
         </section>
